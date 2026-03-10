@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }} - LuckyNest{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+<p>Welcome, {{ current_user.fulle_name }}. Your role is: <strong>{{ current_user.role }}</strong></p>
+{% endblock %}

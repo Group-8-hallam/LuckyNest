@@ -1,0 +1,22 @@
+luckynest/
+├── app/
+│   ├── __init__.py          ← app factory lives here
+│   ├── models/
+│   │   ├── __init__.py
+│   │   └── user.py          ← User database model
+│   ├── routes/
+│   │   ├── __init__.py
+│   │   ├── auth.py          ← login/register/logout
+│   │   ├── owner.py         ← Ms. Lucky's pages
+│   │   ├── admin.py
+│   │   └── pg.py
+│   ├── templates/
+│   │   ├── base.html
+│   │   └── auth/
+│   │       ├── login.html
+│   │       └── register.html
+│   └── static/
+│       ├── css/
+│       └── js/
+├── run.py                   ← entry point
+└── requirements.txt
