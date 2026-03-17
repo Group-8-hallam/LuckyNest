@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Our Rooms{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Page header -->
+    <div class="page-header">
+        <h1>Our Rooms</h1>
+        <p class="subtitle">Comfortable spaces designed for your relaxation</p>
+    </div>
+
+    <!-- Rooms grid -->
+    <div class="rooms-grid">
+        {% for room in rooms %}
+        <div class="room-card">
+            <img src="{{ url_for('static', filename='images/' + room.image) }}" alt="{{ room.name }}" class="room-image">
+            <div class="room-info">
+                <h3>{{ room.name }}</h3>
+                <p class="room-description">{{ room.description }}</p>
+                <div class="room-details">
+                    <span>{{ room.bed }}</span>
+                    <span>Free WiFi</span>
+                    <span>{{ room.guests }} Guests</span>
+                </div>
+                <div class="room-footer">
+                    <span class="price">£{{ room.price }}<span>/week</span></span>
+                    <a href="#" class="btn">Book Now</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
