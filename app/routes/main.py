@@ -12,9 +12,9 @@ def reports():
     return render_template('reports.html')
 
 @main_bp.route('/occupancy')
-def reports():
+def occupancy():
     return render_template('occupancy.html')
 
 @main_bp.route('/food_report')
-def reports():
+def food_report():
     return render_template('food_report.html')
