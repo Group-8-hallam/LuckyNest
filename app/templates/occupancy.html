@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+ 
+{% block title %}LuckyNest - Occupancy Report{% endblock %}
+ 
+{% block content %}
+ 
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/occupancy.css') }}">
+{% endblock %}
+ 
+<!-- PAGE HEADER -->
+<div class="rpt-header">
+    <div>
+        <h1>Occupancy Report</h1>
+        <p class="rpt-subtitle">LuckyNest &mdash; Room Occupancy Heatmap &middot; February 2026</p>
+    </div>
+    <a href="{{ url_for('pg.dashboard') }}" class="btn-back">&#8592; Back to Dashboard</a>
+</div>
+<hr class="rpt-divider">
+ 
+<!-- KPI CARDS -->
+<div class="kpi-row">
+    <div class="kpi-card">
+        <span class="kpi-label">Total Rooms</span>
+        <span class="kpi-value">50</span>
+        <span class="kpi-change">Across 4 floors</span>
+    </div>
+    <div class="kpi-card">
+        <span class="kpi-label">Occupied</span>
+        <span class="kpi-value">43</span>
+        <span class="kpi-change up">&#9650; 86% occupancy rate</span>
+    </div>
+    <div class="kpi-card">
+        <span class="kpi-label">Vacant</span>
+        <span class="kpi-value">7</span>
+        <span class="kpi-change down">&#9660; 14% available</span>
+    </div>
+</div>
+ 
+<!-- HEATMAP -->
+<div class="heatmap-card">
+    <p class="heatmap-title">Room Occupancy Heatmap &mdash; Floor Wise</p>
+ 
+    <!-- FLOOR 4 -->
+    <div class="floor-block">
+        <div class="floor-label">Floor 4 (401&ndash;410)</div>
+        <div class="floor-rooms">
+            <div class="room-cell room-occupied"><span class="room-num">401</span><span class="room-status">Occupied</span></div>
+            <div class="room-cell room-occupied"><span class="room-num">402</span><span class="room-status">Occupied</span></div>
+            <div class="room-cell room-occupied"><span class="room-num">403</span><span class="room-status">Occupied</span></div>
+            <div class="room-cell room-occupied"><span class="room-num">404</span><span class="room-status">Occupied</span></div>
+            <div class="room-cell room-occupied"><span class="room-num">405</span><span class="room-status">Occupied</span></div>
+            <div class="room-cell room-occupied"><span class="room-num">406</span><span class="room-status">Occupied</span></div>
+            <div class="room-cell room-occupied"><span class="room-num">407</span><span class="room-status">Occupied</span></div>
+            <div class="room-cell room-occupied"><span class="room-num">408</span><span class="room-status">Occupied</span></div>
+            <div class="room-cell room-vacant"><span class="room-num">409</span><span class="room-status">Vacant</span></div>
+            <div class="room-cell room-occupied"><span class="room-num">410</span><span class="room-status">Occupied</span></div>
+            <span class="floor-pct">90% Occupied</span>
+        </div>
+    </div>
+ 
+    <!-- FLOOR 3 -->
+    <div class="floor-block">
+        <div class="floor-label">Floor 3 (301&ndash;310)</div>
+        <div class="floor-rooms">
+            <div class="room-cell room-occupied"><span class="room-num">301</span><span class="room-status">Occupied</span></div>
+            <div class="room-cell room-occupied"><span class="room-num">302</span><span class="room-status">Occupied</span></div>
+            <div class="room-cell room-occupied"><span class="room-num">303</span><span class="room-status">Occupied</span></div>
+            <div class="room-cell room-occupied"><span class="room-num">304</span><span class="room-status">Occupied</span></div>
+            <div class="room-cell room-occupied"><span class="room-num">305</span><span class="room-status">Occupied</span></div>
+            <div class="room-cell room-occupied"><span class="room-num">306</span><span class="room-status">Occupied</span></div>
+            <div class="room-cell room-vacant"><span class="room-num">307</span><span class="room-status">Vacant</span></div>
+            <div class="room-cell room-occupied"><span class="room-num">308</span><span class="room-status">Occupied</span></div>
+            <div class="room-cell room-occupied"><span class="room-num">309</span><span class="room-status">Occupied</span></div>
+            <div class="room-cell room-occupied"><span class="room-num">310</span><span class="room-status">Occupied</span></div>
+            <span class="floor-pct">90% Occupied</span>
+        </div>
+    </div>
+ 
+    <!-- FLOOR 2 -->
+    <div class="floor-block">
+        <div class="floor-label">Floor 2 (201&ndash;210)</div>
+        <div class="floor-rooms">
+            <div class="room-cell room-occupied"><span class="room-num">201</span><span class="room-status">Occupied</span></div>
+            <div class="room-cell room-occupied"><span class="room-num">202</span><span class="room-status">Occupied</span></div>
+            <div class="room-cell room-occupied"><span class="room-num">203</span><span class="room-status">Occupied</span></div>
+            <div class="room-cell room-occupied"><span class="room-num">204</span><span class="room-status">Occupied</span></div>
+            <div class="room-cell room-occupied"><span class="room-num">205</span><span class="room-status">Occupied</span></div>
+            <div class="room-cell room-vacant"><span class="room-num">206</span><span class="room-status">Vacant</span></div>
+            <div class="room-cell room-occupied"><span class="room-num">207</span><span class="room-status">Occupied</span></div>
+            <div class="room-cell room-occupied"><span class="room-num">208</span><span class="room-status">Occupied</span></div>
+            <div class="room-cell room-vacant"><span class="room-num">209</span><span class="room-status">Vacant</span></div>
+            <div class="room-cell room-occupied"><span class="room-num">210</span><span class="room-status">Occupied</span></div>
+            <span class="floor-pct">80% Occupied</span>
+        </div>
+    </div>
+ 
+    <!-- GROUND FLOOR -->
+    <div class="floor-block">
+        <div class="floor-label">Ground Floor (101&ndash;110)</div>
+        <div class="floor-rooms">
+            <div class="room-cell room-occupied"><span class="room-num">101</span><span class="room-status">Occupied</span></div>
+            <div class="room-cell room-occupied"><span class="room-num">102</span><span class="room-status">Occupied</span></div>
+            <div class="room-cell room-occupied"><span class="room-num">103</span><span class="room-status">Occupied</span></div>
+            <div class="room-cell room-occupied"><span class="room-num">104</span><span class="room-status">Occupied</span></div>
+            <div class="room-cell room-occupied"><span class="room-num">105</span><span class="room-status">Occupied</span></div>
+            <div class="room-cell room-occupied"><span class="room-num">106</span><span class="room-status">Occupied</span></div>
+            <div class="room-cell room-vacant"><span class="room-num">107</span><span class="room-status">Vacant</span></div>
+            <div class="room-cell room-vacant"><span class="room-num">108</span><span class="room-status">Vacant</span></div>
+            <div class="room-cell room-vacant"><span class="room-num">109</span><span class="room-status">Vacant</span></div>
+            <div class="room-cell room-occupied"><span class="room-num">110</span><span class="room-status">Occupied</span></div>
+            <span class="floor-pct">70% Occupied</span>
+        </div>
+    </div>
+ 
+    <!-- LEGEND -->
+    <div class="occ-legend">
+        <div class="legend-item"><div class="legend-box leg-occ"></div> Occupied</div>
+        <div class="legend-item"><div class="legend-box leg-vac"></div> Vacant</div>
+    </div>
+ 
+    <!-- SUMMARY -->
+    <div class="summary-bar">
+        <div>Total Occupied: <span>43 rooms</span></div>
+        <div>Total Vacant: <span>7 rooms</span></div>
+        <div>Overall Occupancy: <span>86%</span></div>
+    </div>
+</div>
+ 
+<p class="rpt-footnote">Dummy data for development purposes &mdash; LuckyNest Management &mdash; February 2026</p>
+ 
+{% endblock %}

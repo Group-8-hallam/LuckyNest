@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+ 
+{% block title %}LuckyNest - Financial Report{% endblock %}
+ 
+{% block content %}
+ 
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/reports.css') }}">
+{% endblock %}
+ 
+<!-- PAGE HEADER -->
+<div class="rpt-header">
+    <div>
+        <h1>Financial Report</h1>
+        <p class="rpt-subtitle">LuckyNest Executive Dashboard &mdash; February 2026</p>
+    </div>
+    <a href="{{ url_for('pg.dashboard') }}" class="btn-back">&#8592; Back to Dashboard</a>
+</div>
+<hr class="rpt-divider">
+ 
+<!-- KPI CARDS -->
+<div class="kpi-row">
+    <div class="kpi-card">
+        <span class="kpi-label">Total Revenue (MTD)</span>
+        <span class="kpi-value">&#163;2,327</span>
+        <span class="kpi-change up">&#9650; 12.5% YoY</span>
+    </div>
+    <div class="kpi-card">
+        <span class="kpi-label">Occupancy Rate</span>
+        <span class="kpi-value">86%</span>
+        <span class="kpi-change down">&#9660; 2% vs last month</span>
+    </div>
+    <div class="kpi-card">
+        <span class="kpi-label">Collection Rate</span>
+        <span class="kpi-value">92%</span>
+        <span class="kpi-change up">&#9650; 5% vs last month</span>
+    </div>
+</div>
+ 
+<!-- REVENUE BREAKDOWN + PAYMENT STATUS -->
+<div class="rpt-grid-2">
+ 
+    <div class="rpt-card">
+        <p class="card-title">Monthly Revenue Breakdown</p>
+        <div class="bar-chart">
+            <div class="bar-row">
+                <span class="bar-label">Room Rent</span>
+                <div class="bar-track"><div class="bar-fill bar-dark" style="width: 64%"></div></div>
+                <span class="bar-amount">&#163;1,490</span>
+                <span class="bar-pct">64%</span>
+            </div>
+            <div class="bar-row">
+                <span class="bar-label">Food Services</span>
+                <div class="bar-track"><div class="bar-fill bar-blue" style="width: 25%"></div></div>
+                <span class="bar-amount">&#163;580</span>
+                <span class="bar-pct">25%</span>
+            </div>
+            <div class="bar-row">
+                <span class="bar-label">Laundry</span>
+                <div class="bar-track"><div class="bar-fill bar-green" style="width: 7%"></div></div>
+                <span class="bar-amount">&#163;162</span>
+                <span class="bar-pct">7%</span>
+            </div>
+            <div class="bar-row">
+                <span class="bar-label">Housekeeping</span>
+                <div class="bar-track"><div class="bar-fill bar-orange" style="width: 4%"></div></div>
+                <span class="bar-amount">&#163;95</span>
+                <span class="bar-pct">4%</span>
+            </div>
+            <div class="bar-row">
+                <span class="bar-label">Other</span>
+                <div class="bar-track"><div class="bar-fill bar-red" style="width: 1%"></div></div>
+                <span class="bar-amount">&#163;10</span>
+                <span class="bar-pct">1%</span>
+            </div>
+        </div>
+    </div>
+ 
+    <div class="rpt-card">
+        <p class="card-title">Payment Status</p>
+        <table class="pay-table">
+            <thead>
+                <tr>
+                    <th>Guest</th>
+                    <th>Room</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Ronald Polhos</td>
+                    <td>101</td>
+                    <td>&#163;450</td>
+                    <td><span class="badge badge-paid">Paid</span></td>
+                </tr>
+                <tr>
+                    <td>Priya Sharma</td>
+                    <td>102</td>
+                    <td>&#163;420</td>
+                    <td><span class="badge badge-paid">Paid</span></td>
+                </tr>
+                <tr>
+                    <td>James O'Brien</td>
+                    <td>103</td>
+                    <td>&#163;380</td>
+                    <td><span class="badge badge-pending">Pending</span></td>
+                </tr>
+                <tr>
+                    <td>Aisha Patel</td>
+                    <td>104</td>
+                    <td>&#163;450</td>
+                    <td><span class="badge badge-paid">Paid</span></td>
+                </tr>
+                <tr>
+                    <td>Mohammed Ali</td>
+                    <td>105</td>
+                    <td>&#163;400</td>
+                    <td><span class="badge badge-overdue">Overdue</span></td>
+                </tr>
+                <tr>
+                    <td>Chen Wei</td>
+                    <td>106</td>
+                    <td>&#163;390</td>
+                    <td><span class="badge badge-paid">Paid</span></td>
+                </tr>
+                <tr>
+                    <td>Sofia Mendes</td>
+                    <td>107</td>
+                    <td>&#163;420</td>
+                    <td><span class="badge badge-pending">Pending</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+ 
+</div>
+ 
+<!-- REVENUE TREND -->
+<div class="rpt-card rpt-full">
+    <p class="card-title">Revenue Trend &mdash; Last 7 Months</p>
+    <div class="trend-chart" id="trend-chart"></div>
+</div>
+ 
+<p class="rpt-footnote">Dummy data for development purposes &mdash; LuckyNest Management &mdash; February 2026</p>
+ 
+<script>
+    const trendData = [
+        { month: 'Aug', value: 1950 },
+        { month: 'Sep', value: 2050 },
+        { month: 'Oct', value: 2100 },
+        { month: 'Nov', value: 2000 },
+        { month: 'Dec', value: 2200 },
+        { month: 'Jan', value: 2180 },
+        { month: 'Feb', value: 2327 },
+    ];
+ 
+    const maxVal = Math.max(...trendData.map(d => d.value));
+    const chart  = document.getElementById('trend-chart');
+ 
+    trendData.forEach((d, i) => {
+        const barHeight = Math.round((d.value / maxVal) * 140);
+        const isLatest  = i === trendData.length - 1;
+ 
+        const col = document.createElement('div');
+        col.className = 'trend-col';
+        col.innerHTML = `
+            <span class="trend-val">&#163;${d.value.toLocaleString()}</span>
+            <div class="trend-bar-track">
+                <div class="trend-bar ${isLatest ? 'latest' : ''}" style="height: ${barHeight}px"></div>
+            </div>
+            <span class="trend-month">${d.month}</span>
+        `;
+        chart.appendChild(col);
+    });
+</script>
+ 
+{% endblock %}
