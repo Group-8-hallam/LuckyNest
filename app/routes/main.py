@@ -15,6 +15,18 @@ def reports():
 def occupancy():
     return render_template('occupancy.html')
 
-@main_bp.route('/food_report')
+@main_bp.route('/food-report')
 def food_report():
     return render_template('food_report.html')
+
+@main_bp.route('/guest-report')
+def guest_report():
+    return render_template('guest_report.html')
+
+@main_bp.route('/service-report')
+def service_report():
+    return render_template('service_report.html')
+
+@main_bp.route('/visitor-report')
+def visitor_report():
+    return render_template('visitor_report.html')
