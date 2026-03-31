@@ -1,0 +1,82 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f3f3f3;
+    margin: 0;
+}
+
+/* Center everything */
+.payment-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Card */
+.payment-card {
+    background: #fff;
+    padding: 30px;
+    width: 350px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+/* Title */
+.payment-card h2 {
+    margin-bottom: 20px;
+}
+
+/* Amount */
+.amount {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+/* Inputs */
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Row for expiry + cvc */
+.row {
+    display: flex;
+    gap: 10px;
+}
+
+.row input {
+    width: 100%;
+}
+
+/* Button */
+button {
+    width: 100%;
+    padding: 12px;
+    background: #7da2ce;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #5f89bb;
+}
+
+/* Footer */
+.footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    font-size: 12px;
+}
+
+.footer a {
+    text-decoration: none;
+    color: #333;
+}

@@ -42,3 +42,8 @@ def dashboard():
 @login_required
 def meals():
     return render_template('meals.html')
+
+@pg_bp.route('/payment')
+@login_required
+def payment():
+    return render_template('payment.html')

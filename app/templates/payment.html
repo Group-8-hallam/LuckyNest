@@ -1,0 +1,35 @@
+{% extends "base.html" %}{% block title %}Meal Plan{% endblock %} {% block
+content %}
+{% block styles %}
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/payment.css') }}"
+    />
+  {% endblock %}
+  
+    <div class="payment-container">
+      <div class="payment-card">
+        <h2>Payment Gateway</h2>
+
+        <div class="amount">£14.25</div>
+
+        <form method="POST" action="/process-payment">
+          <input type="text" placeholder="Card number" required />
+
+          <div class="row">
+            <input type="text" placeholder="MM / YY" required />
+            <input type="text" placeholder="CVC" required />
+          </div>
+
+          <input type="text" placeholder="Name on card" required />
+
+          <button type="submit">Pay</button>
+        </form>
+
+        <div class="footer">
+          <a href="/">← Back to site</a>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+
