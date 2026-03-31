@@ -37,3 +37,8 @@ def dashboard():
     return render_template('dashboard.html',
                            payment_data=payment_data,
                            services=services)
+
+@pg_bp.route('/meals')
+@login_required
+def meals():
+    return render_template('meals.html')
