@@ -1,29 +1,29 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% block title %}{{ title }}Amenities - LuckyNest{% endblock %}
+{% block title %}Our Amenities{% endblock %}
 
 {% block content %}
 <div class="container">
-    <header>
-        <h1>Hotel Amenities</h1>
+    <!-- Page header -->
+    <div class="page-header">
+        <h1>Luckynest Amenities</h1>
         <p class="subtitle">Everything you need for a perfect stay</p>
-    </header>
-    <div class="amenities-grid">
-        <!-- Amenity 1 -->
-        <div class="amenity-card">
-            <h3>Free WiFi</h3>
-            <p>Available for free for all rooms. No setup required.</p>
-        </div>
-        <div class="amenity-card">
-            <h3>Laundry Services</h3>
-            <p>Available on request: £1.90 per load or £14.25 per week</p>
-        </div>
-        <div class ="amenity-card">
-        <h3>Housekeeping Services</h3>
-        <p>Available on request: £4.75 basic cleaning or £19.00 per week</p>
-        </div>
     </div>
 
+    <!-- Amenities grid -->
+    <div class="amenities-grid">
+        {% for amenity in amenities %}
+        <div class="amenity-card">
+            <div class="amenity-icon">
+                <i class="fas {{ amenity.icon }}"></i>
+            </div>
+            <h3>{{ amenity.name }}</h3>
+            <p>{{ amenity.description }}</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Meal Plans Section -->
     <section class="meal-plans-section">
         <div class="section-header">
             <h2>Meal Plans</h2>
@@ -41,24 +41,25 @@
                 <div class="pricing-content">
                     <div class="price-item">
                         <span class="meal-type">Breakfast</span>
-                        <span class="price">£3.80</span>
+                        <span class="price">£{{ "%.2f"|format(meal_plans.daily.breakfast) }}</span>
                     </div>
                     <div class="price-item">
                         <span class="meal-type">Lunch</span>
-                        <span class="price">£5.70</span>
+                        <span class="price">£{{ "%.2f"|format(meal_plans.daily.lunch) }}</span>
                     </div>
                     <div class="price-item">
                         <span class="meal-type">Dinner</span>
-                        <span class="price">£5.70</span>
+                        <span class="price">£{{ "%.2f"|format(meal_plans.daily.dinner) }}</span>
                     </div>
                     <div class="price-item full-day">
                         <span class="meal-type">Full Day</span>
-                        <span class="price">£14.25</span>
+                        <span class="price">£{{ "%.2f"|format(meal_plans.daily.full_day) }}</span>
                     </div>
                 </div>
             </div>
-               <!-- Weekly Pricing -->
-            <div class="pricing-card">
+
+            <!-- Weekly Pricing -->
+            <div class="pricing-card popular">
                 <div class="pricing-header">
                     <h3>Weekly Plans</h3>
                     <p class="pricing-subtitle">Best value for longer stays</p>
@@ -67,151 +68,78 @@
                 <div class="pricing-content">
                     <div class="price-item">
                         <span class="meal-type">Breakfast</span>
-                        <span class="price">£24</span>
+                        <span class="price">£{{ meal_plans.weekly.breakfast }}</span>
                     </div>
                     <div class="price-item">
                         <span class="meal-type">Lunch</span>
-                        <span class="price">£36</span>
+                        <span class="price">£{{ meal_plans.weekly.lunch }}</span>
                     </div>
                     <div class="price-item">
                         <span class="meal-type">Dinner</span>
-                        <span class="price">£36</span>
+                        <span class="price">£{{ meal_plans.weekly.dinner }}</span>
                     </div>
                     <div class="price-item full-day">
                         <span class="meal-type">Full Day</span>
-                        <span class="price">£90</span>
+                        <span class="price">£{{ meal_plans.weekly.full_day }}</span>
                     </div>
                 </div>
             </div>
+
             <!-- Monthly Pricing -->
             <div class="pricing-card">
                 <div class="pricing-header">
                     <h3>Monthly Plans</h3>
-                    <p class="pricing-subtitle">For extended stays</p> 
+                    <p class="pricing-subtitle">For extended stays</p>
                 </div>
                 <div class="pricing-content">
                     <div class="price-item">
                         <span class="meal-type">Breakfast</span>
-                        <span class="price">£95</span>
+                        <span class="price">£{{ meal_plans.monthly.breakfast }}</span>
                     </div>
                     <div class="price-item">
                         <span class="meal-type">Lunch</span>
-                        <span class="price">£142</span>
+                        <span class="price">£{{ meal_plans.monthly.lunch }}</span>
                     </div>
                     <div class="price-item">
                         <span class="meal-type">Dinner</span>
-                        <span class="price">£142</span>
+                        <span class="price">£{{ meal_plans.monthly.dinner }}</span>
                     </div>
-                    <div class="price-item">
+                    <div class="price-item full-day">
                         <span class="meal-type">Full Day</span>
-                        <span class="price">£332</span>
+                        <span class="price">£{{ meal_plans.monthly.full_day }}</span>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Sample Meals Section -->
         <div class="sample-meals">
             <h3>Sample Meals</h3>
             <p class="section-subtitle">A taste of what we offer</p>
             
             <div class="meals-grid">
-                <!-- Breakfast Sample -->
+                {% for meal in sample_meals %}
                 <div class="meal-card">
                     <div class="meal-image">
-                        <img src="{{ url_for('static', filename='images/meals/breakfast.jpg') }}" alt="Full English Breakfast">
-                        <!-- Fallback if image doesn't exist -->
+                        <img src="{{ url_for('static', filename='images/meals/' + meal.image) }}" alt="{{ meal.name }}">
                         <div class="image-placeholder">
                             <i class="fas fa-image"></i>
-                            <span>Breakfast</span>
+                            <span>{{ meal.tag }}</span>
                         </div>
                     </div>
                     <div class="meal-info">
-                        <h4>Full English Breakfast</h4>
-                        <p class="meal-description">Eggs, bacon, sausage, baked beans, grilled tomatoes, mushrooms, and toast</p>
-                        <span class="meal-tag">Breakfast</span>
+                        <h4>{{ meal.name }}</h4>
+                        <p class="meal-description">{{ meal.description }}</p>
+                        <span class="meal-tag">{{ meal.tag }}</span>
                     </div>
                 </div>
-                <!-- Lunch Sample -->
-                <div class="meal-card">
-                    <div class="meal-image">
-                        <img src="{{ url_for('static', filename='images/meals/lunch.jpg') }}" alt="Grilled Chicken Salad">
-                        <div class="image-placeholder">
-                            <i class="fas fa-image"></i>
-                            <span>Lunch</span>
-                        </div>
-                    </div>
-                    <div class="meal-info">
-                        <h4>Grilled Chicken Caesar Salad</h4>
-                        <p class="meal-description">Fresh romaine lettuce, grilled chicken breast, parmesan cheese, croutons, and Caesar dressing</p>
-                        <span class="meal-tag">Lunch</span>
-                    </div>
-                </div>
-
-                <!-- Dinner Sample 1 -->
-                <div class="meal-card">
-                    <div class="meal-image">
-                        <img src="{{ url_for('static', filename='images/meals/dinner1.jpg') }}" alt="Grilled Salmon">
-                        <div class="image-placeholder">
-                            <i class="fas fa-image"></i>
-                            <span>Dinner</span>
-                        </div>
-                    </div>
-                    <div class="meal-info">
-                        <h4>Grilled Salmon</h4>
-                        <p class="meal-description">Fresh Atlantic salmon with roasted vegetables and herb butter sauce</p>
-                        <span class="meal-tag">Dinner</span>
-                    </div>
-                </div>
-
-                <!-- Dinner Sample 2 -->
-                 <div class="meal-card">
-                    <div class="meal-image">
-                        <img src="{{ url_for('static', filename='images/meals/dinner2.jpg') }}" alt="Beef Wellington">
-                        <div class="image-placeholder">
-                            <i class="fas fa-image"></i>
-                            <span>Dinner</span>
-                        </div>
-                    </div>
-                    <div class="meal-info">
-                        <h4>Beef Wellington</h4>
-                        <p class="meal-description">Tender beef fillet wrapped in puff pastry with mushroom duxelles</p>
-                        <span class="meal-tag">Dinner</span>
-                    </div>
-                </div>
-                <div class="meal-card">
-                    <div class="meal-image">
-                        <img src="{{ url_for('static', filename='images/meals/vegetarian.jpg') }}" alt="Vegetarian Pasta">
-                        <div class="image-placeholder">
-                            <i class="fas fa-image"></i>
-                            <span>Vegetarian</span>
-                        </div>
-                    </div>
-                    <div class="meal-info">
-                        <h4>Butternut Squash Risotto</h4>
-                        <p class="meal-description">Creamy arborio rice with roasted butternut squash, sage, and parmesan</p>
-                        <span class="meal-tag">Vegetarian</span>
-                    </div>
-                </div>
-                <!-- Dessert Sample -->
-                <div class="meal-card">
-                    <div class="meal-image">
-                        <img src="{{ url_for('static', filename='images/meals/dessert.jpg') }}" alt="Chocolate Lava Cake">
-                        <div class="image-placeholder">
-                            <i class="fas fa-image"></i>
-                            <span>Dessert</span>
-                        </div>
-                    </div>
-                    <div class="meal-info">
-                        <h4>Chocolate Lava Cake</h4>
-                        <p class="meal-description">Warm chocolate cake with a molten center, served with vanilla ice cream</p>
-                        <span class="meal-tag">Dessert</span>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
 
         <!-- Meal Plan Notes -->
         <div class="meal-notes">
-            <p> All meal plans include daily changing menus with vegetarian and vegan options available. Special dietary requirements can be accommodated with advance notice.</p>
+            <p><i class="fas fa-info-circle"></i> All meal plans include daily changing menus with vegetarian and vegan options available. Special dietary requirements can be accommodated with advance notice.</p>
         </div>
     </section>
 </div>
