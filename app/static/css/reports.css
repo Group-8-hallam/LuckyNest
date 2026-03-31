@@ -1,0 +1,271 @@
+/* Page Header */
+.rpt-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+ 
+.rpt-header h1 {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #2c3e50;
+}
+ 
+.rpt-subtitle {
+    font-size: 0.88rem;
+    color: #666;
+    margin-top: 0.2rem;
+}
+ 
+.btn-back {
+    background: #2c3e50;
+    color: white;
+    padding: 0.6rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    text-decoration: none;
+    cursor: pointer;
+}
+ 
+.btn-back:hover { background: #3d5166; }
+ 
+.rpt-divider {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin-bottom: 1.5rem;
+}
+ 
+/* KPI Cards */
+.kpi-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+ 
+.kpi-card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 1.2rem 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+ 
+.kpi-label {
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #888;
+}
+ 
+.kpi-value {
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: #2c3e50;
+    line-height: 1;
+}
+ 
+.kpi-change      { font-size: 0.82rem; }
+.kpi-change.up   { color: #27ae60; }
+.kpi-change.down { color: #c0392b; }
+ 
+/* Two-column grid */
+.rpt-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+ 
+/* Cards — same feel as dashboard cards */
+.rpt-card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 1.4rem;
+}
+ 
+.rpt-full {
+    margin-bottom: 1rem;
+}
+ 
+.card-title {
+    font-size: 0.95rem;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #ddd;
+}
+ 
+/* Horizontal Bar Chart */
+.bar-chart {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+ 
+.bar-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+ 
+.bar-label {
+    font-size: 0.85rem;
+    color: #555;
+    width: 115px;
+    flex-shrink: 0;
+}
+ 
+.bar-track {
+    flex: 1;
+    background: #f5f5f5;
+    border-radius: 4px;
+    height: 14px;
+    overflow: hidden;
+}
+ 
+.bar-fill {
+    height: 100%;
+    border-radius: 4px;
+}
+ 
+/* bar colours — using base primary + alert colours */
+.bar-dark   { background: #2c3e50; }
+.bar-blue   { background: #2471a3; }
+.bar-green  { background: #27ae60; }
+.bar-orange { background: #e67e22; }
+.bar-red    { background: #c0392b; }
+ 
+.bar-amount {
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #333;
+    width: 52px;
+    text-align: right;
+    flex-shrink: 0;
+}
+ 
+.bar-pct {
+    font-size: 0.8rem;
+    color: #888;
+    width: 32px;
+    text-align: right;
+    flex-shrink: 0;
+}
+ 
+/* Payment Table */
+.pay-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+ 
+.pay-table th {
+    text-align: left;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #888;
+    border-bottom: 2px solid #ddd;
+}
+ 
+.pay-table td {
+    padding: 0.6rem 0.75rem;
+    color: #333;
+    border-bottom: 1px solid #f5f5f5;
+}
+ 
+.pay-table tr:last-child td { border-bottom: none; }
+ 
+/* badges — mirror base.css alert colours */
+.badge {
+    display: inline-block;
+    padding: 0.2rem 0.65rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+ 
+.badge-paid    { background: #e8f8e8; color: #27ae60; }
+.badge-pending { background: #e8f0fe; color: #2471a3; }
+.badge-overdue { background: #fde8e8; color: #c0392b; }
+ 
+/* Revenue Trend Bar Chart */
+.trend-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 1rem;
+    height: 180px;
+    padding-top: 1rem;
+}
+ 
+.trend-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    height: 100%;
+    justify-content: flex-end;
+}
+ 
+.trend-val {
+    font-size: 0.7rem;
+    color: #888;
+    white-space: nowrap;
+}
+ 
+.trend-bar-track {
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    flex: 1;
+}
+ 
+.trend-bar {
+    width: 60%;
+    background: #2c3e50;
+    border-radius: 4px 4px 0 0;
+    min-height: 4px;
+}
+ 
+.trend-bar.latest { background: #2471a3; }
+ 
+.trend-month {
+    font-size: 0.8rem;
+    color: #555;
+    font-weight: bold;
+}
+ 
+/* Footnote  */
+.rpt-footnote {
+    text-align: center;
+    font-size: 0.78rem;
+    color: #aaa;
+    margin-top: 0.5rem;
+    padding-bottom: 2rem;
+}
+ 
+/* Responsive */
+@media (max-width: 720px) {
+    .kpi-row    { grid-template-columns: 1fr 1fr; }
+    .rpt-grid-2 { grid-template-columns: 1fr; }
+    .bar-label  { width: 85px; }
+    .trend-val  { display: none; }
+}
+ 
+@media (max-width: 480px) {
+    .kpi-row { grid-template-columns: 1fr; }
+}

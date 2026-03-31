@@ -10,7 +10,7 @@
 <div class="container">
 
     <div class="dashboard-header">
-        <h2>Welcome back, {{ current_user.full_name }}</h2>
+        <h2>Welcome back, {{ current_user.full_name | capitalize }}</h2>
         <p>{{ current_user.role | capitalize }} Account</p>
     </div>
 
