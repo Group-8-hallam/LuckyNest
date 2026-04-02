@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoices | LuckyNest</title>
+    <link rel="stylesheet" href="../style.css">
+    <script src="../script.js" defer></script>
+</head>
+<body>
+
+<header>
+    <h1>LuckyNest</h1>
+    <nav>
+        <ul>
+            <li><a href="../index.html">All Guests</a></li>
+            <li><a href="../active-guests.html">Active Guests</a></li>
+            <li><a href="../checkins-outs.html">Check-ins / Outs</a></li>
+            <li><a href="../emergency-contacts.html">Emergency Contacts</a></li>
+            <li><a href="../service-management/service-management.html">Service Management</a></li>
+            <li><a href="payment-management.html" class="active">Payment Management</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+
+    <section class="hero">
+        <h2>Invoices</h2>
+        <p>
+            Review generated invoices for guest accommodation, services,
+            and related charges at LuckyNest.
+        </p>
+    </section>
+
+    <section class="intro">
+        <h2>Invoice Overview</h2>
+        <p>
+            This section allows the admin to track billing records, issue invoices,
+            and monitor payment status for each guest account.
+        </p>
+    </section>
+
+    <section class="guest-summary">
+        <h2>Invoice Summary</h2>
+
+        <div class="summary-cards">
+            <article class="summary-card">
+                <h3>Total Invoices</h3>
+                <p>42</p>
+            </article>
+
+            <article class="summary-card">
+                <h3>Paid Invoices</h3>
+                <p>33</p>
+            </article>
+
+            <article class="summary-card">
+                <h3>Unpaid Invoices</h3>
+                <p>9</p>
+            </article>
+
+            <article class="summary-card">
+                <h3>Invoice Value</h3>
+                <p>£4,820</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="guest-search-section">
+        <h2>Search Invoices</h2>
+
+        <div class="search-box">
+            <label for="invoiceSearch">Search invoices</label>
+            <input type="text" id="invoiceSearch" placeholder="Search by guest name or invoice ID...">
+        </div>
+    </section>
+
+    <section class="guest-table-section">
+        <h2>Invoice Records</h2>
+
+        <div class="table-wrapper">
+            <table class="guest-table">
+                <thead>
+                    <tr>
+                        <th>Invoice ID</th>
+                        <th>Guest Name</th>
+                        <th>Billing Period</th>
+                        <th>Total Amount</th>
+                        <th>Issue Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody id="invoiceTableBody">
+                    <tr>
+                        <td>INV001</td>
+                        <td>Rajesh Kumar</td>
+                        <td>Jan 2026</td>
+                        <td>£600</td>
+                        <td>01 Jan 2026</td>
+                        <td><span class="status active">Paid</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>INV002</td>
+                        <td>Anita Sharma</td>
+                        <td>Feb 2026</td>
+                        <td>£400</td>
+                        <td>01 Feb 2026</td>
+                        <td><span class="status active">Paid</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>INV003</td>
+                        <td>Ahmed Ali</td>
+                        <td>Mar 2026</td>
+                        <td>£450</td>
+                        <td>01 Mar 2026</td>
+                        <td><span class="status checkedout">Unpaid</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>INV004</td>
+                        <td>Priya Patel</td>
+                        <td>Feb 2026</td>
+                        <td>£400</td>
+                        <td>01 Feb 2026</td>
+                        <td><span class="status active">Paid</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>INV005</td>
+                        <td>Mohamed Hassan</td>
+                        <td>Mar 2026</td>
+                        <td>£420</td>
+                        <td>01 Mar 2026</td>
+                        <td><span class="status checkedout">Unpaid</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <p>© 2026 LuckyNest | All Rights Reserved</p>
+</footer>
+
+</body>
+</html>

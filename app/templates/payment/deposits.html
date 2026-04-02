@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Deposits | LuckyNest</title>
+    <link rel="stylesheet" href="../style.css">
+    <script src="../script.js" defer></script>
+</head>
+<body>
+
+<header>
+    <h1>LuckyNest</h1>
+    <nav>
+        <ul>
+            <li><a href="../index.html">All Guests</a></li>
+            <li><a href="../active-guests.html">Active Guests</a></li>
+            <li><a href="../checkins-outs.html">Check-ins / Outs</a></li>
+            <li><a href="../emergency-contacts.html">Emergency Contacts</a></li>
+            <li><a href="../service-management/service-management.html">Service Management</a></li>
+            <li><a href="payment-management.html" class="active">Payment Management</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+
+    <section class="hero">
+        <h2>Security Deposits</h2>
+        <p>
+            Track guest deposit payments, refund status, and deposit records
+            for accommodation at LuckyNest.
+        </p>
+    </section>
+
+    <section class="intro">
+        <h2>Deposit Overview</h2>
+        <p>
+            This section helps the admin monitor which guests have paid security
+            deposits, which deposits are still pending, and which refunds have
+            already been processed.
+        </p>
+    </section>
+
+    <section class="guest-summary">
+        <h2>Deposit Summary</h2>
+
+        <div class="summary-cards">
+            <article class="summary-card">
+                <h3>Total Deposits</h3>
+                <p>28</p>
+            </article>
+
+            <article class="summary-card">
+                <h3>Total Value</h3>
+                <p>£2,950</p>
+            </article>
+
+            <article class="summary-card">
+                <h3>Refunded</h3>
+                <p>9</p>
+            </article>
+
+            <article class="summary-card">
+                <h3>Pending Refunds</h3>
+                <p>4</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="guest-search-section">
+        <h2>Search Deposit Records</h2>
+
+        <div class="search-box">
+            <label for="depositSearch">Search security deposits</label>
+            <input type="text" id="depositSearch" placeholder="Search by guest name or room...">
+        </div>
+    </section>
+
+    <section class="guest-table-section">
+        <h2>Security Deposit Records</h2>
+
+        <div class="table-wrapper">
+            <table class="guest-table">
+                <thead>
+                    <tr>
+                        <th>Guest Name</th>
+                        <th>Room</th>
+                        <th>Deposit Amount</th>
+                        <th>Paid Date</th>
+                        <th>Refund Status</th>
+                    </tr>
+                </thead>
+
+                <tbody id="depositTableBody">
+                    <tr>
+                        <td>Rajesh Kumar</td>
+                        <td>204</td>
+                        <td>£150</td>
+                        <td>01 Jan 2026</td>
+                        <td><span class="status active">Held</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>Anita Sharma</td>
+                        <td>107</td>
+                        <td>£120</td>
+                        <td>10 Jan 2026</td>
+                        <td><span class="status active">Held</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>Ahmed Ali</td>
+                        <td>305</td>
+                        <td>£130</td>
+                        <td>15 Dec 2025</td>
+                        <td><span class="status checkedout">Refunded</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>Priya Patel</td>
+                        <td>210</td>
+                        <td>£120</td>
+                        <td>05 Jan 2026</td>
+                        <td><span class="status active">Held</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>Mohamed Hassan</td>
+                        <td>118</td>
+                        <td>£140</td>
+                        <td>20 Dec 2025</td>
+                        <td><span class="status checkedout">Refund Pending</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <p>© 2026 LuckyNest | All Rights Reserved</p>
+</footer>
+
+</body>
+</html>

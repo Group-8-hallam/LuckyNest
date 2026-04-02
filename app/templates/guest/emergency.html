@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Contacts | LuckyNest</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+<header>
+    <h1>LuckyNest</h1>
+    <nav>
+        <ul>
+            <li><a href="index.html">All Guests</a></li>
+            <li><a href="active-guests.html">Active Guests</a></li>
+            <li><a href="checkins-outs.html">Check-ins / Outs</a></li>
+            <li><a href="emergency-contacts.html" class="active">Emergency Contacts</a></li>
+            <li><a href="service-management/service-management.html">Service Management</a></li>
+            <li><a href="payment-management/payment-management.html">Payment Management</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+
+    <section class="hero">
+        <h2>Emergency Contacts</h2>
+        <p>
+            View and manage important emergency contact details for all guests
+            currently registered at LuckyNest.
+        </p>
+    </section>
+
+    <section class="intro">
+        <h2>Contact Safety Overview</h2>
+        <p>
+            This section helps the admin keep emergency contact records organised
+            and accessible in case urgent communication is needed.
+        </p>
+    </section>
+
+    <section class="guest-summary">
+        <h2>Emergency Contact Summary</h2>
+
+        <div class="summary-cards">
+            <article class="summary-card">
+                <h3>Total Guests</h3>
+                <p>50</p>
+            </article>
+
+            <article class="summary-card">
+                <h3>Total Contacts</h3>
+                <p>100</p>
+            </article>
+
+            <article class="summary-card">
+                <h3>Primary Contacts</h3>
+                <p>50</p>
+            </article>
+
+            <article class="summary-card">
+                <h3>Secondary Contacts</h3>
+                <p>50</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="guest-search-section">
+        <h2>Search Emergency Contacts</h2>
+        <p>Use the search box below to find a guest, contact person, or phone number.</p>
+
+        <div class="search-box">
+            <label for="contactSearch">Search emergency contacts</label>
+            <input type="text" id="contactSearch" placeholder="Search contacts...">
+        </div>
+    </section>
+
+    <section class="guest-table-section">
+        <h2>Emergency Contact Records</h2>
+
+        <div class="table-wrapper">
+            <table class="guest-table">
+                <thead>
+                    <tr>
+                        <th>Guest ID</th>
+                        <th>Guest Name</th>
+                        <th>Contact Name</th>
+                        <th>Relationship</th>
+                        <th>Phone</th>
+                        <th>Alternative Phone</th>
+                        <th>Priority</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody id="contactTableBody">
+                    <tr>
+                        <td>G001</td>
+                        <td>Rajesh Kumar</td>
+                        <td>Priya Kumar</td>
+                        <td>Sister</td>
+                        <td>0711111111</td>
+                        <td>0722222222</td>
+                        <td><span class="status active">Primary</span></td>
+                        <td class="actions">
+                            <button class="edit-btn" type="button">Edit</button>
+                            <button class="delete-btn" type="button">Remove</button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>G002</td>
+                        <td>Anita Sharma</td>
+                        <td>Ravi Sharma</td>
+                        <td>Father</td>
+                        <td>0733333333</td>
+                        <td>0744444444</td>
+                        <td><span class="status active">Primary</span></td>
+                        <td class="actions">
+                            <button class="edit-btn" type="button">Edit</button>
+                            <button class="delete-btn" type="button">Remove</button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>G003</td>
+                        <td>Ahmed Ali</td>
+                        <td>Mohamed Ali</td>
+                        <td>Brother</td>
+                        <td>0755555555</td>
+                        <td>0766666666</td>
+                        <td><span class="status checkedout">Secondary</span></td>
+                        <td class="actions">
+                            <button class="edit-btn" type="button">Edit</button>
+                            <button class="delete-btn" type="button">Remove</button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>G004</td>
+                        <td>Priya Patel</td>
+                        <td>Kiran Patel</td>
+                        <td>Mother</td>
+                        <td>0777777777</td>
+                        <td>0788888888</td>
+                        <td><span class="status active">Primary</span></td>
+                        <td class="actions">
+                            <button class="edit-btn" type="button">Edit</button>
+                            <button class="delete-btn" type="button">Remove</button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>G005</td>
+                        <td>Mohamed Hassan</td>
+                        <td>Hassan Ahmed</td>
+                        <td>Father</td>
+                        <td>0799999999</td>
+                        <td>0700000000</td>
+                        <td><span class="status checkedout">Secondary</span></td>
+                        <td class="actions">
+                            <button class="edit-btn" type="button">Edit</button>
+                            <button class="delete-btn" type="button">Remove</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <p>© 2026 LuckyNest | All Rights Reserved</p>
+</footer>
+
+</body>
+</html>

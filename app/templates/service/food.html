@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Menu | LuckyNest</title>
+    <link rel="stylesheet" href="../style.css">
+    <script src="../script.js" defer></script>
+</head>
+<body>
+
+<header>
+    <h1>LuckyNest</h1>
+    <nav>
+        <ul>
+            <li><a href="../index.html">All Guests</a></li>
+            <li><a href="../active-guests.html">Active Guests</a></li>
+            <li><a href="../checkins-outs.html">Check-ins / Outs</a></li>
+            <li><a href="../emergency-contacts.html">Emergency Contacts</a></li>
+            <li><a href="service-management.html">Service Management</a></li>
+            <li><a href="../payment-management/payment-management.html">Payment Management</a></li>
+            <li><a href="food-menu.html" class="active">Food Menu</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+
+    <section class="hero">
+        <h2>Food Menu</h2>
+        <p>
+            View the daily meal options available for LuckyNest guests,
+            including breakfast, lunch, and dinner services.
+        </p>
+    </section>
+
+    <section class="intro">
+        <h2>Menu Overview</h2>
+        <p>
+            This section allows the admin to review the food items offered to guests
+            and check the prices for each meal period.
+        </p>
+    </section>
+
+    <section class="guest-summary">
+        <h2>Food Service Summary</h2>
+
+        <div class="summary-cards">
+            <article class="summary-card">
+                <h3>Breakfast Items</h3>
+                <p>4</p>
+            </article>
+
+            <article class="summary-card">
+                <h3>Lunch Items</h3>
+                <p>4</p>
+            </article>
+
+            <article class="summary-card">
+                <h3>Dinner Items</h3>
+                <p>4</p>
+            </article>
+
+            <article class="summary-card">
+                <h3>Daily Menu Cost</h3>
+                <p>£14.25</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="guest-search-section">
+        <h2>Search Food Items</h2>
+        <p>Use the search box below to find a menu item or meal type.</p>
+
+        <div class="search-box">
+            <label for="foodSearch">Search food menu</label>
+            <input type="text" id="foodSearch" placeholder="Search food items...">
+        </div>
+    </section>
+
+    <section class="guest-table-section">
+        <h2>Daily Food Menu</h2>
+
+        <div class="table-wrapper">
+            <table class="guest-table">
+                <thead>
+                    <tr>
+                        <th>Meal Type</th>
+                        <th>Item Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Availability</th>
+                    </tr>
+                </thead>
+
+                <tbody id="foodTableBody">
+                    <tr>
+                        <td>Breakfast</td>
+                        <td>English Breakfast</td>
+                        <td>Eggs, toast, beans, and tea</td>
+                        <td>£3.80</td>
+                        <td><span class="status active">Available</span></td>
+                    </tr>
+                    <tr>
+                        <td>Breakfast</td>
+                        <td>Porridge Bowl</td>
+                        <td>Warm oats with fruit topping</td>
+                        <td>£3.20</td>
+                        <td><span class="status active">Available</span></td>
+                    </tr>
+                    <tr>
+                        <td>Lunch</td>
+                        <td>Chicken Biryani</td>
+                        <td>Rice with spiced chicken</td>
+                        <td>£5.70</td>
+                        <td><span class="status active">Available</span></td>
+                    </tr>
+                    <tr>
+                        <td>Lunch</td>
+                        <td>Vegetable Pasta</td>
+                        <td>Pasta with mixed vegetables</td>
+                        <td>£5.20</td>
+                        <td><span class="status active">Available</span></td>
+                    </tr>
+                    <tr>
+                        <td>Dinner</td>
+                        <td>Grilled Chicken</td>
+                        <td>Served with potatoes and salad</td>
+                        <td>£5.70</td>
+                        <td><span class="status active">Available</span></td>
+                    </tr>
+                    <tr>
+                        <td>Dinner</td>
+                        <td>Beef Curry</td>
+                        <td>Mild curry with steamed rice</td>
+                        <td>£6.10</td>
+                        <td><span class="status checkedout">Limited</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <p>© 2026 LuckyNest | All Rights Reserved</p>
+</footer>
+
+</body>
+</html>

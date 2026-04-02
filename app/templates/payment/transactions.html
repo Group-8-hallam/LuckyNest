@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transactions | LuckyNest</title>
+    <link rel="stylesheet" href="../style.css">
+    <script src="../script.js" defer></script>
+</head>
+<body>
+
+<header>
+    <h1>LuckyNest</h1>
+    <nav>
+        <ul>
+            <li><a href="../index.html">All Guests</a></li>
+            <li><a href="../active-guests.html">Active Guests</a></li>
+            <li><a href="../checkins-outs.html">Check-ins / Outs</a></li>
+            <li><a href="../emergency-contacts.html">Emergency Contacts</a></li>
+            <li><a href="../service-management/service-management.html">Service Management</a></li>
+            <li><a href="payment-management.html" class="active">Payment Management</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+
+    <section class="hero">
+        <h2>Transactions</h2>
+        <p>
+            View all completed payments made by guests including amounts,
+            dates, and payment status.
+        </p>
+    </section>
+
+    <section class="intro">
+        <h2>Transaction Overview</h2>
+        <p>
+            This section provides a full history of payments made by guests.
+            It helps track financial activity and ensures all payments are recorded.
+        </p>
+    </section>
+
+    <section class="guest-summary">
+        <h2>Transaction Summary</h2>
+
+        <div class="summary-cards">
+            <article class="summary-card">
+                <h3>Total Transactions</h3>
+                <p>128</p>
+            </article>
+
+            <article class="summary-card">
+                <h3>Total Revenue</h3>
+                <p>£9,450</p>
+            </article>
+
+            <article class="summary-card">
+                <h3>Today’s Payments</h3>
+                <p>6</p>
+            </article>
+
+            <article class="summary-card">
+                <h3>Successful Payments</h3>
+                <p>120</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="guest-search-section">
+        <h2>Search Transactions</h2>
+
+        <div class="search-box">
+            <label for="transactionSearch">Search transactions</label>
+            <input type="text" id="transactionSearch" placeholder="Search by guest name...">
+        </div>
+    </section>
+
+    <section class="guest-table-section">
+        <h2>Transaction Records</h2>
+
+        <div class="table-wrapper">
+            <table class="guest-table">
+                <thead>
+                    <tr>
+                        <th>Transaction ID</th>
+                        <th>Guest Name</th>
+                        <th>Room</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody id="transactionTableBody">
+                    <tr>
+                        <td>T001</td>
+                        <td>Rajesh Kumar</td>
+                        <td>204</td>
+                        <td>£120</td>
+                        <td>01 Feb 2026</td>
+                        <td><span class="status active">Paid</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>T002</td>
+                        <td>Anita Sharma</td>
+                        <td>107</td>
+                        <td>£95</td>
+                        <td>10 Feb 2026</td>
+                        <td><span class="status active">Paid</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>T003</td>
+                        <td>Ahmed Ali</td>
+                        <td>305</td>
+                        <td>£110</td>
+                        <td>15 Jan 2026</td>
+                        <td><span class="status active">Paid</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>T004</td>
+                        <td>Priya Patel</td>
+                        <td>210</td>
+                        <td>£100</td>
+                        <td>05 Feb 2026</td>
+                        <td><span class="status active">Paid</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>T005</td>
+                        <td>Mohamed Hassan</td>
+                        <td>118</td>
+                        <td>£130</td>
+                        <td>20 Jan 2026</td>
+                        <td><span class="status active">Paid</span></td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <p>© 2026 LuckyNest | All Rights Reserved</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Active Guests | LuckyNest</title>
+
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+
+</head>
+<body>
+
+<header>
+<h1>LuckyNest</h1>
+
+<nav>
+<ul>
+<li><a href="index.html">All Guests</a></li>
+<li><a href="active-guests.html" class="active">Active Guests</a></li>
+<li><a href="checkins-outs.html">Check-ins / Outs</a></li>
+<li><a href="emergency-contacts.html">Emergency Contacts</a></li>
+<li><a href="service-management/service-management.html">Service Management</a></li>
+<li><a href="payment-management/payment-management.html">Payment Management</a></li>
+</ul>
+</nav>
+
+</header>
+
+<main>
+
+<section class="hero">
+
+<h2>Active Guests</h2>
+
+<p>
+This section displays all guests currently staying at LuckyNest.
+Administrators can quickly view room assignments and contact details.
+</p>
+
+</section>
+
+
+<section class="guest-table-section">
+
+<h2>Currently Active Guests</h2>
+
+<div class="table-wrapper">
+
+<table class="guest-table">
+
+<thead>
+
+<tr>
+<th>Guest ID</th>
+<th>Full Name</th>
+<th>Room</th>
+<th>Phone</th>
+<th>Email</th>
+<th>Status</th>
+<th>Check-in Date</th>
+<th>Emergency Contact</th>
+<th>Actions</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>G001</td>
+<td>Rajesh Kumar</td>
+<td>204</td>
+<td>0712345678</td>
+<td>rajesh@email.com</td>
+<td><span class="status active">Active</span></td>
+<td>01 Feb 2026</td>
+<td>Priya Kumar</td>
+
+<td class="actions">
+<button class="edit-btn" type="button">Edit</button>
+<button class="delete-btn" type="button">Remove</button>
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>G002</td>
+<td>Anita Sharma</td>
+<td>107</td>
+<td>0723456789</td>
+<td>anita@email.com</td>
+<td><span class="status active">Active</span></td>
+<td>10 Feb 2026</td>
+<td>Ravi Sharma</td>
+
+<td class="actions">
+<button class="edit-btn" type="button">Edit</button>
+<button class="delete-btn" type="button">Remove</button>
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>G004</td>
+<td>Priya Patel</td>
+<td>210</td>
+<td>0745678901</td>
+<td>priya@email.com</td>
+<td><span class="status active">Active</span></td>
+<td>05 Feb 2026</td>
+<td>Kiran Patel</td>
+
+<td class="actions">
+<button class="edit-btn" type="button">Edit</button>
+<button class="delete-btn" type="button">Remove</button>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+</main>
+
+<footer>
+
+<p>© 2026 LuckyNest | All Rights Reserved</p>
+
+</footer>
+
+</body>
+</html>

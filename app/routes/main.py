@@ -30,3 +30,19 @@ def service_report():
 @main_bp.route('/visitor-report')
 def visitor_report():
     return render_template('visitor_report.html')
+
+@main_bp.route('/guest/all')
+def guest_all():
+    return render_template('guest/all.html')
+
+@main_bp.route('/guest/active')
+def guest_active():
+    return render_template('guest/active.html')
+
+@main_bp.route('/guest/checkins')
+def guest_checkins():
+    return render_template('guest/checkins.html')
+
+@main_bp.route('/guest/emergency')
+def guest_emergency():
+    return render_template('guest/emergency.html')

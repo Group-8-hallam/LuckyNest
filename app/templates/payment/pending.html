@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pending Payments | LuckyNest</title>
+    <link rel="stylesheet" href="../style.css">
+    <script src="../script.js" defer></script>
+</head>
+<body>
+
+<header>
+    <h1>LuckyNest</h1>
+    <nav>
+        <ul>
+            <li><a href="../index.html">All Guests</a></li>
+            <li><a href="../active-guests.html">Active Guests</a></li>
+            <li><a href="../checkins-outs.html">Check-ins / Outs</a></li>
+            <li><a href="../emergency-contacts.html">Emergency Contacts</a></li>
+            <li><a href="../service-management/service-management.html">Service Management</a></li>
+            <li><a href="payment-management.html" class="active">Payment Management</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+
+    <section class="hero">
+        <h2>Pending Payments</h2>
+        <p>
+            Track unpaid guest balances, due dates, and overdue payment records
+            to help manage outstanding accounts.
+        </p>
+    </section>
+
+    <section class="intro">
+        <h2>Outstanding Balance Overview</h2>
+        <p>
+            This section shows guests who still have unpaid amounts. It helps
+            the admin identify overdue accounts and follow up on payment collection.
+        </p>
+    </section>
+
+    <section class="guest-summary">
+        <h2>Pending Payment Summary</h2>
+
+        <div class="summary-cards">
+            <article class="summary-card">
+                <h3>Total Pending</h3>
+                <p>9</p>
+            </article>
+
+            <article class="summary-card">
+                <h3>Total Amount Due</h3>
+                <p>£1,245</p>
+            </article>
+
+            <article class="summary-card">
+                <h3>Overdue Accounts</h3>
+                <p>4</p>
+            </article>
+
+            <article class="summary-card">
+                <h3>Due This Week</h3>
+                <p>3</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="guest-search-section">
+        <h2>Search Pending Payments</h2>
+
+        <div class="search-box">
+            <label for="pendingSearch">Search pending payments</label>
+            <input type="text" id="pendingSearch" placeholder="Search by guest name...">
+        </div>
+    </section>
+
+    <section class="guest-table-section">
+        <h2>Pending Payment Records</h2>
+
+        <div class="table-wrapper">
+            <table class="guest-table">
+                <thead>
+                    <tr>
+                        <th>Guest Name</th>
+                        <th>Room</th>
+                        <th>Amount Due</th>
+                        <th>Due Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody id="pendingTableBody">
+                    <tr>
+                        <td>Ahmed Ali</td>
+                        <td>305</td>
+                        <td>£110</td>
+                        <td>05 Apr 2026</td>
+                        <td><span class="status checkedout">Pending</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>Mohamed Hassan</td>
+                        <td>118</td>
+                        <td>£130</td>
+                        <td>03 Apr 2026</td>
+                        <td><span class="status checkedout">Pending</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>Fatima Noor</td>
+                        <td>212</td>
+                        <td>£95</td>
+                        <td>07 Apr 2026</td>
+                        <td><span class="status checkedout">Pending</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>Ali Rahman</td>
+                        <td>101</td>
+                        <td>£150</td>
+                        <td>02 Apr 2026</td>
+                        <td><span class="status checkedout">Overdue</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>Sarah Khan</td>
+                        <td>221</td>
+                        <td>£125</td>
+                        <td>01 Apr 2026</td>
+                        <td><span class="status checkedout">Overdue</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <p>© 2026 LuckyNest | All Rights Reserved</p>
+</footer>
+
+</body>
+</html>

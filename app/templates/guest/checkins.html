@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check-ins / Outs | LuckyNest</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+<header>
+    <h1>LuckyNest</h1>
+    <nav>
+        <ul>
+            <li><a href="index.html">All Guests</a></li>
+            <li><a href="active-guests.html">Active Guests</a></li>
+            <li><a href="checkins-outs.html" class="active">Check-ins / Outs</a></li>
+            <li><a href="emergency-contacts.html">Emergency Contacts</a></li>
+            <li><a href="service-management/service-management.html">Service Management</a></li>
+            <li><a href="payment-management/payment-management.html">Payment Management</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+
+    <section class="hero">
+        <h2>Check-ins / Outs</h2>
+        <p>
+            Track guest arrivals and departures, review stay dates,
+            and monitor current occupancy activity at LuckyNest.
+        </p>
+    </section>
+
+    <section class="intro">
+        <h2>Stay Activity Overview</h2>
+        <p>
+            This section helps the admin monitor when guests checked in,
+            when they checked out, and which guests are still currently staying.
+        </p>
+    </section>
+
+    <section class="guest-summary">
+        <h2>Check-in Summary</h2>
+
+        <div class="summary-cards">
+            <article class="summary-card">
+                <h3>Today's Check-ins</h3>
+                <p>3</p>
+            </article>
+
+            <article class="summary-card">
+                <h3>Today's Check-outs</h3>
+                <p>2</p>
+            </article>
+
+            <article class="summary-card">
+                <h3>Current Stays</h3>
+                <p>42</p>
+            </article>
+
+            <article class="summary-card">
+                <h3>Total Rooms Used</h3>
+                <p>38</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="guest-search-section">
+        <h2>Search Stay Records</h2>
+        <p>Use the search box below to find a guest by name, room, status, or date.</p>
+
+        <div class="search-box">
+            <label for="checkinSearch">Search check-in and check-out records</label>
+            <input type="text" id="checkinSearch" placeholder="Search stay records...">
+        </div>
+    </section>
+
+    <section class="guest-table-section">
+        <h2>Check-in / Check-out Records</h2>
+
+        <div class="table-wrapper">
+            <table class="guest-table">
+                <thead>
+                    <tr>
+                        <th>Guest ID</th>
+                        <th>Full Name</th>
+                        <th>Room</th>
+                        <th>Check-in Date</th>
+                        <th>Check-out Date</th>
+                        <th>Status</th>
+                        <th>Stay Type</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody id="checkinTableBody">
+                    <tr>
+                        <td>G001</td>
+                        <td>Rajesh Kumar</td>
+                        <td>204</td>
+                        <td>01 Feb 2026</td>
+                        <td>—</td>
+                        <td><span class="status active">Checked In</span></td>
+                        <td>Current Stay</td>
+                        <td class="actions">
+                            <button class="edit-btn" type="button">Edit</button>
+                            <button class="delete-btn" type="button">Remove</button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>G002</td>
+                        <td>Anita Sharma</td>
+                        <td>107</td>
+                        <td>10 Feb 2026</td>
+                        <td>—</td>
+                        <td><span class="status active">Checked In</span></td>
+                        <td>Current Stay</td>
+                        <td class="actions">
+                            <button class="edit-btn" type="button">Edit</button>
+                            <button class="delete-btn" type="button">Remove</button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>G003</td>
+                        <td>Ahmed Ali</td>
+                        <td>305</td>
+                        <td>15 Jan 2026</td>
+                        <td>20 Jan 2026</td>
+                        <td><span class="status checkedout">Checked Out</span></td>
+                        <td>Completed Stay</td>
+                        <td class="actions">
+                            <button class="edit-btn" type="button">Edit</button>
+                            <button class="delete-btn" type="button">Remove</button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>G004</td>
+                        <td>Priya Patel</td>
+                        <td>210</td>
+                        <td>05 Feb 2026</td>
+                        <td>—</td>
+                        <td><span class="status active">Checked In</span></td>
+                        <td>Current Stay</td>
+                        <td class="actions">
+                            <button class="edit-btn" type="button">Edit</button>
+                            <button class="delete-btn" type="button">Remove</button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>G005</td>
+                        <td>Mohamed Hassan</td>
+                        <td>118</td>
+                        <td>20 Jan 2026</td>
+                        <td>28 Jan 2026</td>
+                        <td><span class="status checkedout">Checked Out</span></td>
+                        <td>Completed Stay</td>
+                        <td class="actions">
+                            <button class="edit-btn" type="button">Edit</button>
+                            <button class="delete-btn" type="button">Remove</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <p>© 2026 LuckyNest | All Rights Reserved</p>
+</footer>
+
+</body>
+</html>
