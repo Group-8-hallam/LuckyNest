@@ -40,4 +40,7 @@ def create_app():
     from .routes.pg import pg_bp
     app.register_blueprint(pg_bp, url_prefix='/pg')
 
+    from .routes.rooms import rooms_bp
+    app.register_blueprint(rooms_bp, url_prefix='/rooms')
+
     return app

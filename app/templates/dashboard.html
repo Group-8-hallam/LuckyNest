@@ -1,12 +1,11 @@
 {% extends 'base.html' %}
 {% block title %}Dashboard - LuckyNest{% endblock %}
 
-{% block content %}
-
 {% block styles %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
 {% endblock %}
 
+{% block content %}
 <div class="container">
 
     <div class="dashboard-header">
@@ -24,7 +23,7 @@
             <p>View your room details and amenities</p>
         </a>
 
-        <a href="#" class="nav-card">
+        <a href="{{ url_for('pg.payment') }}" class="nav-card">
             <div class="nav-card-icon">💳</div>
             <h3>Payments</h3>
             <p>Make payments and view your history</p>
@@ -72,13 +71,13 @@
     {% elif current_user.role == 'owner' %}
     <div class="nav-grid">
 
-        <a href="#" class="nav-card">
+        <a href="{{ url_for('main.reports') }}" class="nav-card">
             <div class="nav-card-icon">📊</div>
             <h3>Reports & Analytics</h3>
             <p>Revenue, occupancy and financial reports</p>
         </a>
 
-        <a href="#" class="nav-card">
+        <a href="{{ url_for('rooms.rooms') }}" class="nav-card">
             <div class="nav-card-icon">🏠</div>
             <h3>Room Management</h3>
             <p>View, add and edit rooms</p>
@@ -90,19 +89,19 @@
             <p>View all guests, check-ins and check-outs</p>
         </a>
 
-        <a href="#" class="nav-card">
+        <a href="{{ url_for('pg.payment') }}" class="nav-card">
             <div class="nav-card-icon">💳</div>
             <h3>Payment Management</h3>
             <p>Transactions, invoices and deposits</p>
         </a>
 
-        <a href="#" class="nav-card">
+        <a href="{{ url_for('main.food_report') }}" class="nav-card">
             <div class="nav-card-icon">🍽️</div>
             <h3>Food Management</h3>
             <p>Menus, meal plans and food reports</p>
         </a>
 
-        <a href="#" class="nav-card">
+        <a href="{{ url_for('main.service_report') }}" class="nav-card">
             <div class="nav-card-icon">🔧</div>
             <h3>Service Management</h3>
             <p>Laundry, housekeeping scheduling</p>
@@ -114,7 +113,7 @@
             <p>Create and manage staff accounts</p>
         </a>
 
-        <a href="#" class="nav-card">
+        <a href="{{ url_for('main.visitor_report') }}" class="nav-card">
             <div class="nav-card-icon">🚪</div>
             <h3>Visitor Log</h3>
             <p>View all visitor records</p>
@@ -126,7 +125,7 @@
     {% elif current_user.role == 'admin' %}
     <div class="nav-grid">
 
-        <a href="#" class="nav-card">
+        <a href="{{ url_for('rooms.rooms') }}" class="nav-card">
             <div class="nav-card-icon">🏠</div>
             <h3>Room Management</h3>
             <p>View rooms and availability</p>
@@ -138,7 +137,7 @@
             <p>View guests and emergency contacts</p>
         </a>
 
-        <a href="#" class="nav-card">
+        <a href="{{ url_for('pg.meals') }}" class="nav-card">
             <div class="nav-card-icon">🍽️</div>
             <h3>Food Management</h3>
             <p>Schedule menus and meal plans</p>
@@ -156,7 +155,7 @@
             <p>Schedule and track cleaning visits</p>
         </a>
 
-        <a href="#" class="nav-card">
+        <a href="{{ url_for('main.visitor_report') }}" class="nav-card">
             <div class="nav-card-icon">🚪</div>
             <h3>Visitor Log</h3>
             <p>View and manage visitor records</p>

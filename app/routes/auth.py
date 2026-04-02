@@ -29,7 +29,7 @@ def login():
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('auth.dashboard_redirect'))
+        return redirect(url_for('pg.dashboard'))
     
     if request.method == 'POST':
         full_name = request.form.get('full_name')
