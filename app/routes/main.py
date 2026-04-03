@@ -7,11 +7,11 @@ main_bp = Blueprint('main', __name__)
 def index():
     return render_template('index.html')
 
-@main_bp.route('/reports')
+@main_bp.route('/financial-report')
 def reports():
     return render_template('reports.html')
 
-@main_bp.route('/occupancy')
+@main_bp.route('/occupancy-report')
 def occupancy():
     return render_template('occupancy.html')
 
@@ -46,3 +46,7 @@ def guest_checkins():
 @main_bp.route('/guest/emergency')
 def guest_emergency():
     return render_template('guest/emergency.html')
+
+@main_bp.route('/settings')
+def settings():
+    return render_template('settings.html')

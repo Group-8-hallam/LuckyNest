@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+
+{% block title %}LuckyNest - Settings{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/settings.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<!-- PAGE HEADER -->
+<div class="rpt-header">
+    <div>
+        <h1>Settings</h1>
+        <p class="rpt-subtitle">LuckyNest &mdash; Manage your account and system preferences</p>
+    </div>
+    <a href="{{ url_for('pg.dashboard') }}" class="btn-back">&#8592; Back to Dashboard</a>
+</div>
+<hr class="rpt-divider">
+
+<div class="settings-grid">
+
+    <!-- LEFT COLUMN -->
+    <div class="settings-col">
+
+        <!-- Profile Settings -->
+        <div class="settings-card">
+            <h2 class="settings-title">&#128100; Profile Settings</h2>
+
+            <div class="form-group">
+                <label class="form-label">Full Name</label>
+                <input type="text" class="form-input" value="Ronald Polhos" placeholder="Full Name">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <input type="email" class="form-input" value="ronald@email.com" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Phone Number</label>
+                <input type="text" class="form-input" value="+44 7700 900000" placeholder="Phone">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Address</label>
+                <input type="text" class="form-input" value="123 Main Street, London" placeholder="Address">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Date of Birth</label>
+                <input type="date" class="form-input" value="2000-01-01">
+            </div>
+            <button class="btn-save">Save Profile</button>
+        </div>
+
+        <!-- Change Password -->
+        <div class="settings-card">
+            <h2 class="settings-title">&#128274; Change Password</h2>
+
+            <div class="form-group">
+                <label class="form-label">Current Password</label>
+                <input type="password" class="form-input" placeholder="Enter current password">
+            </div>
+            <div class="form-group">
+                <label class="form-label">New Password</label>
+                <input type="password" class="form-input" placeholder="Enter new password">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Confirm New Password</label>
+                <input type="password" class="form-input" placeholder="Confirm new password">
+            </div>
+            <button class="btn-save">Update Password</button>
+        </div>
+
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="settings-col">
+
+        <!-- Notification Preferences -->
+        <div class="settings-card">
+            <h2 class="settings-title">&#128276; Notification Preferences</h2>
+
+            <div class="toggle-list">
+                <div class="toggle-item">
+                    <div class="toggle-info">
+                        <span class="toggle-name">Email Notifications</span>
+                        <span class="toggle-desc">Receive alerts via email</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="toggle-item">
+                    <div class="toggle-info">
+                        <span class="toggle-name">SMS Notifications</span>
+                        <span class="toggle-desc">Receive alerts via SMS</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="toggle-item">
+                    <div class="toggle-info">
+                        <span class="toggle-name">Payment Reminders</span>
+                        <span class="toggle-desc">Get reminded before due dates</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="toggle-item">
+                    <div class="toggle-info">
+                        <span class="toggle-name">Visitor Alerts</span>
+                        <span class="toggle-desc">Notify when a visitor arrives</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="toggle-item">
+                    <div class="toggle-info">
+                        <span class="toggle-name">Emergency Alerts</span>
+                        <span class="toggle-desc">Building emergency notifications</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+            <button class="btn-save">Save Preferences</button>
+        </div>
+
+        <!-- System Preferences -->
+        <div class="settings-card">
+            <h2 class="settings-title">&#9881;&#65039; System Preferences</h2>
+
+            <div class="form-group">
+                <label class="form-label">Language</label>
+                <select class="form-input">
+                    <option selected>English</option>
+                    <option>Hindi</option>
+                    <option>Tamil</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Currency</label>
+                <select class="form-input">
+                    <option selected>GBP (&#163;)</option>
+                    <option>USD ($)</option>
+                    <option>EUR (&euro;)</option>
+                    <option>INR (&#8377;)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Date Format</label>
+                <select class="form-input">
+                    <option selected>DD/MM/YYYY</option>
+                    <option>MM/DD/YYYY</option>
+                    <option>YYYY-MM-DD</option>
+                </select>
+            </div>
+            <button class="btn-save">Save Preferences</button>
+        </div>
+
+        <!-- Danger Zone -->
+        <div class="settings-card danger-card">
+            <h2 class="settings-title danger-title">&#9888;&#65039; Danger Zone</h2>
+            <p class="danger-desc">These actions are irreversible. Please be certain before proceeding.</p>
+            <div class="danger-actions">
+                <div class="danger-item">
+                    <div>
+                        <span class="danger-name">Deactivate Account</span>
+                        <span class="danger-sub">Temporarily disable your account</span>
+                    </div>
+                    <button class="btn-danger-outline">Deactivate</button>
+                </div>
+                <div class="danger-item">
+                    <div>
+                        <span class="danger-name">Delete Account</span>
+                        <span class="danger-sub">Permanently delete all your data</span>
+                    </div>
+                    <button class="btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
