@@ -5,6 +5,7 @@ class Room(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     number = db.Column(db.String(50), nullable=False)
+    floor = db.Column(db.Integer, nullable=True)
     type = db.Column(db.String(100), nullable=False)
     price_weekly = db.Column(db.Float, nullable=False)
     price_monthly = db.Column(db.Float, nullable=False)

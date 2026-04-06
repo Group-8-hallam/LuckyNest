@@ -69,6 +69,19 @@
 
     <!-- OWNER DASHBOARD -->
     {% elif current_user.role == 'owner' %}
+
+    <!-- OCCUPANCY WIDGET -->
+<div class="occupancy-widget">
+    <div class="occ-stat">
+        <span class="occ-number">{{ occupied_rooms }}/{{ total_rooms }}</span>
+        <span class="occ-label">Rooms Occupied</span>
+    </div>
+    <div class="occ-bar-wrap">
+        <div class="occ-bar" style="width: {{ ((occupied_rooms / total_rooms) * 100) | int }}%"></div>
+    </div>
+    <span class="occ-pct">{{ ((occupied_rooms / total_rooms) * 100) | int }}% occupancy rate</span>
+</div>
+
     <div class="nav-grid">
 
         <a href="{{ url_for('main.reports') }}" class="nav-card">

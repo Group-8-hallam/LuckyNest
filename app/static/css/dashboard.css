@@ -54,3 +54,55 @@
     color: #888;
     line-height: 1.4;
 }
+
+.occupancy-widget {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.occ-stat {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.occ-number {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #2c3e50;
+    line-height: 1;
+}
+
+.occ-label {
+    font-size: 0.78rem;
+    color: #888;
+    margin-top: 3px;
+}
+
+.occ-bar-wrap {
+    flex: 1;
+    background: #f5f5f5;
+    border-radius: 4px;
+    height: 14px;
+    overflow: hidden;
+    border: 1px solid #eee;
+}
+
+.occ-bar {
+    height: 100%;
+    background: #2c3e50;
+    border-radius: 4px;
+}
+
+.occ-pct {
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #27ae60;
+    flex-shrink: 0;
+}

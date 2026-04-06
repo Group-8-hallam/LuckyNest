@@ -24,31 +24,47 @@
     <div class="settings-col">
 
         <!-- Profile Settings -->
-        <div class="settings-card">
-            <h2 class="settings-title">&#128100; Profile Settings</h2>
+       <!-- Profile Settings -->
+<div class="settings-card">
+    <h2 class="settings-title">&#128100; Profile Settings</h2>
 
-            <div class="form-group">
-                <label class="form-label">Full Name</label>
-                <input type="text" class="form-input" value="Ronald Polhos" placeholder="Full Name">
-            </div>
-            <div class="form-group">
-                <label class="form-label">Email Address</label>
-                <input type="email" class="form-input" value="ronald@email.com" placeholder="Email">
-            </div>
-            <div class="form-group">
-                <label class="form-label">Phone Number</label>
-                <input type="text" class="form-input" value="+44 7700 900000" placeholder="Phone">
-            </div>
-            <div class="form-group">
-                <label class="form-label">Address</label>
-                <input type="text" class="form-input" value="123 Main Street, London" placeholder="Address">
-            </div>
-            <div class="form-group">
-                <label class="form-label">Date of Birth</label>
-                <input type="date" class="form-input" value="2000-01-01">
-            </div>
-            <button class="btn-save">Save Profile</button>
+    <form method="POST" action="{{ url_for('settings.settings') }}">
+
+        <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" name="full_name" class="form-input"
+                   value="{{ user.full_name or '' }}" placeholder="Full Name">
         </div>
+
+        <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" name="email" class="form-input"
+                   value="{{ user.email or '' }}" placeholder="Email">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Phone Number</label>
+            <input type="text" name="phone" class="form-input"
+                   value="{{ user.phone or '' }}" placeholder="Phone">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Address</label>
+            <input type="text" name="address" class="form-input"
+                   value="{{ user.address or '' }}" placeholder="Address">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Date of Birth</label>
+            <input type="date" name="dob" class="form-input"
+                   value="{{ user.dob }}">
+        </div>
+
+        <button class="btn-save" type="submit">Save Profile</button>
+
+    </form>
+</div>
+           
 
         <!-- Change Password -->
         <div class="settings-card">

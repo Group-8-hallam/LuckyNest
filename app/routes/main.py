@@ -47,6 +47,6 @@ def guest_checkins():
 def guest_emergency():
     return render_template('guest/emergency.html')
 
-@main_bp.route('/settings')
-def settings():
-    return render_template('settings.html')
+@main_bp.route('/booking')
+def booking():
+    return render_template('booking.html')

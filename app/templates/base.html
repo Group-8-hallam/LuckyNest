@@ -9,16 +9,21 @@
 </head>
 <body>
     <nav class="navbar">
-        <a href="/" class="navbar-brand">LuckyNest</a>
-        <div class="nav-links">
-            {% if current_user.is_authenticated %}
-                <a href="{{ url_for('pg.dashboard') }}">Dashboard</a>
-                <a href="{{ url_for('auth.logout') }}">Log Out</a>
-            {% else %}
-                <a href="{{ url_for('auth.login') }}">Log In</a>
-            {% endif %}
-        </div>
-    </nav>
+    <a href="/" class="navbar-brand">LuckyNest</a>
+
+    <div class="nav-links">
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('pg.dashboard') }}">Dashboard</a>
+
+            <!-- SETTINGS ADDED -->
+            <a href="{{ url_for('settings.settings') }}">Settings</a>
+
+            <a href="{{ url_for('auth.logout') }}">Log Out</a>
+        {% else %}
+            <a href="{{ url_for('auth.login') }}">Log In</a>
+        {% endif %}
+    </div>
+</nav>
 
     <div class="flash-messages">
         {% for category, message in get_flashed_messages(with_categories=true) %}

@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block title %}LuckyNest - Book a Room{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/booking.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<!-- PAGE HEADER -->
+<div class="rpt-header">
+    <div>
+        <h1>Book a Room</h1>
+        <p class="rpt-subtitle">LuckyNest &mdash; Select a room and confirm your booking</p>
+    </div>
+    <a href="{{ url_for('pg.dashboard') }}" class="btn-back">&#8592; Back to Dashboard</a>
+</div>
+<hr class="rpt-divider">
+
+<!-- FLASH MESSAGES -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<div class="booking-grid">
+
+    <!-- BOOKING FORM -->
+    <div class="booking-card">
+        <h2 class="card-title">Booking Details</h2>
+        <form method="POST" action="{{ url_for('main.booking') }}">
+
+            <div class="form-group">
+                <label class="form-label">Select Room</label>
+                <select class="form-input" name="room_id" required>
+                    <option value="">-- Choose a room --</option>
+                    {% for room in rooms %}
+                        <option value="{{ room.id }}">
+                            Room {{ room.number }} &mdash; {{ room.type }} &mdash; &#163;{{ room.price_monthly }}/month
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Check-in Date</label>
+                <input type="date" class="form-input" name="check_in_date" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Check-out Date <span class="optional">(optional)</span></label>
+                <input type="date" class="form-input" name="check_out_date">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Payment Cycle</label>
+                <select class="form-input" name="payment_cycle" required>
+                    <option value="monthly">Monthly</option>
+                    <option value="weekly">Weekly</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Notes <span class="optional">(optional)</span></label>
+                <textarea class="form-input form-textarea" name="notes" placeholder="Any special requests or notes..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-primary">Confirm Booking</button>
+        </form>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="booking-side">
+
+        <!-- AVAILABLE ROOMS -->
+        <div class="booking-card">
+            <h2 class="card-title">Available Rooms</h2>
+            {% if rooms %}
+                <div class="room-list">
+                    {% for room in rooms %}
+                    <div class="room-item">
+                        <div class="room-info">
+                            <span class="room-number">Room {{ room.number }}</span>
+                            <span class="room-type">{{ room.type }}</span>
+                            {% if room.floor %}
+                                <span class="room-floor">Floor {{ room.floor }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="room-price">
+                            <span class="price-monthly">&#163;{{ room.price_monthly }}/mo</span>
+                            <span class="price-weekly">&#163;{{ room.price_weekly }}/wk</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="no-rooms">No rooms available at the moment.</p>
+            {% endif %}
+        </div>
+
+        <!-- YOUR BOOKINGS -->
+        <div class="booking-card">
+            <h2 class="card-title">Your Current Bookings</h2>
+            {% if bookings %}
+                <div class="current-bookings">
+                    {% for booking in bookings %}
+                    <div class="current-item">
+                        <div class="current-info">
+                            <span class="current-room">Room {{ booking.room.number }}</span>
+                            <span class="current-dates">
+                                {{ booking.check_in_date.strftime('%d/%m/%Y') }}
+                                {% if booking.check_out_date %}
+                                    &mdash; {{ booking.check_out_date.strftime('%d/%m/%Y') }}
+                                {% else %}
+                                    &mdash; Ongoing
+                                {% endif %}
+                            </span>
+                        </div>
+                        <span class="badge badge-{{ booking.status }}">{{ booking.status | capitalize }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="no-rooms">You have no current bookings.</p>
+            {% endif %}
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
