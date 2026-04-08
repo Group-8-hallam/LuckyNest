@@ -1,180 +1,205 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Check-ins / Outs | LuckyNest</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
-</head>
-<body>
+{% extends 'base.html' %}
 
-<header>
-    <h1>LuckyNest</h1>
-    <nav>
-        <ul>
-            <li><a href="index.html">All Guests</a></li>
-            <li><a href="active-guests.html">Active Guests</a></li>
-            <li><a href="checkins-outs.html" class="active">Check-ins / Outs</a></li>
-            <li><a href="emergency-contacts.html">Emergency Contacts</a></li>
-            <li><a href="service-management/service-management.html">Service Management</a></li>
-            <li><a href="payment-management/payment-management.html">Payment Management</a></li>
-        </ul>
-    </nav>
-</header>
+{% block title %}Check-ins / Outs | LuckyNest{% endblock %}
 
-<main>
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/guest_management.css') }}">
+{% endblock %}
 
-    <section class="hero">
-        <h2>Check-ins / Outs</h2>
-        <p>
-            Track guest arrivals and departures, review stay dates,
-            and monitor current occupancy activity at LuckyNest.
-        </p>
-    </section>
+{% block content %}
 
-    <section class="intro">
-        <h2>Stay Activity Overview</h2>
-        <p>
-            This section helps the admin monitor when guests checked in,
-            when they checked out, and which guests are still currently staying.
-        </p>
-    </section>
-
-    <section class="guest-summary">
-        <h2>Check-in Summary</h2>
-
-        <div class="summary-cards">
-            <article class="summary-card">
-                <h3>Today's Check-ins</h3>
-                <p>3</p>
-            </article>
-
-            <article class="summary-card">
-                <h3>Today's Check-outs</h3>
-                <p>2</p>
-            </article>
-
-            <article class="summary-card">
-                <h3>Current Stays</h3>
-                <p>42</p>
-            </article>
-
-            <article class="summary-card">
-                <h3>Total Rooms Used</h3>
-                <p>38</p>
-            </article>
+<div class="guest-page">
+    <div class="guest-header">
+        <div>
+            <h1>Check-ins / Outs</h1>
+            <p class="guest-subtitle">Track guest arrivals, departures, and stay activity</p>
         </div>
-    </section>
+        <div class="guest-top-actions">
+            <a href="{{ url_for('main.guest_all') }}" class="btn-secondary">Back to All Guests</a>
+        </div>
+    </div>
 
-    <section class="guest-search-section">
-        <h2>Search Stay Records</h2>
-        <p>Use the search box below to find a guest by name, room, status, or date.</p>
+    <hr class="guest-divider">
 
-        <div class="search-box">
+    <div class="guest-kpi-row">
+        <div class="guest-kpi-card">
+            <span class="guest-kpi-label">Checked In</span>
+            <span class="guest-kpi-value">
+                {{ guests | selectattr('status', 'equalto', 'active') | list | length }}
+            </span>
+            <span class="guest-kpi-note">Current stays</span>
+        </div>
+
+        <div class="guest-kpi-card">
+            <span class="guest-kpi-label">Checked Out</span>
+            <span class="guest-kpi-value">
+                {{ guests | selectattr('status', 'equalto', 'checked_out') | list | length }}
+            </span>
+            <span class="guest-kpi-note">Completed stays</span>
+        </div>
+
+        <div class="guest-kpi-card">
+            <span class="guest-kpi-label">Total Records</span>
+            <span class="guest-kpi-value">{{ guests | length }}</span>
+            <span class="guest-kpi-note">All booking records</span>
+        </div>
+
+        <div class="guest-kpi-card">
+            <span class="guest-kpi-label">Rooms Used</span>
+            <span class="guest-kpi-value">{{ guests | length }}</span>
+            <span class="guest-kpi-note">Tracked bookings</span>
+        </div>
+    </div>
+
+    <div class="guest-card" style="margin-bottom: 1rem;">
+        <p class="guest-card-title">Search Stay Records</p>
+        <div class="guest-search-wrap">
             <label for="checkinSearch">Search check-in and check-out records</label>
             <input type="text" id="checkinSearch" placeholder="Search stay records...">
         </div>
-    </section>
+    </div>
 
-    <section class="guest-table-section">
-        <h2>Check-in / Check-out Records</h2>
-
-        <div class="table-wrapper">
-            <table class="guest-table">
+    <div class="guest-card guest-table-card">
+        <p class="guest-card-title">Check-in / Check-out Records</p>
+        <div class="guest-table-wrap">
+            <table class="guest-table guest-table-compact">
                 <thead>
                     <tr>
-                        <th>Guest ID</th>
-                        <th>Full Name</th>
+                        <th>ID</th>
+                        <th>Guest</th>
                         <th>Room</th>
-                        <th>Check-in Date</th>
-                        <th>Check-out Date</th>
+                        <th>Check-in</th>
+                        <th>Check-out</th>
                         <th>Status</th>
                         <th>Stay Type</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
-
                 <tbody id="checkinTableBody">
+                    {% for guest in guests %}
                     <tr>
-                        <td>G001</td>
-                        <td>Rajesh Kumar</td>
-                        <td>204</td>
-                        <td>01 Feb 2026</td>
-                        <td>—</td>
-                        <td><span class="status active">Checked In</span></td>
-                        <td>Current Stay</td>
-                        <td class="actions">
-                            <button class="edit-btn" type="button">Edit</button>
-                            <button class="delete-btn" type="button">Remove</button>
+                        <td>{{ guest.id }}</td>
+                        <td>
+                            <div class="guest-main-name">{{ guest.name }}</div>
+                            <div class="guest-sub-line">{{ guest.email }}</div>
                         </td>
-                    </tr>
+                        <td>{{ guest.room }}</td>
+                        <td>{{ guest.checkin }}</td>
+                        <td>
+                            {% if guest.status and guest.status.lower() == 'active' %}
+                                —
+                            {% else %}
+                                {{ guest.checkout if guest.checkout else 'Completed' }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if guest.status and guest.status.lower() == 'active' %}
+                                <span class="status-badge status-active">Checked In</span>
+                            {% else %}
+                                <span class="status-badge status-checked_out">Checked Out</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if guest.status and guest.status.lower() == 'active' %}
+                                Current Stay
+                            {% else %}
+                                Completed Stay
+                            {% endif %}
+                        </td>
+                        <td class="actions">
+                            <form method="POST"
+                                  action="{{ url_for('main.toggle_guest_status', user_id=guest.id) }}"
+                                  style="display:inline;"
+                                  onsubmit="return confirm('Are you sure you want to update this guest status?');">
+                        
+                                {% if guest.status and guest.status.lower() == 'active' %}
+                                    <button class="btn-small btn-remove" type="submit">Check Out</button>
+                                {% else %}
+                                    <button class="btn-small btn-edit" type="submit">Mark Active</button>
+                                {% endif %}
+                        
+                            </form>
 
-                    <tr>
-                        <td>G002</td>
-                        <td>Anita Sharma</td>
-                        <td>107</td>
-                        <td>10 Feb 2026</td>
-                        <td>—</td>
-                        <td><span class="status active">Checked In</span></td>
-                        <td>Current Stay</td>
-                        <td class="actions">
-                            <button class="edit-btn" type="button">Edit</button>
-                            <button class="delete-btn" type="button">Remove</button>
+                            <button
+                                class="btn-small btn-edit editGuestBtn"
+                                type="button"
+                                data-id="{{ guest.id }}"
+                                data-name="{{ guest.name }}"
+                                data-phone="{{ guest.phone }}"
+                                data-email="{{ guest.email }}"
+                                data-status="{{ guest.status }}"
+                            >
+                                Edit
+                            </button>
                         </td>
                     </tr>
-
-                    <tr>
-                        <td>G003</td>
-                        <td>Ahmed Ali</td>
-                        <td>305</td>
-                        <td>15 Jan 2026</td>
-                        <td>20 Jan 2026</td>
-                        <td><span class="status checkedout">Checked Out</span></td>
-                        <td>Completed Stay</td>
-                        <td class="actions">
-                            <button class="edit-btn" type="button">Edit</button>
-                            <button class="delete-btn" type="button">Remove</button>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>G004</td>
-                        <td>Priya Patel</td>
-                        <td>210</td>
-                        <td>05 Feb 2026</td>
-                        <td>—</td>
-                        <td><span class="status active">Checked In</span></td>
-                        <td>Current Stay</td>
-                        <td class="actions">
-                            <button class="edit-btn" type="button">Edit</button>
-                            <button class="delete-btn" type="button">Remove</button>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>G005</td>
-                        <td>Mohamed Hassan</td>
-                        <td>118</td>
-                        <td>20 Jan 2026</td>
-                        <td>28 Jan 2026</td>
-                        <td><span class="status checkedout">Checked Out</span></td>
-                        <td>Completed Stay</td>
-                        <td class="actions">
-                            <button class="edit-btn" type="button">Edit</button>
-                            <button class="delete-btn" type="button">Remove</button>
-                        </td>
-                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
-    </section>
+    </div>
 
-</main>
+    <p class="guest-footnote">Live guest data — LuckyNest Management</p>
+</div>
 
-<footer>
-    <p>© 2026 LuckyNest | All Rights Reserved</p>
-</footer>
+<div id="editGuestModal" class="modal">
+    <div class="modal-content">
+        <h3>Edit Guest</h3>
 
-</body>
-</html>
+        <form id="editGuestForm" method="POST">
+            <input type="text" name="name" id="editGuestName" placeholder="Full Name" required>
+            <input type="text" name="phone" id="editGuestPhone" placeholder="Phone Number">
+            <input type="email" name="email" id="editGuestEmail" placeholder="Email">
+            <select name="status" id="editGuestStatus">
+                <option value="active">Active</option>
+                <option value="checked_out">Checked Out</option>
+            </select>
+
+            <div class="modal-actions">
+                <button type="submit">Save Changes</button>
+                <button type="button" id="closeEditModal">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+const editModal = document.getElementById("editGuestModal");
+const closeEditBtn = document.getElementById("closeEditModal");
+const editGuestForm = document.getElementById("editGuestForm");
+const editGuestName = document.getElementById("editGuestName");
+const editGuestPhone = document.getElementById("editGuestPhone");
+const editGuestEmail = document.getElementById("editGuestEmail");
+const editGuestStatus = document.getElementById("editGuestStatus");
+const editButtons = document.querySelectorAll(".editGuestBtn");
+
+editButtons.forEach(function (button) {
+    button.addEventListener("click", function () {
+        const userId = this.dataset.id;
+        const name = this.dataset.name;
+        const phone = this.dataset.phone;
+        const email = this.dataset.email;
+        const status = this.dataset.status;
+
+        editGuestForm.action = "/guest/edit/" + userId;
+        editGuestName.value = name || "";
+        editGuestPhone.value = phone || "";
+        editGuestEmail.value = email || "";
+        editGuestStatus.value = status === "checkedout" ? "checked_out" : status;
+
+        editModal.style.display = "flex";
+    });
+});
+
+closeEditBtn.onclick = function () {
+    editModal.style.display = "none";
+};
+
+window.onclick = function (event) {
+    if (event.target === editModal) {
+        editModal.style.display = "none";
+    }
+};
+</script>
+
+{% endblock %}

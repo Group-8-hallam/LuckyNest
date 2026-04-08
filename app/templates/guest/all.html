@@ -1,225 +1,264 @@
-{% extends "base.html" %}
-{% block title %}All Guests{% endblock %}
+{% extends 'base.html' %}
+
+{% block title %}LuckyNest - Guest Management{% endblock %}
 
 {% block styles %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/guest_report.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/guest_management.css') }}">
 {% endblock %}
 
 {% block content %}
 
-<section class="hero">
-    <h2>Guest Management</h2>
-    <p>
-        Manage guest records, monitor room occupancy, and keep important
-        contact information organised in one place.
-    </p>
-</section>
-
-<section class="intro">
-    <h2>About This Section</h2>
-    <p>
-        The Guest Management section allows the LuckyNest admin to view all
-        registered guests, track their current stay status, and quickly access
-        their emergency contact details when needed.
-    </p>
-    <p>
-        This page is designed to support day-to-day accommodation management
-        by keeping guest information clear, accessible, and easy to monitor.
-    </p>
-</section>
-
-<section class="guest-summary">
-    <h2>Guest Overview</h2>
-
-    <div class="summary-cards">
-        <article class="summary-card">
-            <h3>Total Guests</h3>
-            <p>50</p>
-        </article>
-
-        <article class="summary-card">
-            <h3>Active Guests</h3>
-            <p>42</p>
-        </article>
-
-        <article class="summary-card">
-            <h3>Checked Out</h3>
-            <p>8</p>
-        </article>
-
-        <article class="summary-card">
-            <h3>Emergency Contacts</h3>
-            <p>100</p>
-        </article>
-    </div>
-</section>
-
-<section class="guest-search-section">
-    <h2>Search Guests</h2>
-    <p>Use the search box below to find a guest by name, room, status, or contact details.</p>
-
-    <div class="search-box">
-        <label for="guestSearch">Search guest records</label>
-        <input type="text" id="guestSearch" placeholder="Search guest by name...">
-    </div>
-</section>
-
-<section class="guest-table-section">
-    <div class="table-header">
-        <h2>All Guests</h2>
-        <button id="addGuestBtn" type="button">+ Add Guest</button>
+<div class="guest-page">
+    <div class="guest-header">
+        <div>
+            <h1>Guest Management</h1>
+            <p class="guest-subtitle">LuckyNest Guest Records — Live Guest Overview</p>
+        </div>
+        <div class="guest-top-actions">
+            <button id="addGuestBtn" type="button" class="btn-primary">+ Add Guest</button>
+        </div>
     </div>
 
-    <div class="table-wrapper">
-        <table class="guest-table">
-            <thead>
-                <tr>
-                    <th>Guest ID</th>
-                    <th>Full Name</th>
-                    <th>Room</th>
-                    <th>Phone</th>
-                    <th>Email</th>
-                    <th>Status</th>
-                    <th>Check-in Date</th>
-                    <th>Emergency Contact</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
+    <hr class="guest-divider">
 
-            <tbody id="guestTableBody">
-                <tr>
-                    <td>G001</td>
-                    <td>Rajesh Kumar</td>
-                    <td>204</td>
-                    <td>0712345678</td>
-                    <td>rajesh@email.com</td>
-                    <td><span class="status active">Active</span></td>
-                    <td>01 Feb 2026</td>
-                    <td>Priya Kumar</td>
-                    <td class="actions">
-                        <button class="edit-btn" type="button">Edit</button>
-                        <button class="delete-btn" type="button">Remove</button>
-                    </td>
-                </tr>
+    <div class="guest-kpi-row">
+        <div class="guest-kpi-card">
+            <span class="guest-kpi-label">Total Guests</span>
+            <span class="guest-kpi-value">{{ total_guests }}</span>
+            <span class="guest-kpi-note">Registered guests</span>
+        </div>
 
-                <tr>
-                    <td>G002</td>
-                    <td>Anita Sharma</td>
-                    <td>107</td>
-                    <td>0723456789</td>
-                    <td>anita@email.com</td>
-                    <td><span class="status active">Active</span></td>
-                    <td>10 Feb 2026</td>
-                    <td>Ravi Sharma</td>
-                    <td class="actions">
-                        <button class="edit-btn" type="button">Edit</button>
-                        <button class="delete-btn" type="button">Remove</button>
-                    </td>
-                </tr>
+        <div class="guest-kpi-card">
+            <span class="guest-kpi-label">Active Guests</span>
+            <span class="guest-kpi-value">{{ active_guests }}</span>
+            <span class="guest-kpi-note">Currently staying</span>
+        </div>
 
-                <tr>
-                    <td>G003</td>
-                    <td>Ahmed Ali</td>
-                    <td>305</td>
-                    <td>0734567890</td>
-                    <td>ahmed@email.com</td>
-                    <td><span class="status checkedout">Checked Out</span></td>
-                    <td>15 Jan 2026</td>
-                    <td>Mohamed Ali</td>
-                    <td class="actions">
-                        <button class="edit-btn" type="button">Edit</button>
-                        <button class="delete-btn" type="button">Remove</button>
-                    </td>
-                </tr>
+        <div class="guest-kpi-card">
+            <span class="guest-kpi-label">Checked Out</span>
+            <span class="guest-kpi-value">{{ checked_out }}</span>
+            <span class="guest-kpi-note">Past stays</span>
+        </div>
 
-                <tr>
-                    <td>G004</td>
-                    <td>Priya Patel</td>
-                    <td>210</td>
-                    <td>0745678901</td>
-                    <td>priya@email.com</td>
-                    <td><span class="status active">Active</span></td>
-                    <td>05 Feb 2026</td>
-                    <td>Kiran Patel</td>
-                    <td class="actions">
-                        <button class="edit-btn" type="button">Edit</button>
-                        <button class="delete-btn" type="button">Remove</button>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>G005</td>
-                    <td>Mohamed Hassan</td>
-                    <td>118</td>
-                    <td>0756789012</td>
-                    <td>mohamed@email.com</td>
-                    <td><span class="status checkedout">Checked Out</span></td>
-                    <td>20 Jan 2026</td>
-                    <td>Hassan Ahmed</td>
-                    <td class="actions">
-                        <button class="edit-btn" type="button">Edit</button>
-                        <button class="delete-btn" type="button">Remove</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="guest-kpi-card">
+            <span class="guest-kpi-label">Emergency Contacts</span>
+            <span class="guest-kpi-value">{{ emergency_contacts }}</span>
+            <span class="guest-kpi-note">Available records</span>
+        </div>
     </div>
-</section>
 
-<section class="guest-features">
-    <h2>Management Areas</h2>
+    <div class="guest-grid-2 guest-top-grid">
+        <div class="guest-card">
+            <p class="guest-card-title">Search Guests</p>
+            <div class="guest-search-wrap">
+                <label for="guestSearch">Search guest records</label>
+                <input type="text" id="guestSearch" placeholder="Search guest by name...">
+            </div>
+        </div>
 
-    <div class="feature-grid">
-        <article class="feature-card">
-            <h3>Active Guests</h3>
-            <p>
-                View all guests currently staying at LuckyNest and review
-                their room allocations.
-            </p>
-            <a href="{{ url_for('main.guest_active') }}">
-                <button type="button">View Active Guests</button>
-            </a>
-        </article>
-
-        <article class="feature-card">
-            <h3>Check-ins / Outs</h3>
-            <p>
-                Monitor arrivals and departures and keep guest status records
-                updated.
-            </p>
-            <a href="{{ url_for('main.guest_checkins') }}">
-                <button type="button">Manage Check-ins</button>
-            </a>
-        </article>
-
-        <article class="feature-card">
-            <h3>Emergency Contacts</h3>
-            <p>
-                Access emergency contact details quickly in case support or
-                urgent communication is needed.
-            </p>
-            <a href="{{ url_for('main.guest_emergency') }}">
-                <button type="button">View Contacts</button>
-            </a>
-        </article>
+        <div class="guest-card">
+            <p class="guest-card-title">Management Areas</p>
+            <div class="guest-links">
+                <div class="guest-link-row">
+                    <span>Active Guests</span>
+                    <a href="{{ url_for('main.guest_active') }}" class="btn-secondary btn-small">Open</a>
+                </div>
+                <div class="guest-link-row">
+                    <span>Check-ins / Outs</span>
+                    <a href="{{ url_for('main.guest_checkins') }}" class="btn-secondary btn-small">Open</a>
+                </div>
+                <div class="guest-link-row">
+                    <span>Emergency Contacts</span>
+                    <a href="{{ url_for('main.guest_emergency') }}" class="btn-secondary btn-small">Open</a>
+                </div>
+            </div>
+        </div>
     </div>
-</section>
+
+    <div class="guest-card guest-table-card">
+        <p class="guest-card-title">All Guests</p>
+        <div class="guest-table-wrap">
+            <table class="guest-table guest-table-compact">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Guest</th>
+                        <th>Room</th>
+                        <th>Contact</th>
+                        <th>Status</th>
+                        <th>Check-in</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="guestTableBody">
+                    {% for guest in guests %}
+                    <tr>
+                        <td>{{ guest.id }}</td>
+                        <td>
+                            <div class="guest-main-name">{{ guest.name }}</div>
+                            <div class="guest-sub-line">Emergency: {{ guest.emergency_contact }}</div>
+                        </td>
+                        <td>{{ guest.room }}</td>
+                        <td>
+                            <div class="guest-contact-block">
+                                <div>{{ guest.phone }}</div>
+                                <div class="guest-sub-line">{{ guest.email }}</div>
+                            </div>
+                        </td>
+                        <td>
+                            {% if guest.status == 'active' %}
+                                <span class="status-badge status-active">Active</span>
+                            {% elif guest.status == 'checked_out' or guest.status == 'checkedout' %}
+                                <span class="status-badge status-checked_out">Checked Out</span>
+                            {% else %}
+                                <span class="status-badge status-pending">{{ guest.status }}</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ guest.checkin }}</td>
+                        <td class="actions">
+                            <button
+                                class="btn-small btn-edit editGuestBtn"
+                                type="button"
+                                data-id="{{ guest.id }}"
+                                data-name="{{ guest.name }}"
+                                data-phone="{{ guest.phone }}"
+                                data-email="{{ guest.email }}"
+                                data-status="{{ guest.status }}"
+                            >
+                                Edit
+                            </button>
+                            <form method="POST" action="{{ url_for('main.delete_guest', user_id=guest.id) }}" style="display:inline;">
+                                <button class="btn-small btn-remove" type="submit">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="7" class="empty-state">No guest records found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="guest-card">
+        <p class="guest-card-title">Guest Summary</p>
+        <div class="guest-summary-bar">
+            <div class="guest-summary-item">
+                <span class="guest-summary-name">Total Guests</span>
+                <span class="guest-summary-value">{{ total_guests }}</span>
+            </div>
+            <div class="guest-summary-item">
+                <span class="guest-summary-name">Active Guests</span>
+                <span class="guest-summary-value">{{ active_guests }}</span>
+            </div>
+            <div class="guest-summary-item">
+                <span class="guest-summary-name">Checked Out</span>
+                <span class="guest-summary-value">{{ checked_out }}</span>
+            </div>
+            <div class="guest-summary-item">
+                <span class="guest-summary-name">Emergency Contacts</span>
+                <span class="guest-summary-value">{{ emergency_contacts }}</span>
+            </div>
+        </div>
+    </div>
+
+    <p class="guest-footnote">Live guest data — LuckyNest Management</p>
+</div>
 
 <div id="guestModal" class="modal">
     <div class="modal-content">
         <h3>Add New Guest</h3>
 
-        <form id="guestForm">
-            <input type="text" id="guestName" placeholder="Full Name" required>
-            <input type="text" id="guestRoom" placeholder="Room Number" required>
-            <input type="text" id="guestPhone" placeholder="Phone Number">
-            <input type="email" id="guestEmail" placeholder="Email">
-            <input type="text" id="guestContact" placeholder="Emergency Contact">
+        <form method="POST" action="{{ url_for('main.add_guest') }}">
+            <input type="text" name="name" placeholder="Full Name" required>
+            <input type="number" name="room_id" placeholder="Room ID" required>
+            <input type="text" name="phone" placeholder="Phone Number">
+            <input type="email" name="email" placeholder="Email">
+            <input type="text" name="emergency_contact" placeholder="Emergency Contact">
 
-            <button type="submit">Add Guest</button>
-            <button type="button" id="closeModal">Cancel</button>
+            <div class="modal-actions">
+                <button type="submit">Add Guest</button>
+                <button type="button" id="closeModal">Cancel</button>
+            </div>
         </form>
     </div>
 </div>
+
+<div id="editGuestModal" class="modal">
+    <div class="modal-content">
+        <h3>Edit Guest</h3>
+
+        <form id="editGuestForm" method="POST">
+            <input type="text" name="name" id="editGuestName" placeholder="Full Name" required>
+            <input type="text" name="phone" id="editGuestPhone" placeholder="Phone Number">
+            <input type="email" name="email" id="editGuestEmail" placeholder="Email">
+            <select name="status" id="editGuestStatus">
+                <option value="active">Active</option>
+                <option value="checked_out">Checked Out</option>
+            </select>
+
+            <div class="modal-actions">
+                <button type="submit">Save Changes</button>
+                <button type="button" id="closeEditModal">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+const addModal = document.getElementById("guestModal");
+const openAddBtn = document.getElementById("addGuestBtn");
+const closeAddBtn = document.getElementById("closeModal");
+
+const editModal = document.getElementById("editGuestModal");
+const closeEditBtn = document.getElementById("closeEditModal");
+const editGuestForm = document.getElementById("editGuestForm");
+const editGuestName = document.getElementById("editGuestName");
+const editGuestPhone = document.getElementById("editGuestPhone");
+const editGuestEmail = document.getElementById("editGuestEmail");
+const editGuestStatus = document.getElementById("editGuestStatus");
+const editButtons = document.querySelectorAll(".editGuestBtn");
+
+openAddBtn.onclick = function () {
+    addModal.style.display = "flex";
+};
+
+closeAddBtn.onclick = function () {
+    addModal.style.display = "none";
+};
+
+editButtons.forEach(function (button) {
+    button.addEventListener("click", function () {
+        const userId = this.dataset.id;
+        const name = this.dataset.name;
+        const phone = this.dataset.phone;
+        const email = this.dataset.email;
+        const status = this.dataset.status;
+
+        editGuestForm.action = "/guest/edit/" + userId;
+        editGuestName.value = name || "";
+        editGuestPhone.value = phone || "";
+        editGuestEmail.value = email || "";
+        editGuestStatus.value = status === "checkedout" ? "checked_out" : status;
+
+        editModal.style.display = "flex";
+    });
+});
+
+closeEditBtn.onclick = function () {
+    editModal.style.display = "none";
+};
+
+window.onclick = function (event) {
+    if (event.target === addModal) {
+        addModal.style.display = "none";
+    }
+    if (event.target === editModal) {
+        editModal.style.display = "none";
+    }
+};
+</script>
 
 {% endblock %}

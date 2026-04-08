@@ -13,7 +13,6 @@
         <p>{{ current_user.role | capitalize }} Account</p>
     </div>
 
-    <!-- PG DASHBOARD -->
     {% if current_user.role == 'pg' %}
     <div class="nav-grid">
 
@@ -67,10 +66,8 @@
 
     </div>
 
-    <!-- OWNER DASHBOARD -->
     {% elif current_user.role == 'owner' %}
 
-    <!-- OCCUPANCY WIDGET -->
 <div class="occupancy-widget">
     <div class="occ-stat">
         <span class="occ-number">{{ occupied_rooms }}/{{ total_rooms }}</span>
@@ -96,7 +93,7 @@
             <p>View, add and edit rooms</p>
         </a>
 
-        <a href="#" class="nav-card">
+        <a href="{{ url_for('main.guest_all') }}" class="nav-card">
             <div class="nav-card-icon">👥</div>
             <h3>Guest Management</h3>
             <p>View all guests, check-ins and check-outs</p>
@@ -134,7 +131,6 @@
 
     </div>
 
-    <!-- ADMIN DASHBOARD -->
     {% elif current_user.role == 'admin' %}
     <div class="nav-grid">
 
@@ -144,7 +140,7 @@
             <p>View rooms and availability</p>
         </a>
 
-        <a href="#" class="nav-card">
+        <a href="{{ url_for('main.guest_all') }}" class="nav-card">
             <div class="nav-card-icon">👥</div>
             <h3>Guest Management</h3>
             <p>View guests and emergency contacts</p>

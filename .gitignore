@@ -4,4 +4,4 @@ instance/
 *.db
 .DS_Store
 .env
-.venv
+.venvinstance/luckynest.db
