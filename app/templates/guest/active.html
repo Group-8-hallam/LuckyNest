@@ -21,6 +21,78 @@
 
     <hr class="guest-divider">
 
+    <div class="guest-kpi-row">
+        <div class="guest-kpi-card">
+            <span class="guest-kpi-label">Active Guests</span>
+            <span class="guest-kpi-value">
+                {{ guests | selectattr('status', 'equalto', 'active') | list | length }}
+            </span>
+            <span class="guest-kpi-note">Currently staying</span>
+        </div>
+
+        <div class="guest-kpi-card">
+            <span class="guest-kpi-label">Rooms In Use</span>
+            <span class="guest-kpi-value">
+                {{ guests | selectattr('status', 'equalto', 'active') | list | length }}
+            </span>
+            <span class="guest-kpi-note">Occupied rooms</span>
+        </div>
+
+        <div class="guest-kpi-card">
+            <span class="guest-kpi-label">Check-ins Logged</span>
+            <span class="guest-kpi-value">
+                {{ guests | selectattr('status', 'equalto', 'active') | list | length }}
+            </span>
+            <span class="guest-kpi-note">Active stay records</span>
+        </div>
+
+        <div class="guest-kpi-card">
+            <span class="guest-kpi-label">Emergency Records</span>
+            <span class="guest-kpi-value">
+                {{ guests | rejectattr('emergency_contact', 'equalto', '-') | list | length }}
+            </span>
+            <span class="guest-kpi-note">Available contacts</span>
+        </div>
+    </div>
+
+    <div class="guest-grid-2 guest-top-grid">
+        <div class="guest-card">
+            <p class="guest-card-title">Search Active Guests</p>
+            <div class="guest-search-wrap">
+                <label for="activeGuestSearch">Search active guest records</label>
+                <input type="text" id="activeGuestSearch" placeholder="Search active guest by name, room, email...">
+            </div>
+        </div>
+
+        <div class="guest-card">
+            <p class="guest-card-title">Active Stay Overview</p>
+            <div class="guest-summary-bar">
+                <div class="guest-summary-item">
+                    <span class="guest-summary-name">Current Stays</span>
+                    <span class="guest-summary-value">
+                        {{ guests | selectattr('status', 'equalto', 'active') | list | length }}
+                    </span>
+                </div>
+                <div class="guest-summary-item">
+                    <span class="guest-summary-name">Rooms Used</span>
+                    <span class="guest-summary-value">
+                        {{ guests | selectattr('status', 'equalto', 'active') | list | length }}
+                    </span>
+                </div>
+                <div class="guest-summary-item">
+                    <span class="guest-summary-name">Records</span>
+                    <span class="guest-summary-value">
+                        {{ guests | selectattr('status', 'equalto', 'active') | list | length }}
+                    </span>
+                </div>
+                <div class="guest-summary-item">
+                    <span class="guest-summary-name">Status</span>
+                    <span class="guest-summary-value">Live</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="guest-card guest-table-card">
         <p class="guest-card-title">Currently Active Guests</p>
         <div class="guest-table-wrap">
@@ -36,7 +108,7 @@
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="activeGuestTableBody">
                     {% for guest in guests %}
                     {% if guest.status and guest.status.lower() == 'active' %}
                     <tr>
@@ -68,7 +140,7 @@
                             >
                                 Edit
                             </button>
-                            <form method="POST" action="{{ url_for('main.delete_guest', user_id=guest.id) }}" style="display:inline;">
+                            <form method="POST" action="{{ url_for('main.delete_guest', user_id=guest.id) }}" style="display:inline;" onsubmit="return confirm('Are you sure you want to remove this guest?');">
                                 <button class="btn-small btn-remove" type="submit">Remove</button>
                             </form>
                         </td>
@@ -114,6 +186,9 @@ const editGuestEmail = document.getElementById("editGuestEmail");
 const editGuestStatus = document.getElementById("editGuestStatus");
 const editButtons = document.querySelectorAll(".editGuestBtn");
 
+const activeGuestSearchInput = document.getElementById("activeGuestSearch");
+const activeGuestRows = document.querySelectorAll("#activeGuestTableBody tr");
+
 editButtons.forEach(function (button) {
     button.addEventListener("click", function () {
         const userId = this.dataset.id;
@@ -135,6 +210,15 @@ editButtons.forEach(function (button) {
 closeEditBtn.onclick = function () {
     editModal.style.display = "none";
 };
+
+activeGuestSearchInput.addEventListener("keyup", function () {
+    const value = this.value.toLowerCase().trim();
+
+    activeGuestRows.forEach(function (row) {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(value) ? "" : "none";
+    });
+});
 
 window.onclick = function (event) {
     if (event.target === editModal) {

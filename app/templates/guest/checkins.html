@@ -51,11 +51,39 @@
         </div>
     </div>
 
-    <div class="guest-card" style="margin-bottom: 1rem;">
-        <p class="guest-card-title">Search Stay Records</p>
-        <div class="guest-search-wrap">
-            <label for="checkinSearch">Search check-in and check-out records</label>
-            <input type="text" id="checkinSearch" placeholder="Search stay records...">
+    <div class="guest-grid-2 guest-top-grid">
+        <div class="guest-card">
+            <p class="guest-card-title">Search Stay Records</p>
+            <div class="guest-search-wrap">
+                <label for="checkinSearch">Search check-in and check-out records</label>
+                <input type="text" id="checkinSearch" placeholder="Search stay records...">
+            </div>
+        </div>
+
+        <div class="guest-card">
+            <p class="guest-card-title">Stay Activity Overview</p>
+            <div class="guest-summary-bar">
+                <div class="guest-summary-item">
+                    <span class="guest-summary-name">Checked In</span>
+                    <span class="guest-summary-value">
+                        {{ guests | selectattr('status', 'equalto', 'active') | list | length }}
+                    </span>
+                </div>
+                <div class="guest-summary-item">
+                    <span class="guest-summary-name">Checked Out</span>
+                    <span class="guest-summary-value">
+                        {{ guests | selectattr('status', 'equalto', 'checked_out') | list | length }}
+                    </span>
+                </div>
+                <div class="guest-summary-item">
+                    <span class="guest-summary-name">Records</span>
+                    <span class="guest-summary-value">{{ guests | length }}</span>
+                </div>
+                <div class="guest-summary-item">
+                    <span class="guest-summary-name">Status</span>
+                    <span class="guest-summary-value">Live</span>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -111,13 +139,13 @@
                                   action="{{ url_for('main.toggle_guest_status', user_id=guest.id) }}"
                                   style="display:inline;"
                                   onsubmit="return confirm('Are you sure you want to update this guest status?');">
-                        
+
                                 {% if guest.status and guest.status.lower() == 'active' %}
                                     <button class="btn-small btn-remove" type="submit">Check Out</button>
                                 {% else %}
                                     <button class="btn-small btn-edit" type="submit">Mark Active</button>
                                 {% endif %}
-                        
+
                             </form>
 
                             <button
@@ -173,6 +201,9 @@ const editGuestEmail = document.getElementById("editGuestEmail");
 const editGuestStatus = document.getElementById("editGuestStatus");
 const editButtons = document.querySelectorAll(".editGuestBtn");
 
+const checkinSearchInput = document.getElementById("checkinSearch");
+const checkinRows = document.querySelectorAll("#checkinTableBody tr");
+
 editButtons.forEach(function (button) {
     button.addEventListener("click", function () {
         const userId = this.dataset.id;
@@ -194,6 +225,15 @@ editButtons.forEach(function (button) {
 closeEditBtn.onclick = function () {
     editModal.style.display = "none";
 };
+
+checkinSearchInput.addEventListener("keyup", function () {
+    const value = this.value.toLowerCase().trim();
+
+    checkinRows.forEach(function (row) {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(value) ? "" : "none";
+    });
+});
 
 window.onclick = function (event) {
     if (event.target === editModal) {

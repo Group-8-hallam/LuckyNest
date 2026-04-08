@@ -127,7 +127,7 @@
                             >
                                 Edit
                             </button>
-                            <form method="POST" action="{{ url_for('main.delete_guest', user_id=guest.id) }}" style="display:inline;">
+                            <form method="POST" action="{{ url_for('main.delete_guest', user_id=guest.id) }}" style="display:inline;" onsubmit="return confirm('Are you sure you want to remove this guest?');">
                                 <button class="btn-small btn-remove" type="submit">Remove</button>
                             </form>
                         </td>
@@ -221,6 +221,9 @@ const editGuestEmail = document.getElementById("editGuestEmail");
 const editGuestStatus = document.getElementById("editGuestStatus");
 const editButtons = document.querySelectorAll(".editGuestBtn");
 
+const guestSearchInput = document.getElementById("guestSearch");
+const guestTableRows = document.querySelectorAll("#guestTableBody tr");
+
 openAddBtn.onclick = function () {
     addModal.style.display = "flex";
 };
@@ -250,6 +253,15 @@ editButtons.forEach(function (button) {
 closeEditBtn.onclick = function () {
     editModal.style.display = "none";
 };
+
+guestSearchInput.addEventListener("keyup", function () {
+    const value = this.value.toLowerCase().trim();
+
+    guestTableRows.forEach(function (row) {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(value) ? "" : "none";
+    });
+});
 
 window.onclick = function (event) {
     if (event.target === addModal) {

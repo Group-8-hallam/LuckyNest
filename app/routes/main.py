@@ -24,6 +24,7 @@ def build_guest_list():
                 "room": booking.room_id,
                 "status": booking.status,
                 "checkin": booking.check_in_date,
+                "checkout": booking.check_out_date,
                 "emergency_contact": "-"
             })
 
