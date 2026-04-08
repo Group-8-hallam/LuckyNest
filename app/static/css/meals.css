@@ -17,28 +17,62 @@ h1{
 }
 
 .plans{
-    display:flex;
+    
     justify-content:center;
     gap:60px;
 }
 
-.card{
-    width:250px;
-    border:1px solid #888;
-    background:white;
+.section-title {
+    width: 80%;
+    max-width: 1400px;
+    margin: 40px auto 10px;
+    font-size: 26px;
+    text-align: left;
 }
 
-.card-header{
-    background:#2c3e50;
-    color:#222;
-    font-size:24px;
-    font-weight:bold;
-    padding:25px 0;
-    text-align:center; 
+.meal-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 80%;
+    max-width: 1400px;
+    margin: 20px auto;
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-.card-body{
-    padding:15px;
+.meal-card img {
+    width: 250px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.meal-info {
+    flex: 2;
+    margin-left: 25px;
+}
+
+.meal-info h3 {
+    margin: 0;
+}
+
+.meal-info p {
+    color: #666;
+    font-size: 14px;
+}
+
+.meal-action {
+    min-width: 180px;
+    text-align: right;
+}
+
+.price {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
 }
 
 .row{
@@ -48,15 +82,14 @@ h1{
     border-bottom:1px solid #ddd;
 }
 
-.purchase-btn{
-    margin-top:20px;
-    padding:8px 20px;
-    border:1px solid #666;
-    background:white;
-    cursor:pointer;
-    text-align:center;
+.select-btn {
+    padding: 8px 16px;
+    background: #2c3e50;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
 }
 
-.purchase-btn:hover{
-    background:#f2f2f2;
+.select-btn:hover {
+    background: #5f89bb;
 }

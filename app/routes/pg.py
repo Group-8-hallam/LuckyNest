@@ -21,7 +21,9 @@ def meals():
 @pg_bp.route('/payment')
 @login_required
 def payment():
-    return render_template('payment.html')
+    price = request.args.get('price')
+    plan = request.args.get('plan')
+    return render_template('payment.html', price=price, plan=plan)
 
 from app.models.rooms import Room
 

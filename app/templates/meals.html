@@ -10,50 +10,198 @@ content %}
 
   <h1>Meal Plans</h1>
 
-  <div class="plans">
-    
-    <div class="card">
-      <div class="card-header">Daily</div>
+<div class="plans">
+  <div class="card">
+    <h2 class="section-title">Daily</h2>
 
-      <div class="card-body">
-        <div class="row"><span>Breakfast</span><span>£3.80</span></div>
-        <div class="row"><span>Lunch</span><span>£5.70</span></div>
-        <div class="row"><span>Dinner</span><span>£5.70</span></div>
-        <div class="row"><span>Full day</span><span>£14.25</span></div>
-        <a href="/payment">
-        <button class="purchase-btn">Purchase now</button>
-      </a>
+    <div class="meal-card">
+      <img src="/static/images/breakfast/rachel-park-hrlvr2ZlUNk-unsplash.jpg" alt="Breakfast" />
+
+      <div class="meal-info">
+        <h3>Breakfast</h3>
+        <p>Fresh healthy start to your day</p>
       </div>
-    </div>
 
-    <div class="card">
-      <div class="card-header">Weekly</div>
+      <div class="meal-action">
+        <div class="price">£3.80</div>
+        <a
+          href="{{ url_for('pg.payment', price=3.80, plan='Daily Breakfast') }}"
+          class="select-btn"
+        >
+          Select
+        </a>
+          </div>
+          
+        </div>
+        <div class="meal-card">
+          <img src="/static/images/lunch/mariana-medvedeva-fk6IiypMWss-unsplash.jpg" alt="Lunch" />
 
-      <div class="card-body">
-        <div class="row"><span>Breakfast</span><span>£24</span></div>
-        <div class="row"><span>Lunch</span><span>£36</span></div>
-        <div class="row"><span>Dinner</span><span>£36</span></div>
-        <div class="row"><span>Full day</span><span>£90</span></div>
-        <a href="/payment">
-        <button class="purchase-btn">Purchase now</button>
-      </a>
-      </div>
-    </div>
+          <div class="meal-info">
+            <h3>Lunch</h3>
+            <p>Delicious and nutritious meals</p>
+          </div>
 
-    <div class="card">
-      <div class="card-header">Monthly</div>
+          <div class="meal-action">
+            <div class="price">£5.70</div>
+            <a
+              href="{{ url_for('pg.payment', price=5.70, plan='Daily Lunch') }}"
+              class="select-btn"
+            >
+              Select
+            </a>
+          </div>
+        </div>
+        <div class="meal-card">
+          <img src="/static/images/dinner/madie-hamilton-Q9yr-cvJr30-unsplash.jpg" alt="Dinner" />
 
-      <div class="card-body">
-        <div class="row"><span>Breakfast</span><span>£95</span></div>
-        <div class="row"><span>Lunch</span><span>£142</span></div>
-        <div class="row"><span>Dinner</span><span>£142</span></div>
-        <div class="row"><span>Full day</span><span>£332</span></div>
+          <div class="meal-info">
+            <h3>Dinner</h3>
+            <p>Hearty meals to end your day</p>
+          </div>
 
-      <a href="/payment">
-        <button class="purchase-btn">Purchase now</button>
-      </a>
+          <div class="meal-action">
+            <div class="price">£5.70</div>
+            <a
+              href="{{ url_for('pg.payment', price=5.70, plan='Daily Dinner') }}"
+              class="select-btn"
+            >
+              Select
+            </a>
+          </div>
+        </div>
+        <div class="meal-card">
+          <img src="/static/images/fullday/swipe-QoH5d7E0jCk-unsplash.jpg" alt="Dinner" />
 
-      </div>
+          <div class="meal-info">
+            <h3>Full Day</h3>
+            <p>Complete meal plan for the day</p>
+          </div>
+
+          <div class="meal-action">
+            <div class="price">£14.25</div>
+            <a
+              href="{{ url_for('pg.payment', price=14.25, plan='Daily Full Day') }}"
+              class="select-btn"
+            >
+              Select
+            </a>
+          </div>
+        </div>
+        <h2 class="section-title">Weekly</h2>
+
+<div class="meal-card">
+  <img src="/static/images/breakfast/joseph-gonzalez-zcUgjyqEwe8-unsplash.jpg" alt="Breakfast" />
+  <div class="meal-info">
+    <h3>Breakfast</h3>
+    <p>Weekly breakfast plan</p>
+  </div>
+  <div class="meal-action">
+    <div class="price">£24</div>
+    <a href="{{ url_for('pg.payment', price=24, plan='Weekly Breakfast') }}" class="select-btn">
+      Select
+    </a>
+  </div>
+</div>
+
+<div class="meal-card">
+  <img src="/static/images/lunch/chumil-photo-TK5VlaGqkZc-unsplash.jpg" alt="Lunch" />
+  <div class="meal-info">
+    <h3>Lunch</h3>
+    <p>Weekly lunch meals</p>
+  </div>
+  <div class="meal-action">
+    <div class="price">£36</div>
+    <a href="{{ url_for('pg.payment', price=36, plan='Weekly Lunch') }}" class="select-btn">
+      Select
+    </a>
+  </div>
+</div>
+
+<div class="meal-card">
+  <img src="/static/images/dinner/jed-owen-O4wSmNb6w18-unsplash.jpg" alt="Dinner" />
+  <div class="meal-info">
+    <h3>Dinner</h3>
+    <p>Weekly dinner meals</p>
+  </div>
+  <div class="meal-action">
+    <div class="price">£36</div>
+    <a href="{{ url_for('pg.payment', price=36, plan='Weekly Dinner') }}" class="select-btn">
+      Select
+    </a>
+  </div>
+</div>
+
+<div class="meal-card">
+  <img src="/static/images/fullday/helena-lopes-THFYBp9PbeQ-unsplash.jpg" alt="Full Day" />
+  <div class="meal-info">
+    <h3>Full Day</h3>
+    <p>Complete weekly meal plan</p>
+  </div>
+  <div class="meal-action">
+    <div class="price">£90</div>
+    <a href="{{ url_for('pg.payment', price=90, plan='Weekly Full Day') }}" class="select-btn">
+      Select
+    </a>
+  </div>
+</div>
+
+        <h2 class="section-title">Monthly</h2>
+
+<div class="meal-card">
+  <img src="/static/images/breakfast/chris-ralston-09HGdZzkP-Q-unsplash.jpg" alt="Breakfast" />
+  <div class="meal-info">
+    <h3>Breakfast</h3>
+    <p>Monthly breakfast plan</p>
+  </div>
+  <div class="meal-action">
+    <div class="price">£95</div>
+    <a href="{{ url_for('pg.payment', price=95, plan='Monthly Breakfast') }}" class="select-btn">
+      Select
+    </a>
+  </div>
+</div>
+
+<div class="meal-card">
+  <img src="/static/images/lunch/aleksandra-tanasiienko-0y6eMd8vevA-unsplash.jpg" alt="Lunch" />
+  <div class="meal-info">
+    <h3>Lunch</h3>
+    <p>Monthly lunch meals</p>
+  </div>
+  <div class="meal-action">
+    <div class="price">£142</div>
+    <a href="{{ url_for('pg.payment', price=142, plan='Monthly Lunch') }}" class="select-btn">
+      Select
+    </a>
+  </div>
+</div>
+
+<div class="meal-card">
+  <img src="/static/images/dinner/casey-lee-awj7sRviVXo-unsplash.jpg" alt="Dinner" />
+  <div class="meal-info">
+    <h3>Dinner</h3>
+    <p>Monthly dinner meals</p>
+  </div>
+  <div class="meal-action">
+    <div class="price">£142</div>
+    <a href="{{ url_for('pg.payment', price=142, plan='Monthly Dinner') }}" class="select-btn">
+      Select
+    </a>
+  </div>
+</div>
+
+<div class="meal-card">
+  <img src="/static/images/fullday/engin-akyurt-6dPXcMvniHU-unsplash.jpg" alt="Full Day" />
+  <div class="meal-info">
+    <h3>Full Day</h3>
+    <p>Complete monthly meal plan</p>
+  </div>
+  <div class="meal-action">
+    <div class="price">£332</div>
+    <a href="{{ url_for('pg.payment', price=332, plan='Monthly Full Day') }}" class="select-btn">
+      Select
+    </a>
+  </div>
+</div>
     </div>
   </div>
 </div>
