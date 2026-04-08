@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 from app import db
 from app.models.user import User
 from app.models.booking import Booking
@@ -33,6 +33,29 @@ def build_guest_list():
 @main_bp.route('/')
 def index():
     return render_template('index.html')
+
+
+@main_bp.route('/about')
+def about():
+    return render_template('about.html')
+
+
+@main_bp.route('/amenities')
+def amenities():
+    return render_template('amenities.html')
+
+
+@main_bp.route('/gallery')
+def gallery():
+    return render_template('gallery.html')
+
+
+@main_bp.route('/contact', methods=['GET', 'POST'])
+def contact():
+    if request.method == 'POST':
+        flash('Thank you for your message. We will be in touch shortly.', 'success')
+        return redirect(url_for('main.contact'))
+    return render_template('contact.html')
 
 
 @main_bp.route('/financial-report')

@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+
+{% block title %}Gallery - LuckyNest{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/public.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<!-- HERO -->
+<section class="pub-hero pub-full">
+    <h1>Gallery</h1>
+    <p>Take a look around — from our rooms to our communal spaces, see what LuckyNest has to offer.</p>
+</section>
+
+<!-- ROOMS -->
+<section class="pub-section">
+    <h2 class="pub-section-title">Rooms</h2>
+    <p class="pub-section-sub">Single, double, and triple occupancy options across all floors</p>
+
+    <div class="pub-gallery-grid">
+
+        <div class="pub-gallery-item">
+            <div class="pub-gallery-placeholder">
+                <span>🛏️</span>
+                single-room-1.jpg
+            </div>
+            <div class="pub-gallery-caption">Single Room — Floor 1</div>
+        </div>
+
+        <div class="pub-gallery-item">
+            <div class="pub-gallery-placeholder">
+                <span>🛏️</span>
+                single-room-2.jpg
+            </div>
+            <div class="pub-gallery-caption">Single Room — Upper Floor</div>
+        </div>
+
+        <div class="pub-gallery-item">
+            <div class="pub-gallery-placeholder">
+                <span>🛏️</span>
+                double-room-1.jpg
+            </div>
+            <div class="pub-gallery-caption">Double Room</div>
+        </div>
+
+        <div class="pub-gallery-item">
+            <div class="pub-gallery-placeholder">
+                <span>🛏️</span>
+                double-room-2.jpg
+            </div>
+            <div class="pub-gallery-caption">Double Room — Living Area</div>
+        </div>
+
+        <div class="pub-gallery-item">
+            <div class="pub-gallery-placeholder">
+                <span>🛏️</span>
+                triple-room-1.jpg
+            </div>
+            <div class="pub-gallery-caption">Triple Room</div>
+        </div>
+
+        <div class="pub-gallery-item">
+            <div class="pub-gallery-placeholder">
+                <span>🚿</span>
+                bathroom-1.jpg
+            </div>
+            <div class="pub-gallery-caption">En-suite Bathroom</div>
+        </div>
+
+    </div>
+</section>
+
+<!-- FACILITIES -->
+<div class="pub-section-alt-full pub-full">
+    <div class="pub-section-alt">
+        <div class="pub-inner">
+            <h2 class="pub-section-title">Facilities</h2>
+            <p class="pub-section-sub">The services and spaces that make day-to-day life easier</p>
+
+            <div class="pub-gallery-grid">
+
+                <div class="pub-gallery-item">
+                    <div class="pub-gallery-placeholder">
+                        <span>🍽️</span>
+                        dining-area.jpg
+                    </div>
+                    <div class="pub-gallery-caption">Dining Area</div>
+                </div>
+
+                <div class="pub-gallery-item">
+                    <div class="pub-gallery-placeholder">
+                        <span>🧺</span>
+                        laundry-room.jpg
+                    </div>
+                    <div class="pub-gallery-caption">Laundry Room</div>
+                </div>
+
+                <div class="pub-gallery-item">
+                    <div class="pub-gallery-placeholder">
+                        <span>🏢</span>
+                        common-area.jpg
+                    </div>
+                    <div class="pub-gallery-caption">Common Area</div>
+                </div>
+
+                <div class="pub-gallery-item">
+                    <div class="pub-gallery-placeholder">
+                        <span>🅿️</span>
+                        parking.jpg
+                    </div>
+                    <div class="pub-gallery-caption">Parking</div>
+                </div>
+
+                <div class="pub-gallery-item">
+                    <div class="pub-gallery-placeholder">
+                        <span>📶</span>
+                        wifi-lounge.jpg
+                    </div>
+                    <div class="pub-gallery-caption">WiFi Lounge</div>
+                </div>
+
+                <div class="pub-gallery-item">
+                    <div class="pub-gallery-placeholder">
+                        <span>🏠</span>
+                        entrance.jpg
+                    </div>
+                    <div class="pub-gallery-caption">Main Entrance</div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- BUILDING -->
+<section class="pub-section">
+    <h2 class="pub-section-title">The Building</h2>
+    <p class="pub-section-sub">Exterior and communal spaces</p>
+
+    <div class="pub-gallery-grid">
+
+        <div class="pub-gallery-item">
+            <div class="pub-gallery-placeholder">
+                <span>🏢</span>
+                building-exterior.jpg
+            </div>
+            <div class="pub-gallery-caption">Building Exterior</div>
+        </div>
+
+        <div class="pub-gallery-item">
+            <div class="pub-gallery-placeholder">
+                <span>🌿</span>
+                outdoor-area.jpg
+            </div>
+            <div class="pub-gallery-caption">Outdoor Area</div>
+        </div>
+
+        <div class="pub-gallery-item">
+            <div class="pub-gallery-placeholder">
+                <span>🚪</span>
+                corridor.jpg
+            </div>
+            <div class="pub-gallery-caption">Corridor — Floor 2</div>
+        </div>
+
+    </div>
+
+    <p style="margin-top: 1.5rem; font-size: 0.85rem; color: #aaa; text-align: center;">
+        Images coming soon. Place your photos in <code>app/static/images/gallery/</code> and update the <code>src</code> attributes in this template.
+    </p>
+</section>
+
+{% endblock %}

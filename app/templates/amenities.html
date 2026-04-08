@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+
+{% block title %}Amenities - LuckyNest{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/public.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<!-- HERO -->
+<section class="pub-hero pub-full">
+    <h1>Amenities &amp; Services</h1>
+    <p>Everything you need, included or available on request — so you can focus on living.</p>
+</section>
+
+<!-- AMENITY CARDS -->
+<section class="pub-section">
+    <h2 class="pub-section-title">What's Available</h2>
+    <p class="pub-section-sub">Services available to all LuckyNest guests</p>
+
+    <div class="pub-amenity-grid">
+
+        <div class="pub-amenity-card">
+            <div class="pub-amenity-icon">📶</div>
+            <h3>WiFi</h3>
+            <p>High-speed internet access in every room. No throttling, no data caps — just reliable connectivity whenever you need it.</p>
+            <span class="pub-amenity-tag included">Included in rent</span>
+        </div>
+
+        <div class="pub-amenity-card">
+            <div class="pub-amenity-icon">🍽️</div>
+            <h3>Food &amp; Meal Plans</h3>
+            <p>Choose from daily, weekly, or monthly meal plans covering breakfast, lunch, and dinner. Custom orders available on request.</p>
+            <span class="pub-amenity-tag">From £3.80 / meal</span>
+        </div>
+
+        <div class="pub-amenity-card">
+            <div class="pub-amenity-icon">🧺</div>
+            <h3>Laundry</h3>
+            <p>Wash and fold or wash and iron service available on request. Unlimited weekly and monthly plans also offered.</p>
+            <span class="pub-amenity-tag">From £1.90 / load</span>
+        </div>
+
+        <div class="pub-amenity-card">
+            <div class="pub-amenity-icon">🧹</div>
+            <h3>Housekeeping</h3>
+            <p>Regular room cleaning on a weekly basis. Deep cleaning sessions available. Monthly packages offer the best value.</p>
+            <span class="pub-amenity-tag">From £4.75 / session</span>
+        </div>
+
+        <div class="pub-amenity-card">
+            <div class="pub-amenity-icon">🅿️</div>
+            <h3>Parking</h3>
+            <p>Limited parking spaces available on a first-come, first-served basis. Secure and covered parking for residents.</p>
+            <span class="pub-amenity-tag">£28.50 / month</span>
+        </div>
+
+        <div class="pub-amenity-card">
+            <div class="pub-amenity-icon">❄️</div>
+            <h3>Air Conditioning</h3>
+            <p>Select rooms are fitted with air conditioning units. Available as an add-on for those who want it.</p>
+            <span class="pub-amenity-tag">£19.50 / month</span>
+        </div>
+
+    </div>
+</section>
+
+<!-- PRICING TABLES -->
+<div class="pub-section-alt-full pub-full">
+    <div class="pub-section-alt">
+        <div class="pub-inner">
+            <h2 class="pub-section-title">Service Pricing</h2>
+            <p class="pub-section-sub">Full pricing breakdown across all services</p>
+
+            <div class="pub-grid-2">
+
+                <!-- Laundry -->
+                <div class="pub-card">
+                    <h3 style="font-size: 0.92rem; font-weight: bold; color: #2c3e50; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid #ddd;">🧺 Laundry Services</h3>
+                    <table class="pub-price-table">
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th style="text-align: right;">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Per Load (Wash + Fold)</td><td style="text-align: right; font-weight: bold;">£1.90</td></tr>
+                            <tr><td>Per Load (Wash + Iron)</td><td style="text-align: right; font-weight: bold;">£2.85</td></tr>
+                            <tr><td>Weekly Unlimited</td><td style="text-align: right; font-weight: bold;">£14.25</td></tr>
+                            <tr><td>Monthly Unlimited</td><td style="text-align: right; font-weight: bold;">£47.50</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Housekeeping -->
+                <div class="pub-card">
+                    <h3 style="font-size: 0.92rem; font-weight: bold; color: #2c3e50; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid #ddd;">🧹 Housekeeping</h3>
+                    <table class="pub-price-table">
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th style="text-align: right;">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Basic Cleaning (per session)</td><td style="text-align: right; font-weight: bold;">£4.75</td></tr>
+                            <tr><td>Deep Cleaning (per session)</td><td style="text-align: right; font-weight: bold;">£9.50</td></tr>
+                            <tr><td>Weekly Package</td><td style="text-align: right; font-weight: bold;">£19.00</td></tr>
+                            <tr><td>Monthly Package</td><td style="text-align: right; font-weight: bold;">£66.50</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Meal Plans -->
+                <div class="pub-card" style="grid-column: 1 / -1;">
+                    <h3 style="font-size: 0.92rem; font-weight: bold; color: #2c3e50; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid #ddd;">🍽️ Meal Plan Pricing</h3>
+                    <table class="pub-price-table">
+                        <thead>
+                            <tr>
+                                <th>Plan</th>
+                                <th style="text-align: right;">Breakfast</th>
+                                <th style="text-align: right;">Lunch</th>
+                                <th style="text-align: right;">Dinner</th>
+                                <th style="text-align: right;">Full Day</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Daily</td>
+                                <td style="text-align: right;">£3.80</td>
+                                <td style="text-align: right;">£5.70</td>
+                                <td style="text-align: right;">£5.70</td>
+                                <td style="text-align: right; font-weight: bold;">£14.25</td>
+                            </tr>
+                            <tr>
+                                <td>Weekly</td>
+                                <td style="text-align: right;">£24.00</td>
+                                <td style="text-align: right;">£36.00</td>
+                                <td style="text-align: right;">£36.00</td>
+                                <td style="text-align: right; font-weight: bold;">£90.00</td>
+                            </tr>
+                            <tr>
+                                <td>Monthly</td>
+                                <td style="text-align: right;">£95.00</td>
+                                <td style="text-align: right;">£142.00</td>
+                                <td style="text-align: right;">£142.00</td>
+                                <td style="text-align: right; font-weight: bold;">£332.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA -->
+<section class="pub-section" style="text-align: center;">
+    <h2 class="pub-section-title">Ready to move in?</h2>
+    <p style="color: #666; font-size: 0.93rem; margin: 0.5rem 0 1.5rem;">
+        Get in touch or log in to view available rooms and book your stay.
+    </p>
+    <a href="{{ url_for('main.contact') }}" style="display: inline-block; background: #2c3e50; color: white; padding: 0.65rem 1.8rem; border-radius: 4px; text-decoration: none; font-size: 0.9rem; margin-right: 0.75rem; transition: background 0.2s;">Contact Us</a>
+    <a href="{{ url_for('auth.login') }}" style="display: inline-block; background: white; color: #2c3e50; padding: 0.65rem 1.8rem; border-radius: 4px; text-decoration: none; font-size: 0.9rem; border: 1px solid #2c3e50; transition: background 0.2s;">Log In</a>
+</section>
+
+{% endblock %}

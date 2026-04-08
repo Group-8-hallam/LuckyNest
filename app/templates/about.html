@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block title %}About Us - LuckyNest{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/public.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<!-- HERO -->
+<section class="pub-hero pub-full">
+    <h1>About LuckyNest</h1>
+    <p>A home away from home — comfortable, affordable, and built around the needs of our guests.</p>
+</section>
+
+<!-- STATS -->
+<section class="pub-section">
+    <div class="pub-stat-row">
+        <div class="pub-stat-card">
+            <div class="pub-stat-value">50</div>
+            <div class="pub-stat-label">Rooms</div>
+        </div>
+        <div class="pub-stat-card">
+            <div class="pub-stat-value">5</div>
+            <div class="pub-stat-label">Floors</div>
+        </div>
+        <div class="pub-stat-card">
+            <div class="pub-stat-value">4</div>
+            <div class="pub-stat-label">Services</div>
+        </div>
+        <div class="pub-stat-card">
+            <div class="pub-stat-value">£70</div>
+            <div class="pub-stat-label">From / month</div>
+        </div>
+    </div>
+</section>
+
+<!-- OUR STORY -->
+<div class="pub-section-alt-full pub-full">
+    <section class="pub-section-alt">
+        <div class="pub-inner">
+            <div class="pub-grid-2-wide">
+                <div class="pub-prose">
+                    <h2 class="pub-section-title">Our Story</h2>
+                    <p class="pub-section-sub" style="margin-bottom: 1.25rem;">How LuckyNest came to be</p>
+                    <p>
+                        LuckyNest was founded with a simple but powerful mission: to give paying guests
+                        a place that feels like home. What started as a single floor of well-maintained
+                        rooms has grown into a 50-room property spanning five floors, each designed to
+                        offer comfort, privacy, and convenience.
+                    </p>
+                    <p>
+                        Our owner, Ms. Lucky, understood from the start that guests don't just need
+                        somewhere to sleep — they need a community, reliable services, and the peace
+                        of mind that comes from a well-managed building. That ethos is woven into
+                        everything we do, from our meal plans to our housekeeping schedules.
+                    </p>
+                    <p>
+                        Today, LuckyNest is home to guests from all walks of life. Students, working
+                        professionals, and long-stay visitors choose us because they know exactly what
+                        they're getting: quality accommodation at honest prices, with the services they
+                        actually need.
+                    </p>
+                </div>
+
+                <div class="pub-card" style="background: white;">
+                    <h3 style="font-size: 0.95rem; font-weight: bold; color: #2c3e50; margin-bottom: 1rem; padding-bottom: 0.6rem; border-bottom: 1px solid #ddd;">At a Glance</h3>
+                    <table style="width: 100%; font-size: 0.87rem; border-collapse: collapse;">
+                        <tr style="border-bottom: 1px solid #f5f5f5;">
+                            <td style="padding: 0.55rem 0; color: #888; font-weight: bold; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.04em;">Rooms</td>
+                            <td style="padding: 0.55rem 0; color: #333; text-align: right;">50 across 5 floors</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #f5f5f5;">
+                            <td style="padding: 0.55rem 0; color: #888; font-weight: bold; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.04em;">Room Types</td>
+                            <td style="padding: 0.55rem 0; color: #333; text-align: right;">Single, Double, Triple</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #f5f5f5;">
+                            <td style="padding: 0.55rem 0; color: #888; font-weight: bold; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.04em;">Payment Cycles</td>
+                            <td style="padding: 0.55rem 0; color: #333; text-align: right;">Weekly or Monthly</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #f5f5f5;">
+                            <td style="padding: 0.55rem 0; color: #888; font-weight: bold; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.04em;">Services</td>
+                            <td style="padding: 0.55rem 0; color: #333; text-align: right;">Food, Laundry, Housekeeping, WiFi</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #f5f5f5;">
+                            <td style="padding: 0.55rem 0; color: #888; font-weight: bold; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.04em;">Currency</td>
+                            <td style="padding: 0.55rem 0; color: #333; text-align: right;">GBP (£)</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.55rem 0; color: #888; font-weight: bold; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.04em;">Security Deposit</td>
+                            <td style="padding: 0.55rem 0; color: #333; text-align: right;">£350 – £750</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- OUR VALUES -->
+<section class="pub-section">
+    <h2 class="pub-section-title" style="text-align: center;">What We Stand For</h2>
+    <p class="pub-section-sub" style="text-align: center; margin-bottom: 1.75rem;">The principles that guide how we run LuckyNest</p>
+    <div class="pub-value-row">
+        <div class="pub-value-card">
+            <div class="pub-value-icon">🏠</div>
+            <h3>Comfort First</h3>
+            <p>Every room is maintained to a high standard. Clean, well-lit, and equipped — because where you live affects how you live.</p>
+        </div>
+        <div class="pub-value-card">
+            <div class="pub-value-icon">🤝</div>
+            <h3>Community</h3>
+            <p>Our guests aren't just tenants. We foster a respectful, welcoming environment where everyone feels they belong.</p>
+        </div>
+        <div class="pub-value-card">
+            <div class="pub-value-icon">✅</div>
+            <h3>Transparency</h3>
+            <p>Clear pricing, straightforward agreements, and honest communication. No hidden charges, no surprises.</p>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

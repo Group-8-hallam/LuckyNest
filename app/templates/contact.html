@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Us - LuckyNest{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/public.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<!-- HERO -->
+<section class="pub-hero pub-full">
+    <h1>Contact Us</h1>
+    <p>Have a question or want to know more about availability? We're happy to help.</p>
+</section>
+
+<!-- CONTACT SECTION -->
+<section class="pub-section">
+    <div class="pub-contact-grid">
+
+        <!-- FORM -->
+        <div class="pub-card">
+            <h2 style="font-size: 1rem; font-weight: bold; color: #2c3e50; margin-bottom: 0.25rem;">Send us a message</h2>
+            <p style="font-size: 0.85rem; color: #888; margin-bottom: 1.25rem;">We aim to respond within one working day.</p>
+
+            <form method="POST" action="{{ url_for('main.contact') }}">
+                <div class="pub-grid-2" style="gap: 1rem;">
+                    <div class="pub-form-group">
+                        <label for="full_name">Full Name</label>
+                        <input type="text" id="full_name" name="full_name" placeholder="Jane Smith" required>
+                    </div>
+                    <div class="pub-form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="jane@example.com" required>
+                    </div>
+                </div>
+
+                <div class="pub-form-group">
+                    <label for="subject">Subject</label>
+                    <select id="subject" name="subject">
+                        <option value="">Select a topic...</option>
+                        <option value="availability">Room Availability</option>
+                        <option value="pricing">Pricing &amp; Rates</option>
+                        <option value="services">Services &amp; Amenities</option>
+                        <option value="booking">Booking Enquiry</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="pub-form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" placeholder="Tell us what you'd like to know..." required></textarea>
+                </div>
+
+                <button type="submit" class="pub-submit-btn">Send Message</button>
+            </form>
+        </div>
+
+        <!-- INFO -->
+        <div>
+            <div class="pub-info-card" style="margin-bottom: 1rem;">
+                <div class="pub-info-header">Contact Information</div>
+
+                <div class="pub-info-item">
+                    <span class="pub-info-icon">📍</span>
+                    <div class="pub-info-item-text">
+                        <strong>Address</strong>
+                        <span>LuckyNest PG Accommodation<br>City Centre, United Kingdom</span>
+                    </div>
+                </div>
+
+                <div class="pub-info-item">
+                    <span class="pub-info-icon">📞</span>
+                    <div class="pub-info-item-text">
+                        <strong>Phone</strong>
+                        <span>Available on request</span>
+                    </div>
+                </div>
+
+                <div class="pub-info-item">
+                    <span class="pub-info-icon">✉️</span>
+                    <div class="pub-info-item-text">
+                        <strong>Email</strong>
+                        <span>hello@luckynest.co.uk</span>
+                    </div>
+                </div>
+
+                <div class="pub-info-item">
+                    <span class="pub-info-icon">🕐</span>
+                    <div class="pub-info-item-text">
+                        <strong>Office Hours</strong>
+                        <span>Mon – Fri: 9:00 am – 6:00 pm<br>Sat: 10:00 am – 2:00 pm</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pub-info-card">
+                <div class="pub-info-header">Already a guest?</div>
+                <div class="pub-info-item">
+                    <span class="pub-info-icon">🔐</span>
+                    <div class="pub-info-item-text">
+                        <strong>Guest Portal</strong>
+                        <span>Log in to manage your booking, request services, and make payments.</span>
+                    </div>
+                </div>
+                <div style="padding: 0.75rem 1.25rem;">
+                    <a href="{{ url_for('auth.login') }}" style="display: inline-block; background: #2c3e50; color: white; padding: 0.55rem 1.4rem; border-radius: 4px; text-decoration: none; font-size: 0.88rem;">Log In to Portal</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}
