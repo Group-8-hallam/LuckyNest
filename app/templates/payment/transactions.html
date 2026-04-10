@@ -1,153 +1,168 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transactions | LuckyNest</title>
-    <link rel="stylesheet" href="../style.css">
-    <script src="../script.js" defer></script>
-</head>
-<body>
+{% extends 'base.html' %}
 
-<header>
-    <h1>LuckyNest</h1>
-    <nav>
-        <ul>
-            <li><a href="../index.html">All Guests</a></li>
-            <li><a href="../active-guests.html">Active Guests</a></li>
-            <li><a href="../checkins-outs.html">Check-ins / Outs</a></li>
-            <li><a href="../emergency-contacts.html">Emergency Contacts</a></li>
-            <li><a href="../service-management/service-management.html">Service Management</a></li>
-            <li><a href="payment-management.html" class="active">Payment Management</a></li>
-        </ul>
-    </nav>
-</header>
+{% block title %}Transactions | LuckyNest{% endblock %}
 
-<main>
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/payment_management.css') }}">
+{% endblock %}
 
-    <section class="hero">
-        <h2>Transactions</h2>
-        <p>
-            View all completed payments made by guests including amounts,
-            dates, and payment status.
-        </p>
-    </section>
+{% block content %}
 
-    <section class="intro">
-        <h2>Transaction Overview</h2>
-        <p>
-            This section provides a full history of payments made by guests.
-            It helps track financial activity and ensures all payments are recorded.
-        </p>
-    </section>
+<div class="rpt-header">
+    <div>
+        <h1>Transactions</h1>
+        <p class="rpt-subtitle">LuckyNest Payment Management — Completed and recorded transactions</p>
+    </div>
+    <a href="{{ url_for('pg.dashboard') }}" class="btn-back">&#8592; Back to Dashboard</a>
+</div>
 
-    <section class="guest-summary">
-        <h2>Transaction Summary</h2>
+<hr class="rpt-divider">
 
-        <div class="summary-cards">
-            <article class="summary-card">
-                <h3>Total Transactions</h3>
-                <p>128</p>
-            </article>
+<div class="payment-nav-tabs">
+    <a href="{{ url_for('main.payment_transactions') }}" class="payment-tab active">
+        <span>Transactions</span>
+        <strong>{{ payments | length }}</strong>
+    </a>
 
-            <article class="summary-card">
-                <h3>Total Revenue</h3>
-                <p>£9,450</p>
-            </article>
+    <a href="{{ url_for('main.payment_pending') }}" class="payment-tab">
+        <span>Pending</span>
+        <strong>{{ payments | selectattr('status', 'equalto', 'pending') | list | length }}</strong>
+    </a>
 
-            <article class="summary-card">
-                <h3>Today’s Payments</h3>
-                <p>6</p>
-            </article>
+    <a href="{{ url_for('main.payment_deposits') }}" class="payment-tab">
+        <span>Deposits</span>
+        <strong>View</strong>
+    </a>
+</div>
 
-            <article class="summary-card">
-                <h3>Successful Payments</h3>
-                <p>120</p>
-            </article>
-        </div>
-    </section>
+<div class="kpi-row">
+    <div class="kpi-card">
+        <span class="kpi-label">Total Transactions</span>
+        <span class="kpi-value">{{ payments | length }}</span>
+        <span class="kpi-change up">Recorded payments</span>
+    </div>
 
-    <section class="guest-search-section">
-        <h2>Search Transactions</h2>
+    <div class="kpi-card">
+        <span class="kpi-label">Total Revenue</span>
+        <span class="kpi-value">
+            &#163;{{ '%.2f'|format(payments | sum(attribute='amount')) if payments else '0.00' }}
+        </span>
+        <span class="kpi-change up">All completed payments</span>
+    </div>
 
-        <div class="search-box">
+    <div class="kpi-card">
+        <span class="kpi-label">Successful Payments</span>
+        <span class="kpi-value">
+            {{ payments | selectattr('status', 'equalto', 'paid') | list | length }}
+        </span>
+        <span class="kpi-change up">Paid transactions</span>
+    </div>
+</div>
+
+<div class="rpt-grid-2">
+    <div class="rpt-card">
+        <p class="card-title">Search Transactions</p>
+        <div class="guest-search-wrap">
             <label for="transactionSearch">Search transactions</label>
-            <input type="text" id="transactionSearch" placeholder="Search by guest name...">
+            <input type="text" id="transactionSearch" placeholder="Search by guest name, room, amount or status...">
         </div>
-    </section>
+    </div>
 
-    <section class="guest-table-section">
-        <h2>Transaction Records</h2>
-
-        <div class="table-wrapper">
-            <table class="guest-table">
-                <thead>
-                    <tr>
-                        <th>Transaction ID</th>
-                        <th>Guest Name</th>
-                        <th>Room</th>
-                        <th>Amount</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-
-                <tbody id="transactionTableBody">
-                    <tr>
-                        <td>T001</td>
-                        <td>Rajesh Kumar</td>
-                        <td>204</td>
-                        <td>£120</td>
-                        <td>01 Feb 2026</td>
-                        <td><span class="status active">Paid</span></td>
-                    </tr>
-
-                    <tr>
-                        <td>T002</td>
-                        <td>Anita Sharma</td>
-                        <td>107</td>
-                        <td>£95</td>
-                        <td>10 Feb 2026</td>
-                        <td><span class="status active">Paid</span></td>
-                    </tr>
-
-                    <tr>
-                        <td>T003</td>
-                        <td>Ahmed Ali</td>
-                        <td>305</td>
-                        <td>£110</td>
-                        <td>15 Jan 2026</td>
-                        <td><span class="status active">Paid</span></td>
-                    </tr>
-
-                    <tr>
-                        <td>T004</td>
-                        <td>Priya Patel</td>
-                        <td>210</td>
-                        <td>£100</td>
-                        <td>05 Feb 2026</td>
-                        <td><span class="status active">Paid</span></td>
-                    </tr>
-
-                    <tr>
-                        <td>T005</td>
-                        <td>Mohamed Hassan</td>
-                        <td>118</td>
-                        <td>£130</td>
-                        <td>20 Jan 2026</td>
-                        <td><span class="status active">Paid</span></td>
-                    </tr>
-
-                </tbody>
-            </table>
+    <div class="rpt-card">
+        <p class="card-title">Transaction Overview</p>
+        <div class="stat-list">
+            <div class="stat-item">
+                <span class="stat-name">Paid</span>
+                <span class="stat-val">{{ payments | selectattr('status', 'equalto', 'paid') | list | length }}</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-name">Pending</span>
+                <span class="stat-val">{{ payments | selectattr('status', 'equalto', 'pending') | list | length }}</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-name">Overdue</span>
+                <span class="stat-val">{{ payments | selectattr('status', 'equalto', 'overdue') | list | length }}</span>
+            </div>
         </div>
-    </section>
+    </div>
+</div>
 
-</main>
+<div class="rpt-card rpt-full">
+    <p class="card-title">Transaction Records</p>
 
-<footer>
-    <p>© 2026 LuckyNest | All Rights Reserved</p>
-</footer>
+    <div class="table-wrapper">
+        <table class="pay-table" id="transactionTable">
+            <thead>
+                <tr>
+                    <th>Transaction ID</th>
+                    <th>Guest Name</th>
+                    <th>Room</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                    <th>Method</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
 
-</body>
-</html>
+            <tbody id="transactionTableBody">
+                {% for payment in payments %}
+                <tr class="clickable-row" data-href="{{ url_for('main.payment_invoice_detail', payment_id=payment.id) }}">
+                    <td>T{{ payment.id }}</td>
+                    <td>{{ payment.guest_name }}</td>
+                    <td>{{ payment.room }}</td>
+                    <td>&#163;{{ '%.2f'|format(payment.amount) }}</td>
+                    <td>
+                        {% if payment.date %}
+                            {{ payment.date.strftime('%d %b %Y') if payment.date.strftime else payment.date }}
+                        {% else %}
+                            Not set
+                        {% endif %}
+                    </td>
+                    <td>{{ payment.method }}</td>
+                    <td>
+                        {% if payment.status == 'paid' %}
+                            <span class="badge badge-paid">Paid</span>
+                        {% elif payment.status == 'pending' %}
+                            <span class="badge badge-pending">Pending</span>
+                        {% else %}
+                            <span class="badge badge-overdue">Overdue</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="7" class="empty-state">No transaction records found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<p class="rpt-footnote">Live payment data — LuckyNest Management</p>
+
+<script>
+const transactionSearch = document.getElementById("transactionSearch");
+const transactionRows = document.querySelectorAll("#transactionTableBody tr");
+const clickableRows = document.querySelectorAll(".clickable-row");
+
+transactionSearch.addEventListener("keyup", function () {
+    const value = this.value.toLowerCase().trim();
+
+    transactionRows.forEach(function (row) {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(value) ? "" : "none";
+    });
+});
+
+clickableRows.forEach(function (row) {
+    row.addEventListener("click", function () {
+        const href = this.dataset.href;
+        if (href) {
+            window.location.href = href;
+        }
+    });
+});
+</script>
+
+{% endblock %}

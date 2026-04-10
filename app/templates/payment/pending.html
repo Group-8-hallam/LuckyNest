@@ -1,146 +1,166 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pending Payments | LuckyNest</title>
-    <link rel="stylesheet" href="../style.css">
-    <script src="../script.js" defer></script>
-</head>
-<body>
+{% extends 'base.html' %}
 
-<header>
-    <h1>LuckyNest</h1>
-    <nav>
-        <ul>
-            <li><a href="../index.html">All Guests</a></li>
-            <li><a href="../active-guests.html">Active Guests</a></li>
-            <li><a href="../checkins-outs.html">Check-ins / Outs</a></li>
-            <li><a href="../emergency-contacts.html">Emergency Contacts</a></li>
-            <li><a href="../service-management/service-management.html">Service Management</a></li>
-            <li><a href="payment-management.html" class="active">Payment Management</a></li>
-        </ul>
-    </nav>
-</header>
+{% block title %}Pending Payments | LuckyNest{% endblock %}
 
-<main>
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/payment_management.css') }}">
+{% endblock %}
 
-    <section class="hero">
-        <h2>Pending Payments</h2>
-        <p>
-            Track unpaid guest balances, due dates, and overdue payment records
-            to help manage outstanding accounts.
-        </p>
-    </section>
+{% block content %}
 
-    <section class="intro">
-        <h2>Outstanding Balance Overview</h2>
-        <p>
-            This section shows guests who still have unpaid amounts. It helps
-            the admin identify overdue accounts and follow up on payment collection.
-        </p>
-    </section>
+<div class="rpt-header">
+    <div>
+        <h1>Pending Payments</h1>
+        <p class="rpt-subtitle">LuckyNest Payment Management — Outstanding and overdue balances</p>
+    </div>
+    <a href="{{ url_for('pg.dashboard') }}" class="btn-back">&#8592; Back to Dashboard</a>
+</div>
 
-    <section class="guest-summary">
-        <h2>Pending Payment Summary</h2>
+<hr class="rpt-divider">
 
-        <div class="summary-cards">
-            <article class="summary-card">
-                <h3>Total Pending</h3>
-                <p>9</p>
-            </article>
+<div class="payment-nav-tabs">
+    <a href="{{ url_for('main.payment_transactions') }}" class="payment-tab">
+        <span>Transactions</span>
+        <strong>View</strong>
+    </a>
 
-            <article class="summary-card">
-                <h3>Total Amount Due</h3>
-                <p>£1,245</p>
-            </article>
+    <a href="{{ url_for('main.payment_pending') }}" class="payment-tab active">
+        <span>Pending</span>
+        <strong>{{ payments | length }}</strong>
+    </a>
 
-            <article class="summary-card">
-                <h3>Overdue Accounts</h3>
-                <p>4</p>
-            </article>
+    <a href="{{ url_for('main.payment_deposits') }}" class="payment-tab">
+        <span>Deposits</span>
+        <strong>View</strong>
+    </a>
+</div>
 
-            <article class="summary-card">
-                <h3>Due This Week</h3>
-                <p>3</p>
-            </article>
-        </div>
-    </section>
+<div class="kpi-row">
+    <div class="kpi-card">
+        <span class="kpi-label">Total Pending</span>
+        <span class="kpi-value">{{ payments | length }}</span>
+        <span class="kpi-change down">Unpaid payment records</span>
+    </div>
 
-    <section class="guest-search-section">
-        <h2>Search Pending Payments</h2>
+    <div class="kpi-card">
+        <span class="kpi-label">Total Amount Due</span>
+        <span class="kpi-value">
+            &#163;{{ '%.2f'|format(payments | sum(attribute='amount')) if payments else '0.00' }}
+        </span>
+        <span class="kpi-change down">Outstanding balance</span>
+    </div>
 
-        <div class="search-box">
+    <div class="kpi-card">
+        <span class="kpi-label">Overdue Accounts</span>
+        <span class="kpi-value">
+            {{ payments | selectattr('status', 'equalto', 'overdue') | list | length }}
+        </span>
+        <span class="kpi-change down">Require follow-up</span>
+    </div>
+</div>
+
+<div class="rpt-grid-2">
+    <div class="rpt-card">
+        <p class="card-title">Search Pending Payments</p>
+        <div class="guest-search-wrap">
             <label for="pendingSearch">Search pending payments</label>
-            <input type="text" id="pendingSearch" placeholder="Search by guest name...">
+            <input type="text" id="pendingSearch" placeholder="Search by guest name, room or status...">
         </div>
-    </section>
+    </div>
 
-    <section class="guest-table-section">
-        <h2>Pending Payment Records</h2>
-
-        <div class="table-wrapper">
-            <table class="guest-table">
-                <thead>
-                    <tr>
-                        <th>Guest Name</th>
-                        <th>Room</th>
-                        <th>Amount Due</th>
-                        <th>Due Date</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-
-                <tbody id="pendingTableBody">
-                    <tr>
-                        <td>Ahmed Ali</td>
-                        <td>305</td>
-                        <td>£110</td>
-                        <td>05 Apr 2026</td>
-                        <td><span class="status checkedout">Pending</span></td>
-                    </tr>
-
-                    <tr>
-                        <td>Mohamed Hassan</td>
-                        <td>118</td>
-                        <td>£130</td>
-                        <td>03 Apr 2026</td>
-                        <td><span class="status checkedout">Pending</span></td>
-                    </tr>
-
-                    <tr>
-                        <td>Fatima Noor</td>
-                        <td>212</td>
-                        <td>£95</td>
-                        <td>07 Apr 2026</td>
-                        <td><span class="status checkedout">Pending</span></td>
-                    </tr>
-
-                    <tr>
-                        <td>Ali Rahman</td>
-                        <td>101</td>
-                        <td>£150</td>
-                        <td>02 Apr 2026</td>
-                        <td><span class="status checkedout">Overdue</span></td>
-                    </tr>
-
-                    <tr>
-                        <td>Sarah Khan</td>
-                        <td>221</td>
-                        <td>£125</td>
-                        <td>01 Apr 2026</td>
-                        <td><span class="status checkedout">Overdue</span></td>
-                    </tr>
-                </tbody>
-            </table>
+    <div class="rpt-card">
+        <p class="card-title">Outstanding Balance Overview</p>
+        <div class="stat-list">
+            <div class="stat-item">
+                <span class="stat-name">Pending</span>
+                <span class="stat-val">{{ payments | selectattr('status', 'equalto', 'pending') | list | length }}</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-name">Overdue</span>
+                <span class="stat-val">{{ payments | selectattr('status', 'equalto', 'overdue') | list | length }}</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-name">Records Shown</span>
+                <span class="stat-val">{{ payments | length }}</span>
+            </div>
         </div>
-    </section>
+    </div>
+</div>
 
-</main>
+<div class="rpt-card rpt-full">
+    <p class="card-title">Pending Payment Records</p>
 
-<footer>
-    <p>© 2026 LuckyNest | All Rights Reserved</p>
-</footer>
+    <div class="table-wrapper">
+        <table class="pay-table">
+            <thead>
+                <tr>
+                    <th>Transaction ID</th>
+                    <th>Guest Name</th>
+                    <th>Room</th>
+                    <th>Amount Due</th>
+                    <th>Due Date</th>
+                    <th>Method</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
 
-</body>
-</html>
+            <tbody id="pendingTableBody">
+                {% for payment in payments %}
+                <tr class="clickable-row" data-href="{{ url_for('main.payment_invoice_detail', payment_id=payment.id) }}">
+                    <td>T{{ payment.id }}</td>
+                    <td>{{ payment.guest_name }}</td>
+                    <td>{{ payment.room }}</td>
+                    <td>&#163;{{ '%.2f'|format(payment.amount) }}</td>
+                    <td>
+                        {% if payment.due_date %}
+                            {{ payment.due_date.strftime('%d %b %Y') if payment.due_date.strftime else payment.due_date }}
+                        {% else %}
+                            Not set
+                        {% endif %}
+                    </td>
+                    <td>{{ payment.method }}</td>
+                    <td>
+                        {% if payment.status == 'overdue' %}
+                            <span class="badge badge-overdue">Overdue</span>
+                        {% else %}
+                            <span class="badge badge-pending">Pending</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="7" class="empty-state">No pending payment records found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<p class="rpt-footnote">Live payment data — LuckyNest Management</p>
+
+<script>
+const pendingSearch = document.getElementById("pendingSearch");
+const pendingRows = document.querySelectorAll("#pendingTableBody tr");
+const clickableRows = document.querySelectorAll(".clickable-row");
+
+pendingSearch.addEventListener("keyup", function () {
+    const value = this.value.toLowerCase().trim();
+
+    pendingRows.forEach(function (row) {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(value) ? "" : "none";
+    });
+});
+
+clickableRows.forEach(function (row) {
+    row.addEventListener("click", function () {
+        const href = this.dataset.href;
+        if (href) {
+            window.location.href = href;
+        }
+    });
+});
+</script>
+
+{% endblock %}

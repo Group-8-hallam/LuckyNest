@@ -1,147 +1,154 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Security Deposits | LuckyNest</title>
-    <link rel="stylesheet" href="../style.css">
-    <script src="../script.js" defer></script>
-</head>
-<body>
+{% extends 'base.html' %}
 
-<header>
-    <h1>LuckyNest</h1>
-    <nav>
-        <ul>
-            <li><a href="../index.html">All Guests</a></li>
-            <li><a href="../active-guests.html">Active Guests</a></li>
-            <li><a href="../checkins-outs.html">Check-ins / Outs</a></li>
-            <li><a href="../emergency-contacts.html">Emergency Contacts</a></li>
-            <li><a href="../service-management/service-management.html">Service Management</a></li>
-            <li><a href="payment-management.html" class="active">Payment Management</a></li>
-        </ul>
-    </nav>
-</header>
+{% block title %}Security Deposits | LuckyNest{% endblock %}
 
-<main>
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/payment_management.css') }}">
+{% endblock %}
 
-    <section class="hero">
-        <h2>Security Deposits</h2>
-        <p>
-            Track guest deposit payments, refund status, and deposit records
-            for accommodation at LuckyNest.
-        </p>
-    </section>
+{% block content %}
 
-    <section class="intro">
-        <h2>Deposit Overview</h2>
-        <p>
-            This section helps the admin monitor which guests have paid security
-            deposits, which deposits are still pending, and which refunds have
-            already been processed.
-        </p>
-    </section>
+<div class="rpt-header">
+    <div>
+        <h1>Security Deposits</h1>
+        <p class="rpt-subtitle">LuckyNest Payment Management — Deposit tracking and refund status</p>
+    </div>
+    <a href="{{ url_for('pg.dashboard') }}" class="btn-back">&#8592; Back to Dashboard</a>
+</div>
 
-    <section class="guest-summary">
-        <h2>Deposit Summary</h2>
+<hr class="rpt-divider">
 
-        <div class="summary-cards">
-            <article class="summary-card">
-                <h3>Total Deposits</h3>
-                <p>28</p>
-            </article>
+<div class="payment-nav-tabs">
+    <a href="{{ url_for('main.payment_transactions') }}" class="payment-tab">
+        <span>Transactions</span>
+        <strong>View</strong>
+    </a>
 
-            <article class="summary-card">
-                <h3>Total Value</h3>
-                <p>£2,950</p>
-            </article>
+    <a href="{{ url_for('main.payment_pending') }}" class="payment-tab">
+        <span>Pending</span>
+        <strong>View</strong>
+    </a>
 
-            <article class="summary-card">
-                <h3>Refunded</h3>
-                <p>9</p>
-            </article>
+    <a href="{{ url_for('main.payment_deposits') }}" class="payment-tab active">
+        <span>Deposits</span>
+        <strong>{{ deposits | length }}</strong>
+    </a>
+</div>
 
-            <article class="summary-card">
-                <h3>Pending Refunds</h3>
-                <p>4</p>
-            </article>
-        </div>
-    </section>
+<div class="kpi-row">
+    <div class="kpi-card">
+        <span class="kpi-label">Total Deposits</span>
+        <span class="kpi-value">{{ deposits | length }}</span>
+        <span class="kpi-change up">Recorded deposits</span>
+    </div>
 
-    <section class="guest-search-section">
-        <h2>Search Deposit Records</h2>
+    <div class="kpi-card">
+        <span class="kpi-label">Total Value</span>
+        <span class="kpi-value">
+            &#163;{{ '%.2f'|format(deposits | sum(attribute='deposit_amount')) if deposits else '0.00' }}
+        </span>
+        <span class="kpi-change up">Total deposit amount</span>
+    </div>
 
-        <div class="search-box">
+    <div class="kpi-card">
+        <span class="kpi-label">Active Holds</span>
+        <span class="kpi-value">
+            {{ deposits | selectattr('status', 'equalto', 'active') | list | length }}
+        </span>
+        <span class="kpi-change up">Current guest deposits</span>
+    </div>
+</div>
+
+<div class="rpt-grid-2">
+    <div class="rpt-card">
+        <p class="card-title">Search Deposit Records</p>
+        <div class="guest-search-wrap">
             <label for="depositSearch">Search security deposits</label>
             <input type="text" id="depositSearch" placeholder="Search by guest name or room...">
         </div>
-    </section>
+    </div>
 
-    <section class="guest-table-section">
-        <h2>Security Deposit Records</h2>
-
-        <div class="table-wrapper">
-            <table class="guest-table">
-                <thead>
-                    <tr>
-                        <th>Guest Name</th>
-                        <th>Room</th>
-                        <th>Deposit Amount</th>
-                        <th>Paid Date</th>
-                        <th>Refund Status</th>
-                    </tr>
-                </thead>
-
-                <tbody id="depositTableBody">
-                    <tr>
-                        <td>Rajesh Kumar</td>
-                        <td>204</td>
-                        <td>£150</td>
-                        <td>01 Jan 2026</td>
-                        <td><span class="status active">Held</span></td>
-                    </tr>
-
-                    <tr>
-                        <td>Anita Sharma</td>
-                        <td>107</td>
-                        <td>£120</td>
-                        <td>10 Jan 2026</td>
-                        <td><span class="status active">Held</span></td>
-                    </tr>
-
-                    <tr>
-                        <td>Ahmed Ali</td>
-                        <td>305</td>
-                        <td>£130</td>
-                        <td>15 Dec 2025</td>
-                        <td><span class="status checkedout">Refunded</span></td>
-                    </tr>
-
-                    <tr>
-                        <td>Priya Patel</td>
-                        <td>210</td>
-                        <td>£120</td>
-                        <td>05 Jan 2026</td>
-                        <td><span class="status active">Held</span></td>
-                    </tr>
-
-                    <tr>
-                        <td>Mohamed Hassan</td>
-                        <td>118</td>
-                        <td>£140</td>
-                        <td>20 Dec 2025</td>
-                        <td><span class="status checkedout">Refund Pending</span></td>
-                    </tr>
-                </tbody>
-            </table>
+    <div class="rpt-card">
+        <p class="card-title">Deposit Overview</p>
+        <div class="stat-list">
+            <div class="stat-item">
+                <span class="stat-name">Held</span>
+                <span class="stat-val">{{ deposits | selectattr('status', 'equalto', 'active') | list | length }}</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-name">Checked Out</span>
+                <span class="stat-val">{{ deposits | selectattr('status', 'equalto', 'checked_out') | list | length }}</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-name">Records</span>
+                <span class="stat-val">{{ deposits | length }}</span>
+            </div>
         </div>
-    </section>
+    </div>
+</div>
 
-</main>
+<div class="rpt-card rpt-full">
+    <p class="card-title">Security Deposit Records</p>
 
-<footer>
-    <p>© 2026 LuckyNest | All Rights Reserved</p>
-</footer>
+    <div class="table-wrapper">
+        <table class="pay-table">
+            <thead>
+                <tr>
+                    <th>Booking ID</th>
+                    <th>Guest Name</th>
+                    <th>Room</th>
+                    <th>Deposit Amount</th>
+                    <th>Check-in Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
 
-</body>
-</html>
+            <tbody id="depositTableBody">
+                {% for deposit in deposits %}
+                <tr>
+                    <td>B{{ deposit.booking_id }}</td>
+                    <td>{{ deposit.guest_name }}</td>
+                    <td>{{ deposit.room }}</td>
+                    <td>&#163;{{ '%.2f'|format(deposit.deposit_amount) }}</td>
+                    <td>
+                        {% if deposit.checkin %}
+                            {{ deposit.checkin.strftime('%d %b %Y') if deposit.checkin.strftime else deposit.checkin }}
+                        {% else %}
+                            Not set
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if deposit.status == 'active' %}
+                            <span class="badge badge-pending">Held</span>
+                        {% else %}
+                            <span class="badge badge-paid">Checked Out</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6" class="empty-state">No deposit records found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<p class="rpt-footnote">Live payment data — LuckyNest Management</p>
+
+<script>
+const depositSearch = document.getElementById("depositSearch");
+const depositRows = document.querySelectorAll("#depositTableBody tr");
+
+depositSearch.addEventListener("keyup", function () {
+    const value = this.value.toLowerCase().trim();
+
+    depositRows.forEach(function (row) {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(value) ? "" : "none";
+    });
+});
+</script>
+
+{% endblock %}

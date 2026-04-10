@@ -21,6 +21,28 @@
 
     <hr class="guest-divider">
 
+    <div class="guest-nav-tabs">
+        <a href="{{ url_for('main.guest_all') }}" class="guest-tab active">
+            <span>All Guests</span>
+            <strong>{{ total_guests }}</strong>
+        </a>
+
+        <a href="{{ url_for('main.guest_active') }}" class="guest-tab">
+            <span>Active Guests</span>
+            <strong>{{ active_guests }}</strong>
+        </a>
+
+        <a href="{{ url_for('main.guest_checkins') }}" class="guest-tab">
+            <span>Check-ins / Outs</span>
+            <strong>{{ checked_out }}</strong>
+        </a>
+
+        <a href="{{ url_for('main.guest_emergency') }}" class="guest-tab">
+            <span>Emergency</span>
+            <strong>{{ emergency_contacts }}</strong>
+        </a>
+    </div>
+
     <div class="guest-kpi-row">
         <div class="guest-kpi-card">
             <span class="guest-kpi-label">Total Guests</span>
@@ -52,24 +74,28 @@
             <p class="guest-card-title">Search Guests</p>
             <div class="guest-search-wrap">
                 <label for="guestSearch">Search guest records</label>
-                <input type="text" id="guestSearch" placeholder="Search guest by name...">
+                <input type="text" id="guestSearch" placeholder="Search by name, room, phone or email...">
             </div>
         </div>
 
         <div class="guest-card">
-            <p class="guest-card-title">Management Areas</p>
+            <p class="guest-card-title">Guest Overview</p>
             <div class="guest-links">
                 <div class="guest-link-row">
-                    <span>Active Guests</span>
-                    <a href="{{ url_for('main.guest_active') }}" class="btn-secondary btn-small">Open</a>
+                    <span>Total Guests</span>
+                    <strong>{{ total_guests }}</strong>
                 </div>
                 <div class="guest-link-row">
-                    <span>Check-ins / Outs</span>
-                    <a href="{{ url_for('main.guest_checkins') }}" class="btn-secondary btn-small">Open</a>
+                    <span>Active Guests</span>
+                    <strong>{{ active_guests }}</strong>
+                </div>
+                <div class="guest-link-row">
+                    <span>Checked Out</span>
+                    <strong>{{ checked_out }}</strong>
                 </div>
                 <div class="guest-link-row">
                     <span>Emergency Contacts</span>
-                    <a href="{{ url_for('main.guest_emergency') }}" class="btn-secondary btn-small">Open</a>
+                    <strong>{{ emergency_contacts }}</strong>
                 </div>
             </div>
         </div>
@@ -87,6 +113,7 @@
                         <th>Contact</th>
                         <th>Status</th>
                         <th>Check-in</th>
+                        <th>Stay</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -114,7 +141,14 @@
                                 <span class="status-badge status-pending">{{ guest.status }}</span>
                             {% endif %}
                         </td>
-                        <td>{{ guest.checkin }}</td>
+                        <td>
+                            {% if guest.checkin %}
+                                {{ guest.checkin.strftime('%d %b %Y') if guest.checkin.strftime else guest.checkin }}
+                            {% else %}
+                                —
+                            {% endif %}
+                        </td>
+                        <td>{{ guest.stay_duration }} days</td>
                         <td class="actions">
                             <button
                                 class="btn-small btn-edit editGuestBtn"
@@ -134,33 +168,11 @@
                     </tr>
                     {% else %}
                     <tr>
-                        <td colspan="7" class="empty-state">No guest records found.</td>
+                        <td colspan="8" class="empty-state">No guest records found.</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
-        </div>
-    </div>
-
-    <div class="guest-card">
-        <p class="guest-card-title">Guest Summary</p>
-        <div class="guest-summary-bar">
-            <div class="guest-summary-item">
-                <span class="guest-summary-name">Total Guests</span>
-                <span class="guest-summary-value">{{ total_guests }}</span>
-            </div>
-            <div class="guest-summary-item">
-                <span class="guest-summary-name">Active Guests</span>
-                <span class="guest-summary-value">{{ active_guests }}</span>
-            </div>
-            <div class="guest-summary-item">
-                <span class="guest-summary-name">Checked Out</span>
-                <span class="guest-summary-value">{{ checked_out }}</span>
-            </div>
-            <div class="guest-summary-item">
-                <span class="guest-summary-name">Emergency Contacts</span>
-                <span class="guest-summary-value">{{ emergency_contacts }}</span>
-            </div>
         </div>
     </div>
 
