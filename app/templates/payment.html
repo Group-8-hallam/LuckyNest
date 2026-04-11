@@ -1,35 +1,228 @@
-{% extends "base.html" %}{% block title %}Meal Plan{% endblock %} {% block
-content %}
+{% extends "base.html" %}
+
+{% block title %}My Payments | LuckyNest{% endblock %}
+
 {% block styles %}
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/payment.css') }}"
-    />
-  {% endblock %}
-  
-    <div class="payment-container">
-      <div class="payment-card">
-        <h2>Payment Gateway</h2>
-
-        <div class="amount">£{{ price }}</div>
-
-        <form method="POST" action="/process-payment">
-          <input type="text" placeholder="Card number" required />
-
-          <div class="row">
-            <input type="text" placeholder="MM / YY" required />
-            <input type="text" placeholder="CVC" required />
-          </div>
-
-          <input type="text" placeholder="Name on card" required />
-
-          <button type="submit">Pay</button>
-        </form>
-
-        <div class="footer">
-          <a href="/">← Back to site</a>
-        </div>
-      </div>
-    </div>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pg_payment.css') }}">
 {% endblock %}
 
+{% block content %}
+<div class="pg-payment-page">
+    <div class="pg-payment-header">
+        <div>
+            <h1>My Payments</h1>
+            <p class="pg-payment-subtitle">View your payment history, due amounts, and current payment status</p>
+        </div>
+        <a href="{{ url_for('pg.dashboard') }}" class="pg-btn-back">&#8592; Back to Dashboard</a>
+    </div>
+
+    <hr class="pg-divider">
+
+    <div class="pg-payment-summary">
+        <div class="pg-summary-card">
+            <span class="pg-summary-label">Room</span>
+            <span class="pg-summary-value">
+                {% if booking %}
+                    {{ booking.room_id }}
+                {% else %}
+                    —
+                {% endif %}
+            </span>
+            <span class="pg-summary-note">Assigned room</span>
+        </div>
+
+        <div class="pg-summary-card">
+            <span class="pg-summary-label">Total Paid</span>
+            <span class="pg-summary-value">&#163;{{ '%.2f'|format(total_paid) }}</span>
+            <span class="pg-summary-note">Completed payments</span>
+        </div>
+
+        <div class="pg-summary-card">
+            <span class="pg-summary-label">Amount Due</span>
+            <span class="pg-summary-value">&#163;{{ '%.2f'|format(total_due) }}</span>
+            <span class="pg-summary-note">Pending and overdue</span>
+        </div>
+
+        <div class="pg-summary-card">
+            <span class="pg-summary-label">Next Due</span>
+            <span class="pg-summary-value">
+                {% if next_due %}
+                    {{ next_due.strftime('%d %b %Y') if next_due.strftime else next_due }}
+                {% else %}
+                    —
+                {% endif %}
+            </span>
+            <span class="pg-summary-note">Upcoming deadline</span>
+        </div>
+    </div>
+
+    <div class="pg-payment-grid">
+        <div class="pg-payment-card">
+            <p class="pg-card-title">Payment Overview</p>
+            <div class="pg-overview-list">
+                <div class="pg-overview-row">
+                    <span>Paid</span>
+                    <strong>{{ paid_count }}</strong>
+                </div>
+                <div class="pg-overview-row">
+                    <span>Pending</span>
+                    <strong>{{ pending_count }}</strong>
+                </div>
+                <div class="pg-overview-row">
+                    <span>Overdue</span>
+                    <strong>{{ overdue_count }}</strong>
+                </div>
+                <div class="pg-overview-row">
+                    <span>Total Records</span>
+                    <strong>{{ payments | length }}</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="pg-payment-card">
+            <p class="pg-card-title">Current Booking</p>
+            <div class="pg-overview-list">
+                <div class="pg-overview-row">
+                    <span>Payment Cycle</span>
+                    <strong>
+                        {% if booking and booking.payment_cycle %}
+                            {{ booking.payment_cycle|capitalize }}
+                        {% else %}
+                            —
+                        {% endif %}
+                    </strong>
+                </div>
+                <div class="pg-overview-row">
+                    <span>Security Deposit</span>
+                    <strong>
+                        {% if booking and booking.security_deposit %}
+                            &#163;{{ '%.2f'|format(booking.security_deposit) }}
+                        {% else %}
+                            &#163;0.00
+                        {% endif %}
+                    </strong>
+                </div>
+                <div class="pg-overview-row">
+                    <span>Booking Total</span>
+                    <strong>
+                        {% if booking and booking.total_amount %}
+                            &#163;{{ '%.2f'|format(booking.total_amount) }}
+                        {% else %}
+                            &#163;0.00
+                        {% endif %}
+                    </strong>
+                </div>
+                <div class="pg-overview-row">
+                    <span>Status</span>
+                    <strong>
+                        {% if booking %}
+                            {{ booking.status|capitalize }}
+                        {% else %}
+                            —
+                        {% endif %}
+                    </strong>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pg-payment-history">
+        <div class="pg-history-header">
+            <p class="pg-card-title">Payment History</p>
+
+            <div class="pg-filter-group">
+                <button type="button" class="pg-filter-btn active" data-filter="all">All</button>
+                <button type="button" class="pg-filter-btn" data-filter="paid">Paid</button>
+                <button type="button" class="pg-filter-btn" data-filter="pending">Pending</button>
+                <button type="button" class="pg-filter-btn" data-filter="overdue">Overdue</button>
+            </div>
+        </div>
+
+        <div id="pgPaymentList">
+            {% for payment in payments %}
+            <div class="pg-history-card" data-status="{{ payment.status }}">
+                <div class="pg-history-main">
+                    <div class="pg-history-left">
+                        <div class="pg-history-title">{{ payment.description }}</div>
+                        <div class="pg-history-meta">
+                            <span>{{ payment.date.strftime('%d %b %Y') if payment.date.strftime else payment.date }}</span>
+                            <span>{{ payment.method }}</span>
+                            <span>{{ payment.invoice_ref }}</span>
+                        </div>
+                    </div>
+
+                    <div class="pg-history-right">
+                        <div class="pg-history-amount">&#163;{{ '%.2f'|format(payment.amount) }}</div>
+                        <div>
+                            {% if payment.status == 'paid' %}
+                                <span class="pg-status-badge pg-status-paid">Paid</span>
+                            {% elif payment.status == 'pending' %}
+                                <span class="pg-status-badge pg-status-pending">Pending</span>
+                            {% else %}
+                                <span class="pg-status-badge pg-status-overdue">Overdue</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pg-history-extra">
+                    <div class="pg-extra-item">
+                        <span>Due Date</span>
+                        <strong>
+                            {% if payment.due_date %}
+                                {{ payment.due_date.strftime('%d %b %Y') if payment.due_date.strftime else payment.due_date }}
+                            {% else %}
+                                Not set
+                            {% endif %}
+                        </strong>
+                    </div>
+                    <div class="pg-extra-item">
+                        <span>Late Fee</span>
+                        <strong>&#163;{{ '%.2f'|format(payment.late_fee_applied) }}</strong>
+                    </div>
+                </div>
+
+                {% if payment.status != 'paid' %}
+                <div class="pg-history-actions">
+                    <form method="POST" action="{{ url_for('pg.pay_now', payment_id=payment.id) }}">
+                        <button type="submit" class="pg-pay-btn">Pay Now</button>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
+            {% else %}
+            <div class="pg-payment-card">
+                <div class="pg-empty-state">No payment records found.</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+const filterButtons = document.querySelectorAll('.pg-filter-btn');
+const paymentCards = document.querySelectorAll('.pg-history-card');
+
+filterButtons.forEach(function (button) {
+    button.addEventListener('click', function () {
+        const selectedFilter = this.dataset.filter;
+
+        filterButtons.forEach(function (btn) {
+            btn.classList.remove('active');
+        });
+
+        this.classList.add('active');
+
+        paymentCards.forEach(function (card) {
+            const cardStatus = card.dataset.status;
+
+            if (selectedFilter === 'all' || cardStatus === selectedFilter) {
+                card.style.display = '';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

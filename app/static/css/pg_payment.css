@@ -1,0 +1,154 @@
+.pg-payment-page {
+    padding: 20px;
+}
+
+.pg-payment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pg-payment-header h1 {
+    margin: 0;
+}
+
+.pg-payment-subtitle {
+    color: #777;
+    font-size: 14px;
+}
+
+.pg-btn-back {
+    background: #f4f4f4;
+    padding: 8px 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+}
+
+.pg-divider {
+    margin: 20px 0;
+}
+
+.pg-payment-summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.pg-summary-card {
+    background: white;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid #eee;
+}
+
+.pg-summary-label {
+    font-size: 12px;
+    color: #888;
+}
+
+.pg-summary-value {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.pg-summary-note {
+    font-size: 12px;
+    color: #aaa;
+}
+
+.pg-payment-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.pg-payment-card {
+    background: white;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid #eee;
+}
+
+.pg-card-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.pg-overview-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.pg-payment-history {
+    margin-top: 25px;
+}
+
+.pg-history-card {
+    background: white;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid #eee;
+    margin-bottom: 12px;
+}
+
+.pg-history-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pg-history-title {
+    font-weight: bold;
+}
+
+.pg-history-meta {
+    font-size: 12px;
+    color: #777;
+}
+
+.pg-history-meta span {
+    margin-right: 10px;
+}
+
+.pg-history-amount {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.pg-status-badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.pg-status-paid {
+    background: #e6f7ec;
+    color: #2e7d32;
+}
+
+.pg-status-pending {
+    background: #fff4e5;
+    color: #b26a00;
+}
+
+.pg-status-overdue {
+    background: #fdecea;
+    color: #c62828;
+}
+
+.pg-history-extra {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 13px;
+}
+
+.pg-empty-state {
+    text-align: center;
+    color: #999;
+    padding: 20px;
+}

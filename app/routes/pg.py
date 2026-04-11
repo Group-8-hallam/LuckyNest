@@ -1,9 +1,14 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request, redirect, url_for, flash, abort
 from flask_login import login_required, current_user
 from functools import wraps
-from flask import abort
+from app import db
+from app.models.rooms import Room
+from app.models.booking import Booking
+from app.models.payment import Payment
+from datetime import datetime, date
 
 pg_bp = Blueprint('pg', __name__)
+
 
 def pg_required(f):
     @wraps(f)
@@ -13,42 +18,122 @@ def pg_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+
+def build_pg_payment_history(user_id):
+    booking = Booking.query.filter_by(user_id=user_id).order_by(Booking.created_at.desc()).first()
+    payment_rows = []
+
+    if not booking:
+        return None, payment_rows
+
+    payments = Payment.query.filter_by(booking_id=booking.id).order_by(Payment.created_at.desc()).all()
+
+    for payment in payments:
+        if payment.status is True:
+            status_text = 'paid'
+        else:
+            if payment.due_date and payment.due_date < date.today():
+                status_text = 'overdue'
+            else:
+                status_text = 'pending'
+
+        if payment.invoice_ref:
+            description = f"Invoice {payment.invoice_ref}"
+        else:
+            description = f"{booking.payment_cycle.capitalize()} payment" if booking.payment_cycle else "Payment record"
+
+        payment_rows.append({
+            "id": payment.id,
+            "amount": payment.amount or 0,
+            "description": description,
+            "date": payment.payment_date.date() if payment.payment_date else payment.created_at.date(),
+            "method": payment.method or "Not set",
+            "status": status_text,
+            "invoice_ref": payment.invoice_ref or f"INV-{payment.id:04d}",
+            "due_date": payment.due_date,
+            "late_fee_applied": payment.late_fee_applied or 0
+        })
+
+    return booking, payment_rows
+
+
 @pg_bp.route('/meals')
 @login_required
 def meals():
     return render_template('meals.html')
 
+
 @pg_bp.route('/payment')
 @login_required
 def payment():
-    price = request.args.get('price')
-    plan = request.args.get('plan')
-    return render_template('payment.html', price=price, plan=plan)
+    booking, payments = build_pg_payment_history(current_user.id)
 
-from app.models.rooms import Room
+    paid_count = len([p for p in payments if p["status"] == "paid"])
+    pending_count = len([p for p in payments if p["status"] == "pending"])
+    overdue_count = len([p for p in payments if p["status"] == "overdue"])
+    total_paid = sum(p["amount"] for p in payments if p["status"] == "paid")
+    total_due = sum(p["amount"] for p in payments if p["status"] in ["pending", "overdue"])
+
+    next_due = None
+    due_payments = [p for p in payments if p["status"] in ["pending", "overdue"] and p["due_date"]]
+    if due_payments:
+        next_due = sorted(due_payments, key=lambda x: x["due_date"])[0]["due_date"]
+
+    return render_template(
+        'payment.html',
+        booking=booking,
+        payments=payments,
+        paid_count=paid_count,
+        pending_count=pending_count,
+        overdue_count=overdue_count,
+        total_paid=total_paid,
+        total_due=total_due,
+        next_due=next_due
+    )
+
+
+@pg_bp.route('/pay/<int:payment_id>', methods=['POST'])
+@login_required
+def pay_now(payment_id):
+    payment = Payment.query.get_or_404(payment_id)
+    booking = Booking.query.filter_by(user_id=current_user.id).order_by(Booking.created_at.desc()).first()
+
+    if not booking or payment.booking_id != booking.id:
+        abort(403)
+
+    payment.status = True
+    payment.payment_date = datetime.utcnow()
+    payment.late_fee_applied = payment.late_fee_applied or 0.0
+
+    db.session.commit()
+    flash('Payment completed successfully!', 'success')
+    return redirect(url_for('pg.payment'))
+
 
 @pg_bp.route('/dashboard')
 @login_required
 def dashboard():
-
-    # ── Room stats ─────────────────────────────
     total_rooms = Room.query.count()
     occupied_rooms = Room.query.filter_by(is_occupied=True).count()
 
-    # ── Payment data ───────────────────────────
+    booking, payments = build_pg_payment_history(current_user.id)
+
+    total_paid = sum(p["amount"] for p in payments if p["status"] == "paid")
+    total_due = sum(p["amount"] for p in payments if p["status"] in ["pending", "overdue"])
+
+    next_due = None
+    due_payments = [p for p in payments if p["status"] in ["pending", "overdue"] and p["due_date"]]
+    if due_payments:
+        next_due = sorted(due_payments, key=lambda x: x["due_date"])[0]["due_date"]
+
     payment_data = {
-        'monthly_rent': 600,
-        'room': 'single room 204',
-        'next_due': '20 March 2026',
-        'amount_due': 600,
-        'history': [
-            {'date': '15 Feb', 'description': 'monthly rent', 'amount': 600, 'status': 'paid'},
-            {'date': '05 Feb', 'description': 'Laundry Service (3 loads)', 'amount': 5.70, 'status': 'paid'},
-            {'date': '01 Feb', 'description': 'monthly rent', 'amount': 600, 'status': 'paid'},
-        ]
+        'monthly_rent': booking.total_amount if booking and booking.total_amount else 0,
+        'room': f"Room {booking.room_id}" if booking else 'Not assigned',
+        'next_due': next_due.strftime('%d %B %Y') if next_due else 'No pending due date',
+        'amount_due': total_due,
+        'history': payments[:3]
     }
 
-    # ── Services data ──────────────────────────
     services = {
         'meal_plan': 'weekly - full day',
         'laundry': '4 of 6 uses this week',
@@ -63,17 +148,11 @@ def dashboard():
         services=services
     )
 
-from flask import request, redirect, url_for, flash, render_template
-from flask_login import login_required, current_user
-from app import db
-from datetime import datetime
 
 @pg_bp.route('/settings', methods=['GET', 'POST'])
 @login_required
 def settings():
-
     if request.method == 'POST':
-
         current_user.full_name = request.form.get('full_name')
         current_user.email = request.form.get('email')
         current_user.phone = request.form.get('phone')
