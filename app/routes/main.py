@@ -1,10 +1,11 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
-from datetime import date
+from datetime import date, datetime
 from app import db
 from app.models.user import User
 from app.models.booking import Booking
 from app.models.rooms import Room
 from app.models.payment import Payment
+from app.models.service_request import ServiceRequest
 
 main_bp = Blueprint('main', __name__)
 
@@ -388,3 +389,64 @@ def payment_deposits():
 @main_bp.route('/booking')
 def booking():
     return render_template('booking.html')
+
+
+@main_bp.route('/services')
+def service_management():
+    filter_type = request.args.get('filter_type')
+    status_filter = request.args.get('status')
+
+    query = ServiceRequest.query
+
+    if filter_type in ['laundry', 'housekeeping']:
+        query = query.filter_by(service_type=filter_type)
+    if status_filter:
+        query = query.filter_by(status=status_filter)
+
+    all_requests = query.order_by(ServiceRequest.requested_at.desc()).all()
+
+    rows = []
+    for req in all_requests:
+        user = User.query.get(req.user_id)
+        if not user:
+            continue
+        booking = Booking.query.filter_by(user_id=req.user_id).first()
+        rows.append({
+            'id': req.id,
+            'guest_name': user.full_name,
+            'guest_email': user.email,
+            'room': booking.room_id if booking else '—',
+            'service_type': req.service_type,
+            'details': req.details,
+            'requested_at': req.requested_at,
+            'cost': req.cost,
+            'status': req.status,
+            'completed_at': req.completed_at
+        })
+
+    all_reqs = ServiceRequest.query.all()
+    total = len(all_reqs)
+    pending = len([r for r in all_reqs if r.status == 'pending'])
+    in_progress = len([r for r in all_reqs if r.status == 'in_progress'])
+    completed = len([r for r in all_reqs if r.status == 'completed'])
+
+    return render_template(
+        'service_management.html',
+        requests=rows,
+        total=total,
+        pending=pending,
+        in_progress=in_progress,
+        completed=completed,
+        filter_type=filter_type,
+        status_filter=status_filter
+    )
+
+
+@main_bp.route('/services/<int:request_id>/complete', methods=['POST'])
+def complete_service(request_id):
+    req = ServiceRequest.query.get_or_404(request_id)
+    req.status = 'completed'
+    req.completed_at = datetime.utcnow()
+    db.session.commit()
+    flash('Service request marked as complete.', 'success')
+    return redirect(url_for('main.service_management'))

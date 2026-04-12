@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% block title %}My Room - LuckyNest{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pg_payment.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="pg-payment-page">
+
+    <!-- HEADER -->
+    <div class="pg-payment-header">
+        <div>
+            <h1>My Room</h1>
+            <p class="pg-payment-subtitle">Your room details, booking information, and amenities</p>
+        </div>
+        <a href="{{ url_for('pg.dashboard') }}" class="pg-btn-back">&#8592; Back to Dashboard</a>
+    </div>
+
+    <hr class="pg-divider">
+
+    {% if booking and room %}
+
+    <!-- SUMMARY CARDS -->
+    <div class="pg-payment-summary">
+        <div class="pg-summary-card">
+            <span class="pg-summary-label">Room</span>
+            <span class="pg-summary-value">{{ room.number }}</span>
+            <span class="pg-summary-note">Room number</span>
+        </div>
+        <div class="pg-summary-card">
+            <span class="pg-summary-label">Floor</span>
+            <span class="pg-summary-value">{{ room.floor if room.floor else '—' }}</span>
+            <span class="pg-summary-note">Building level</span>
+        </div>
+        <div class="pg-summary-card">
+            <span class="pg-summary-label">Type</span>
+            <span class="pg-summary-value" style="font-size:1.2rem;">{{ room.type | capitalize }}</span>
+            <span class="pg-summary-note">Occupancy type</span>
+        </div>
+        <div class="pg-summary-card">
+            <span class="pg-summary-label">Status</span>
+            <span class="pg-summary-value" style="font-size:1.2rem;">
+                {% if booking.status == 'active' %}
+                    <span class="pg-status-badge pg-status-paid">Active</span>
+                {% else %}
+                    <span class="pg-status-badge pg-status-overdue">{{ booking.status | capitalize }}</span>
+                {% endif %}
+            </span>
+            <span class="pg-summary-note">Booking status</span>
+        </div>
+    </div>
+
+    <!-- DETAIL CARDS -->
+    <div class="pg-payment-grid">
+
+        <!-- ROOM DETAILS -->
+        <div class="pg-payment-card">
+            <p class="pg-card-title">Room Details</p>
+            <div class="pg-overview-list">
+                <div class="pg-overview-row">
+                    <span>Room Number</span>
+                    <strong>{{ room.number }}</strong>
+                </div>
+                <div class="pg-overview-row">
+                    <span>Floor</span>
+                    <strong>{{ room.floor if room.floor else '—' }}</strong>
+                </div>
+                <div class="pg-overview-row">
+                    <span>Type</span>
+                    <strong>{{ room.type | capitalize }}</strong>
+                </div>
+                <div class="pg-overview-row">
+                    <span>Amenities</span>
+                    <strong>{{ room.amenities if room.amenities else 'WiFi included' }}</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOOKING DETAILS -->
+        <div class="pg-payment-card">
+            <p class="pg-card-title">Booking Details</p>
+            <div class="pg-overview-list">
+                <div class="pg-overview-row">
+                    <span>Check-in Date</span>
+                    <strong>{{ booking.check_in_date.strftime('%d %b %Y') }}</strong>
+                </div>
+                <div class="pg-overview-row">
+                    <span>Payment Cycle</span>
+                    <strong>{{ booking.payment_cycle | capitalize }}</strong>
+                </div>
+                <div class="pg-overview-row">
+                    <span>
+                        {% if booking.payment_cycle == 'weekly' %}Weekly Rate
+                        {% else %}Monthly Rate{% endif %}
+                    </span>
+                    <strong>
+                        {% if booking.payment_cycle == 'weekly' %}
+                            &#163;{{ '%.2f'|format(room.price_weekly) }}
+                        {% else %}
+                            &#163;{{ '%.2f'|format(room.price_monthly) }}
+                        {% endif %}
+                    </strong>
+                </div>
+                <div class="pg-overview-row">
+                    <span>Security Deposit</span>
+                    <strong>
+                        {% if booking.security_deposit %}
+                            &#163;{{ '%.2f'|format(booking.security_deposit) }}
+                        {% else %}
+                            —
+                        {% endif %}
+                    </strong>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRICING REFERENCE -->
+    <div class="pg-payment-card" style="margin-top: 20px;">
+        <p class="pg-card-title">Room Pricing</p>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 4px;">
+            <div style="background: #f9f9f9; border: 1px solid #eee; border-radius: 8px; padding: 14px; text-align: center;">
+                <div style="font-size: 0.72rem; font-weight: bold; text-transform: uppercase; letter-spacing: 0.05em; color: #888; margin-bottom: 6px;">Weekly Rate</div>
+                <div style="font-size: 1.5rem; font-weight: bold; color: #2c3e50;">&#163;{{ '%.2f'|format(room.price_weekly) }}</div>
+            </div>
+            <div style="background: #f9f9f9; border: 1px solid #eee; border-radius: 8px; padding: 14px; text-align: center;">
+                <div style="font-size: 0.72rem; font-weight: bold; text-transform: uppercase; letter-spacing: 0.05em; color: #888; margin-bottom: 6px;">Monthly Rate</div>
+                <div style="font-size: 1.5rem; font-weight: bold; color: #2c3e50;">&#163;{{ '%.2f'|format(room.price_monthly) }}</div>
+            </div>
+            <div style="background: #f9f9f9; border: 1px solid #eee; border-radius: 8px; padding: 14px; text-align: center;">
+                <div style="font-size: 0.72rem; font-weight: bold; text-transform: uppercase; letter-spacing: 0.05em; color: #888; margin-bottom: 6px;">Security Deposit</div>
+                <div style="font-size: 1.5rem; font-weight: bold; color: #2c3e50;">
+                    {% if room.security_deposit %}
+                        &#163;{{ '%.2f'|format(room.security_deposit) }}
+                    {% else %}—{% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% else %}
+    <!-- NO BOOKING STATE -->
+    <div class="pg-payment-card" style="margin-top: 20px;">
+        <div class="pg-empty-state">
+            <p style="margin-bottom: 8px; font-size: 1rem; color: #555;">No room assigned</p>
+            <p>You don't have an active booking at the moment. Contact management to arrange your stay.</p>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

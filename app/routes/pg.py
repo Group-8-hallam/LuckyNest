@@ -5,8 +5,9 @@ from app import db
 from app.models.rooms import Room
 from app.models.booking import Booking
 from app.models.payment import Payment
-from datetime import datetime, date
-from ..models.notification import Notification
+from app.models.service_request import ServiceRequest
+from app.models.notification import Notification
+from datetime import datetime, date, timedelta
 
 pg_bp = Blueprint('pg', __name__)
 
@@ -38,8 +39,10 @@ def build_pg_payment_history(user_id):
             else:
                 status_text = 'pending'
 
-        if payment.invoice_ref:
+        if payment.invoice_ref and payment.invoice_ref.startswith('INV-'):
             description = f"Invoice {payment.invoice_ref}"
+        elif payment.invoice_ref:
+            description = payment.invoice_ref  # service payment — label stored directly
         else:
             description = f"{booking.payment_cycle.capitalize()} payment" if booking.payment_cycle else "Payment record"
 
@@ -152,6 +155,195 @@ def dashboard():
         services=services
     )
 
+<<<<<<< HEAD
+=======
+
+@pg_bp.route('/laundry')
+@login_required
+def laundry():
+    requests = ServiceRequest.query.filter_by(
+        user_id=current_user.id,
+        service_type='laundry'
+    ).order_by(ServiceRequest.requested_at.desc()).all()
+
+    total = len(requests)
+    pending = len([r for r in requests if r.status == 'pending'])
+    completed = len([r for r in requests if r.status == 'completed'])
+    total_spent = sum(r.cost for r in requests if r.cost)
+
+    return render_template(
+        'laundry.html',
+        requests=requests,
+        total=total,
+        pending=pending,
+        completed=completed,
+        total_spent=total_spent
+    )
+
+
+@pg_bp.route('/laundry/request', methods=['POST'])
+@login_required
+def laundry_request():
+    service_subtype = request.form.get('service_subtype')
+    notes = request.form.get('notes', '').strip()
+
+    cost_map = {
+        'wash_fold': 1.90,
+        'wash_iron': 2.85,
+        'weekly_unlimited': 14.25,
+        'monthly_unlimited': 47.50
+    }
+
+    label_map = {
+        'wash_fold': 'Wash + Fold',
+        'wash_iron': 'Wash + Iron',
+        'weekly_unlimited': 'Weekly Unlimited',
+        'monthly_unlimited': 'Monthly Unlimited'
+    }
+
+    if service_subtype not in cost_map:
+        flash('Please select a valid service type.', 'error')
+        return redirect(url_for('pg.laundry'))
+
+    cost = cost_map[service_subtype]
+    label = label_map[service_subtype]
+
+    if service_subtype in ['wash_fold', 'wash_iron']:
+        try:
+            loads = max(1, int(request.form.get('loads', 1)))
+        except ValueError:
+            loads = 1
+        cost = round(cost * loads, 2)
+        details = f"{label} — {loads} load{'s' if loads > 1 else ''}"
+    else:
+        details = label
+
+    if notes:
+        details += f". Notes: {notes}"
+
+    req = ServiceRequest(
+        user_id=current_user.id,
+        service_type='laundry',
+        details=details,
+        status='pending',
+        cost=cost
+    )
+    db.session.add(req)
+    db.session.flush()  # get req.id before commit
+
+    # Create a corresponding payment record so it appears in the payment history
+    booking = Booking.query.filter_by(user_id=current_user.id, status='active').first()
+    if booking:
+        payment = Payment(
+            booking_id=booking.id,
+            amount=cost,
+            status=False,
+            due_date=date.today() + timedelta(days=7),
+            invoice_ref=f"Laundry: {details}",
+            late_fee_applied=0.0
+        )
+        db.session.add(payment)
+
+    db.session.commit()
+
+    flash('Laundry request submitted successfully.', 'success')
+    return redirect(url_for('pg.laundry'))
+
+
+@pg_bp.route('/housekeeping')
+@login_required
+def housekeeping():
+    requests = ServiceRequest.query.filter_by(
+        user_id=current_user.id,
+        service_type='housekeeping'
+    ).order_by(ServiceRequest.requested_at.desc()).all()
+
+    total = len(requests)
+    pending = len([r for r in requests if r.status == 'pending'])
+    completed = len([r for r in requests if r.status == 'completed'])
+    total_spent = sum(r.cost for r in requests if r.cost)
+
+    return render_template(
+        'housekeeping.html',
+        requests=requests,
+        total=total,
+        pending=pending,
+        completed=completed,
+        total_spent=total_spent
+    )
+
+
+@pg_bp.route('/housekeeping/request', methods=['POST'])
+@login_required
+def housekeeping_request():
+    service_subtype = request.form.get('service_subtype')
+    preferred_date = request.form.get('preferred_date', '').strip()
+    notes = request.form.get('notes', '').strip()
+
+    cost_map = {
+        'basic': 4.75,
+        'deep': 9.50,
+        'weekly_package': 19.00,
+        'monthly_package': 66.50
+    }
+
+    label_map = {
+        'basic': 'Basic Cleaning',
+        'deep': 'Deep Cleaning',
+        'weekly_package': 'Weekly Package',
+        'monthly_package': 'Monthly Package'
+    }
+
+    if service_subtype not in cost_map:
+        flash('Please select a valid service type.', 'error')
+        return redirect(url_for('pg.housekeeping'))
+
+    cost = cost_map[service_subtype]
+    details = label_map[service_subtype]
+
+    if preferred_date:
+        details += f" — Preferred date: {preferred_date}"
+    if notes:
+        details += f". Notes: {notes}"
+
+    req = ServiceRequest(
+        user_id=current_user.id,
+        service_type='housekeeping',
+        details=details,
+        status='pending',
+        cost=cost
+    )
+    db.session.add(req)
+    db.session.flush()  # get req.id before commit
+
+    # Create a corresponding payment record so it appears in the payment history
+    booking = Booking.query.filter_by(user_id=current_user.id, status='active').first()
+    if booking:
+        payment = Payment(
+            booking_id=booking.id,
+            amount=cost,
+            status=False,
+            due_date=date.today() + timedelta(days=7),
+            invoice_ref=f"Housekeeping: {details}",
+            late_fee_applied=0.0
+        )
+        db.session.add(payment)
+
+    db.session.commit()
+
+    flash('Housekeeping request scheduled successfully.', 'success')
+    return redirect(url_for('pg.housekeeping'))
+
+
+@pg_bp.route('/my-room')
+@login_required
+def my_room():
+    booking = Booking.query.filter_by(user_id=current_user.id, status='active').first()
+    room = Room.query.get(booking.room_id) if booking else None
+    return render_template('my_room.html', booking=booking, room=room)
+
+
+>>>>>>> 3d307b3 (Add laundry, housekeeping, my room pages and wire service payments to payment history)
 @pg_bp.route('/settings', methods=['GET', 'POST'])
 @login_required
 def settings():

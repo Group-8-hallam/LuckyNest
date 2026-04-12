@@ -16,7 +16,7 @@
     {% if current_user.role == 'pg' %}
     <div class="nav-grid">
 
-        <a href="#" class="nav-card">
+        <a href="{{ url_for('pg.my_room') }}" class="nav-card">
             <div class="nav-card-icon">🛏️</div>
             <h3>My Room</h3>
             <p>View your room details and amenities</p>
@@ -34,13 +34,13 @@
             <p>View the menu and manage your meal plan</p>
         </a>
 
-        <a href="#" class="nav-card">
+        <a href="{{ url_for('pg.laundry') }}" class="nav-card">
             <div class="nav-card-icon">👕</div>
             <h3>Laundry</h3>
             <p>Request laundry and track your usage</p>
         </a>
 
-        <a href="#" class="nav-card">
+        <a href="{{ url_for('pg.housekeeping') }}" class="nav-card">
             <div class="nav-card-icon">🧹</div>
             <h3>Housekeeping</h3>
             <p>Schedule and manage cleaning visits</p>
@@ -111,7 +111,7 @@
             <p>Menus, meal plans and food reports</p>
         </a>
 
-        <a href="{{ url_for('main.service_report') }}" class="nav-card">
+        <a href="{{ url_for('main.service_management') }}" class="nav-card">
             <div class="nav-card-icon">🔧</div>
             <h3>Service Management</h3>
             <p>Laundry, housekeeping scheduling</p>
@@ -158,13 +158,13 @@
             <p>Schedule menus and meal plans</p>
         </a>
 
-        <a href="#" class="nav-card">
+        <a href="{{ url_for('main.service_management', filter_type='laundry') }}" class="nav-card">
             <div class="nav-card-icon">👕</div>
             <h3>Laundry Schedule</h3>
             <p>Manage laundry requests</p>
         </a>
 
-        <a href="#" class="nav-card">
+        <a href="{{ url_for('main.service_management', filter_type='housekeeping') }}" class="nav-card">
             <div class="nav-card-icon">🧹</div>
             <h3>Housekeeping</h3>
             <p>Schedule and track cleaning visits</p>

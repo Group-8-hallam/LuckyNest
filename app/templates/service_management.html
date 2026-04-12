@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% block title %}Service Management - LuckyNest{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/service.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="svc-page">
+
+    <!-- HEADER -->
+    <div class="svc-header">
+        <div>
+            <h1>Service Management</h1>
+            <p class="svc-subtitle">View and manage all laundry and housekeeping requests</p>
+        </div>
+        <a href="{{ url_for('pg.dashboard') }}" class="svc-btn-back">&#8592; Back to Dashboard</a>
+    </div>
+
+    <hr class="svc-divider">
+
+    <!-- SUMMARY CARDS -->
+    <div class="svc-summary">
+        <div class="svc-summary-card">
+            <span class="svc-summary-label">Total Requests</span>
+            <span class="svc-summary-value">{{ total }}</span>
+            <span class="svc-summary-note">All services</span>
+        </div>
+        <div class="svc-summary-card">
+            <span class="svc-summary-label">Pending</span>
+            <span class="svc-summary-value">{{ pending }}</span>
+            <span class="svc-summary-note">Awaiting action</span>
+        </div>
+        <div class="svc-summary-card">
+            <span class="svc-summary-label">In Progress</span>
+            <span class="svc-summary-value">{{ in_progress }}</span>
+            <span class="svc-summary-note">Currently active</span>
+        </div>
+        <div class="svc-summary-card">
+            <span class="svc-summary-label">Completed</span>
+            <span class="svc-summary-value">{{ completed }}</span>
+            <span class="svc-summary-note">All time</span>
+        </div>
+    </div>
+
+    <!-- FILTERS -->
+    <div class="svc-mgmt-filters">
+        <a href="{{ url_for('main.service_management') }}"
+           class="svc-filter-btn {% if not filter_type %}active{% endif %}">All</a>
+        <a href="{{ url_for('main.service_management', filter_type='laundry') }}"
+           class="svc-filter-btn {% if filter_type == 'laundry' %}active{% endif %}">👕 Laundry</a>
+        <a href="{{ url_for('main.service_management', filter_type='housekeeping') }}"
+           class="svc-filter-btn {% if filter_type == 'housekeeping' %}active{% endif %}">🧹 Housekeeping</a>
+        <a href="{{ url_for('main.service_management', status='pending') }}"
+           class="svc-filter-btn {% if status_filter == 'pending' %}active{% endif %}">Pending Only</a>
+    </div>
+
+    <!-- REQUESTS TABLE -->
+    <div class="svc-card">
+        {% if requests %}
+        <table class="svc-table">
+            <thead>
+                <tr>
+                    <th>Guest</th>
+                    <th>Room</th>
+                    <th>Service</th>
+                    <th>Details</th>
+                    <th>Requested</th>
+                    <th>Cost</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for req in requests %}
+                <tr>
+                    <td>
+                        <div style="font-weight:600;">{{ req.guest_name }}</div>
+                        <div style="font-size:0.78rem;color:#888;">{{ req.guest_email }}</div>
+                    </td>
+                    <td>Room {{ req.room }}</td>
+                    <td>
+                        {% if req.service_type == 'laundry' %}
+                            <span style="font-size:0.82rem;">👕 Laundry</span>
+                        {% else %}
+                            <span style="font-size:0.82rem;">🧹 Housekeeping</span>
+                        {% endif %}
+                    </td>
+                    <td style="max-width:180px; font-size:0.82rem; color:#555;">{{ req.details }}</td>
+                    <td style="font-size:0.82rem; white-space:nowrap;">{{ req.requested_at.strftime('%d %b %Y') }}</td>
+                    <td style="font-weight:bold;">
+                        {% if req.cost %}£{{ '%.2f'|format(req.cost) }}{% else %}—{% endif %}
+                    </td>
+                    <td>
+                        <span class="svc-status-badge svc-status-{{ req.status }}">
+                            {{ req.status | replace('_', ' ') | title }}
+                        </span>
+                    </td>
+                    <td>
+                        {% if req.status != 'completed' %}
+                        <form method="POST" action="{{ url_for('main.complete_service', request_id=req.id) }}" style="display:inline;">
+                            <button type="submit" class="svc-complete-btn">Mark Complete</button>
+                        </form>
+                        {% else %}
+                            <span style="font-size:0.78rem;color:#aaa;">Done</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <div class="svc-empty">No service requests found for the selected filter.</div>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}

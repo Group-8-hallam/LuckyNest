@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+{% block title %}Laundry - LuckyNest{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/service.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="svc-page">
+
+    <!-- HEADER -->
+    <div class="svc-header">
+        <div>
+            <h1>👕 Laundry</h1>
+            <p class="svc-subtitle">Submit a laundry request and track your usage</p>
+        </div>
+        <a href="{{ url_for('pg.dashboard') }}" class="svc-btn-back">&#8592; Back to Dashboard</a>
+    </div>
+
+    <hr class="svc-divider">
+
+    <!-- SUMMARY CARDS -->
+    <div class="svc-summary">
+        <div class="svc-summary-card">
+            <span class="svc-summary-label">Total Requests</span>
+            <span class="svc-summary-value">{{ total }}</span>
+            <span class="svc-summary-note">All time</span>
+        </div>
+        <div class="svc-summary-card">
+            <span class="svc-summary-label">Pending</span>
+            <span class="svc-summary-value">{{ pending }}</span>
+            <span class="svc-summary-note">Awaiting collection</span>
+        </div>
+        <div class="svc-summary-card">
+            <span class="svc-summary-label">Completed</span>
+            <span class="svc-summary-value">{{ completed }}</span>
+            <span class="svc-summary-note">Returned to you</span>
+        </div>
+        <div class="svc-summary-card">
+            <span class="svc-summary-label">Total Spent</span>
+            <span class="svc-summary-value">&#163;{{ '%.2f'|format(total_spent) }}</span>
+            <span class="svc-summary-note">All time</span>
+        </div>
+    </div>
+
+    <!-- PRICING + REQUEST FORM -->
+    <div class="svc-grid">
+
+        <!-- PRICING -->
+        <div class="svc-card">
+            <div class="svc-card-title">Service Options &amp; Pricing</div>
+            <div class="svc-option-list">
+                <div class="svc-option">
+                    <div>
+                        <div class="svc-option-name">Wash + Fold</div>
+                        <div class="svc-option-desc">Washed, dried, and neatly folded</div>
+                    </div>
+                    <div class="svc-option-price">£1.90 / load</div>
+                </div>
+                <div class="svc-option">
+                    <div>
+                        <div class="svc-option-name">Wash + Iron</div>
+                        <div class="svc-option-desc">Washed, dried, and ironed</div>
+                    </div>
+                    <div class="svc-option-price">£2.85 / load</div>
+                </div>
+                <div class="svc-option">
+                    <div>
+                        <div class="svc-option-name">Weekly Unlimited</div>
+                        <div class="svc-option-desc">Unlimited loads for the week</div>
+                    </div>
+                    <div class="svc-option-price">£14.25 / week</div>
+                </div>
+                <div class="svc-option">
+                    <div>
+                        <div class="svc-option-name">Monthly Unlimited</div>
+                        <div class="svc-option-desc">Unlimited loads for the month</div>
+                    </div>
+                    <div class="svc-option-price">£47.50 / month</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- REQUEST FORM -->
+        <div class="svc-card">
+            <div class="svc-card-title">New Request</div>
+            <form method="POST" action="{{ url_for('pg.laundry_request') }}">
+                <div class="svc-form-group">
+                    <label for="service_subtype">Service Type</label>
+                    <select id="service_subtype" name="service_subtype" required>
+                        <option value="">Select a service...</option>
+                        <option value="wash_fold">Wash + Fold (£1.90 / load)</option>
+                        <option value="wash_iron">Wash + Iron (£2.85 / load)</option>
+                        <option value="weekly_unlimited">Weekly Unlimited (£14.25)</option>
+                        <option value="monthly_unlimited">Monthly Unlimited (£47.50)</option>
+                    </select>
+                </div>
+
+                <div class="svc-form-group" id="loads-group">
+                    <label for="loads">Number of Loads</label>
+                    <input type="number" id="loads" name="loads" min="1" max="20" value="1" placeholder="1">
+                </div>
+
+                <div class="svc-form-group">
+                    <label for="notes">Special Instructions <span style="font-weight:normal;text-transform:none;letter-spacing:0;">(optional)</span></label>
+                    <textarea id="notes" name="notes" placeholder="e.g. delicates, no tumble dry..."></textarea>
+                </div>
+
+                <button type="submit" class="svc-submit-btn">Submit Request</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- HISTORY -->
+    <div class="svc-history">
+        <div class="svc-history-title">Request History</div>
+
+        {% if requests %}
+            {% for req in requests %}
+            <div class="svc-request-card">
+                <div class="svc-request-main">
+                    <div>
+                        <div class="svc-request-title">{{ req.details }}</div>
+                        <div class="svc-request-meta">
+                            <span>📅 {{ req.requested_at.strftime('%d %b %Y, %H:%M') }}</span>
+                            {% if req.completed_at %}
+                                <span>✅ Completed {{ req.completed_at.strftime('%d %b %Y') }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <span class="svc-request-cost">
+                            {% if req.cost %}£{{ '%.2f'|format(req.cost) }}{% else %}—{% endif %}
+                        </span>
+                        <span class="svc-status-badge svc-status-{{ req.status }}">
+                            {{ req.status | replace('_', ' ') | title }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="svc-empty">No laundry requests yet. Submit one above to get started.</div>
+        {% endif %}
+    </div>
+
+</div>
+
+<script>
+    // Hide loads field for unlimited plans
+    const subtypeSelect = document.getElementById('service_subtype');
+    const loadsGroup = document.getElementById('loads-group');
+
+    function toggleLoads() {
+        const val = subtypeSelect.value;
+        if (val === 'weekly_unlimited' || val === 'monthly_unlimited') {
+            loadsGroup.style.display = 'none';
+        } else {
+            loadsGroup.style.display = 'block';
+        }
+    }
+
+    subtypeSelect.addEventListener('change', toggleLoads);
+    toggleLoads();
+</script>
+{% endblock %}

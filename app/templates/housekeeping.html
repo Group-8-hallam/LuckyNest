@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% block title %}Housekeeping - LuckyNest{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/service.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="svc-page">
+
+    <!-- HEADER -->
+    <div class="svc-header">
+        <div>
+            <h1>🧹 Housekeeping</h1>
+            <p class="svc-subtitle">Schedule a cleaning visit for your room</p>
+        </div>
+        <a href="{{ url_for('pg.dashboard') }}" class="svc-btn-back">&#8592; Back to Dashboard</a>
+    </div>
+
+    <hr class="svc-divider">
+
+    <!-- SUMMARY CARDS -->
+    <div class="svc-summary">
+        <div class="svc-summary-card">
+            <span class="svc-summary-label">Total Requests</span>
+            <span class="svc-summary-value">{{ total }}</span>
+            <span class="svc-summary-note">All time</span>
+        </div>
+        <div class="svc-summary-card">
+            <span class="svc-summary-label">Pending</span>
+            <span class="svc-summary-value">{{ pending }}</span>
+            <span class="svc-summary-note">Scheduled or awaiting</span>
+        </div>
+        <div class="svc-summary-card">
+            <span class="svc-summary-label">Completed</span>
+            <span class="svc-summary-value">{{ completed }}</span>
+            <span class="svc-summary-note">Visits completed</span>
+        </div>
+        <div class="svc-summary-card">
+            <span class="svc-summary-label">Total Spent</span>
+            <span class="svc-summary-value">&#163;{{ '%.2f'|format(total_spent) }}</span>
+            <span class="svc-summary-note">All time</span>
+        </div>
+    </div>
+
+    <!-- PRICING + REQUEST FORM -->
+    <div class="svc-grid">
+
+        <!-- PRICING -->
+        <div class="svc-card">
+            <div class="svc-card-title">Service Options &amp; Pricing</div>
+            <div class="svc-option-list">
+                <div class="svc-option">
+                    <div>
+                        <div class="svc-option-name">Basic Cleaning</div>
+                        <div class="svc-option-desc">General tidy, vacuum, and surface wipe-down</div>
+                    </div>
+                    <div class="svc-option-price">£4.75 / session</div>
+                </div>
+                <div class="svc-option">
+                    <div>
+                        <div class="svc-option-name">Deep Cleaning</div>
+                        <div class="svc-option-desc">Thorough clean including bathroom and hard-to-reach areas</div>
+                    </div>
+                    <div class="svc-option-price">£9.50 / session</div>
+                </div>
+                <div class="svc-option">
+                    <div>
+                        <div class="svc-option-name">Weekly Package</div>
+                        <div class="svc-option-desc">One basic clean per week, billed weekly</div>
+                    </div>
+                    <div class="svc-option-price">£19.00 / week</div>
+                </div>
+                <div class="svc-option">
+                    <div>
+                        <div class="svc-option-name">Monthly Package</div>
+                        <div class="svc-option-desc">Regular visits throughout the month</div>
+                    </div>
+                    <div class="svc-option-price">£66.50 / month</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- REQUEST FORM -->
+        <div class="svc-card">
+            <div class="svc-card-title">New Request</div>
+            <form method="POST" action="{{ url_for('pg.housekeeping_request') }}">
+                <div class="svc-form-group">
+                    <label for="service_subtype">Service Type</label>
+                    <select id="service_subtype" name="service_subtype" required>
+                        <option value="">Select a service...</option>
+                        <option value="basic">Basic Cleaning (£4.75)</option>
+                        <option value="deep">Deep Cleaning (£9.50)</option>
+                        <option value="weekly_package">Weekly Package (£19.00)</option>
+                        <option value="monthly_package">Monthly Package (£66.50)</option>
+                    </select>
+                </div>
+
+                <div class="svc-form-group">
+                    <label for="preferred_date">Preferred Date</label>
+                    <input type="date" id="preferred_date" name="preferred_date">
+                </div>
+
+                <div class="svc-form-group">
+                    <label for="notes">Additional Notes <span style="font-weight:normal;text-transform:none;letter-spacing:0;">(optional)</span></label>
+                    <textarea id="notes" name="notes" placeholder="e.g. please focus on bathroom, allergic to certain products..."></textarea>
+                </div>
+
+                <button type="submit" class="svc-submit-btn">Schedule Cleaning</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- HISTORY -->
+    <div class="svc-history">
+        <div class="svc-history-title">Request History</div>
+
+        {% if requests %}
+            {% for req in requests %}
+            <div class="svc-request-card">
+                <div class="svc-request-main">
+                    <div>
+                        <div class="svc-request-title">{{ req.details }}</div>
+                        <div class="svc-request-meta">
+                            <span>📅 {{ req.requested_at.strftime('%d %b %Y, %H:%M') }}</span>
+                            {% if req.completed_at %}
+                                <span>✅ Completed {{ req.completed_at.strftime('%d %b %Y') }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <span class="svc-request-cost">
+                            {% if req.cost %}£{{ '%.2f'|format(req.cost) }}{% else %}—{% endif %}
+                        </span>
+                        <span class="svc-status-badge svc-status-{{ req.status }}">
+                            {{ req.status | replace('_', ' ') | title }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="svc-empty">No housekeeping requests yet. Schedule one above.</div>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}
