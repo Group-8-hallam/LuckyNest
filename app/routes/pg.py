@@ -155,8 +155,6 @@ def dashboard():
         services=services
     )
 
-<<<<<<< HEAD
-=======
 
 @pg_bp.route('/laundry')
 @login_required
@@ -343,7 +341,6 @@ def my_room():
     return render_template('my_room.html', booking=booking, room=room)
 
 
->>>>>>> 3d307b3 (Add laundry, housekeeping, my room pages and wire service payments to payment history)
 @pg_bp.route('/settings', methods=['GET', 'POST'])
 @login_required
 def settings():
