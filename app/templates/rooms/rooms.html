@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block title %}Room Management - LuckyNest{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/rooms.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <div class="dashboard-header">
+        <h2>🏠 Room Management</h2>
+        <p>{{ rooms | length }} rooms total</p>
+    </div>
+
+    <a href="{{ url_for('rooms.add_room') }}" class="btn-primary" 
+       style="display:inline-block; width:auto; margin-bottom:1.5rem;">
+        + Add New Room
+    </a>
+
+    {% if rooms %}
+    <table class="rooms-table">
+        <thead>
+            <tr>
+                <th>Room</th>
+                <th>Floor</th>
+                <th>Type</th>
+                <th>Weekly</th>
+                <th>Monthly</th>
+                <th>Deposit</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for room in rooms %}
+            <tr>
+                <td><strong>{{ room.number }}</strong></td>
+                <td>{{ room.floor if room.floor else '—' }}</td>
+                <td>{{ room.type | capitalize }}</td>
+                <td>£{{ room.price_weekly }}</td>
+                <td>£{{ room.price_monthly }}</td>
+                <td>£{{ room.security_deposit if room.security_deposit else '—' }}</td>
+                <td>
+                    <span class="status-badge {% if room.is_occupied %}occupied{% else %}vacant{% endif %}">
+                        {{ 'Occupied' if room.is_occupied else 'Vacant' }}
+                    </span>
+                </td>
+                <td class="actions">
+                    <a href="{{ url_for('rooms.edit_room', room_id=room.id) }}" class="btn-edit">Edit</a>
+                    <form method="POST" action="{{ url_for('rooms.toggle_room', room_id=room.id) }}" style="display:inline;">
+                        <button type="submit" class="btn-toggle">
+                            {{ 'Mark Vacant' if room.is_occupied else 'Mark Occupied' }}
+                        </button>
+                    </form>
+                    <form method="POST" action="{{ url_for('rooms.delete_room', room_id=room.id) }}" style="display:inline;"
+                          onsubmit="return confirm('Are you sure you want to delete room {{ room.number }}?')">
+                        <button type="submit" class="btn-delete">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div style="background:white; padding:2rem; border-radius:8px; text-align:center; color:#888;">
+        <p>No rooms added yet. Click "Add New Room" to get started.</p>
+    </div>
+    {% endif %}
+
+    <a href="{{ url_for('pg.dashboard') }}" class="btn-primary"
+       style="display:inline-block; width:auto; margin-top:1.5rem;">
+        ← Back to Dashboard
+    </a>
+
+</div>
+{% endblock %}

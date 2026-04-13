@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}Edit Room - LuckyNest{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/rooms.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <div class="dashboard-header">
+        <h2>Edit Room {{ room.number }}</h2>
+    </div>
+
+    <div class="auth-card" style="max-width:600px;">
+        <form method="POST" action="{{ url_for('rooms.edit_room', room_id=room.id) }}">
+
+            <div class="form-group">
+                <label>Room Number</label>
+                <input type="text" name="number" value="{{ room.number }}" required>
+            </div>
+
+            <div class="form-group">
+                <label>Floor</label>
+                <input type="number" name="floor" value="{{ room.floor if room.floor else '' }}">
+            </div>
+
+            <div class="form-group">
+                <label>Room Type</label>
+                <select name="type" style="width:100%; padding:0.5rem; border:1px solid #ccc; border-radius:4px;">
+                    <option value="single" {% if room.type == 'single' %}selected{% endif %}>Single</option>
+                    <option value="double" {% if room.type == 'double' %}selected{% endif %}>Double</option>
+                    <option value="triple" {% if room.type == 'triple' %}selected{% endif %}>Triple</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Weekly Rate (£)</label>
+                <input type="number" step="0.01" name="price_weekly" value="{{ room.price_weekly }}" required>
+            </div>
+
+            <div class="form-group">
+                <label>Monthly Rate (£)</label>
+                <input type="number" step="0.01" name="price_monthly" value="{{ room.price_monthly }}" required>
+            </div>
+
+            <div class="form-group">
+                <label>Security Deposit (£)</label>
+                <input type="number" step="0.01" name="security_deposit" 
+                       value="{{ room.security_deposit if room.security_deposit else '' }}">
+            </div>
+
+            <div class="form-group">
+                <label>Amenities</label>
+                <input type="text" name="amenities" value="{{ room.amenities if room.amenities else '' }}">
+            </div>
+
+            <button type="submit" class="btn-primary">Save Changes</button>
+        </form>
+    </div>
+
+    <a href="{{ url_for('rooms.rooms') }}" class="btn-primary"
+       style="display:inline-block; width:auto; margin-top:1rem;">
+        ← Back to Rooms
+    </a>
+
+</div>
+{% endblock %}
