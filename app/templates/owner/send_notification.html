@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}Send Notification - LuckyNest{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <div class="dashboard-header">
+        <h2>📢 Send Notification</h2>
+        <p>Send an in-app notification to a guest or all guests</p>
+    </div>
+
+    <div class="auth-card" style="max-width:600px;">
+        <form method="POST" action="{{ url_for('owner.send_notification') }}">
+
+            <div class="form-group">
+                <label for="recipient">Send To</label>
+                <select id="recipient" name="recipient" style="width:100%; padding:0.5rem; border:1px solid #ccc; border-radius:4px;">
+                    <option value="all">All Guests</option>
+                    {% for user in pg_users %}
+                    <option value="{{ user.id }}">{{ user.full_name }} ({{ user.email }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="alert_type">Alert Type</label>
+                <select id="alert_type" name="alert_type" style="width:100%; padding:0.5rem; border:1px solid #ccc; border-radius:4px;">
+                    <option value="announcement">Announcement</option>
+                    <option value="rent_due">Rent Due</option>
+                    <option value="payment_received">Payment Received</option>
+                    <option value="booking_confirmed">Booking Confirmed</option>
+                    <option value="emergency">Emergency</option>
+                    <option value="maintenance">Maintenance</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" required rows="4"
+                    style="width:100%; padding:0.5rem; border:1px solid #ccc; border-radius:4px; resize:vertical;">
+                </textarea>
+            </div>
+
+            <button type="submit" class="btn-primary">Send Notification</button>
+        </form>
+    </div>
+
+    <a href="{{ url_for('pg.dashboard') }}" class="btn-primary"
+       style="display:inline-block; width:auto; margin-top:1rem;">
+        ← Back to Dashboard
+    </a>
+
+</div>
+{% endblock %}

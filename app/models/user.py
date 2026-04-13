@@ -11,13 +11,10 @@ class User(UserMixin, db.Model):
     phone = db.Column(db.String(20), nullable=False)
     password_hash = db.Column(db.String(256), nullable=False)
     role = db.Column(db.String(20), nullable=False, default='pg')
-
-    # New fields
     address = db.Column(db.Text, nullable=True)
     date_of_birth = db.Column(db.Date, nullable=True)
     id_proof_type = db.Column(db.String(50), nullable=True)
     id_proof_number = db.Column(db.String(100), nullable=True)
-
     is_active = db.Column(db.Boolean, default=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 

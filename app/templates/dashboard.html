@@ -46,13 +46,13 @@
             <p>Schedule and manage cleaning visits</p>
         </a>
 
-        <a href="#" class="nav-card">
+        <a href="{{ url_for('pg.notifications') }}" class="nav-card">
             <div class="nav-card-icon">🔔</div>
             <h3>Notifications</h3>
             <p>View your alerts and announcements</p>
         </a>
 
-        <a href="#" class="nav-card">
+        <a href="{{ url_for('pg.settings') }}" class="nav-card">
             <div class="nav-card-icon">👤</div>
             <h3>My Profile</h3>
             <p>View and update your personal details</p>
@@ -68,16 +68,16 @@
 
     {% elif current_user.role == 'owner' %}
 
-<div class="occupancy-widget">
-    <div class="occ-stat">
-        <span class="occ-number">{{ occupied_rooms }}/{{ total_rooms }}</span>
-        <span class="occ-label">Rooms Occupied</span>
+    <div class="occupancy-widget">
+        <div class="occ-stat">
+            <span class="occ-number">{{ occupied_rooms }}/{{ total_rooms }}</span>
+            <span class="occ-label">Rooms Occupied</span>
+        </div>
+        <div class="occ-bar-wrap">
+            <div class="occ-bar" style="width: {{ occupancy_rate }}%"></div>
+        </div>
+        <span class="occ-pct">{{ occupancy_rate }}% occupancy rate</span>
     </div>
-    <div class="occ-bar-wrap">
-        <div class="occ-bar" style="width: {{ ((occupied_rooms / total_rooms) * 100) | int }}%"></div>
-    </div>
-    <span class="occ-pct">{{ ((occupied_rooms / total_rooms) * 100) | int }}% occupancy rate</span>
-</div>
 
     <div class="nav-grid">
 
@@ -93,13 +93,13 @@
             <p>View, add and edit rooms</p>
         </a>
 
-        <a href="{{ url_for('main.guest_all') }}" class="nav-card">
+        <a href="#" class="nav-card">
             <div class="nav-card-icon">👥</div>
             <h3>Guest Management</h3>
             <p>View all guests, check-ins and check-outs</p>
         </a>
 
-        <a href="{{ url_for('main.payment_transactions') }}" class="nav-card">
+        <a href="#" class="nav-card">
             <div class="nav-card-icon">💳</div>
             <h3>Payment Management</h3>
             <p>Transactions, invoices and deposits</p>
@@ -129,6 +129,12 @@
             <p>View all visitor records</p>
         </a>
 
+        <a href="{{ url_for('owner.send_notification') }}" class="nav-card">
+            <div class="nav-card-icon">📢</div>
+            <h3>Send Notification</h3>
+            <p>Send alerts and announcements to guests</p>
+        </a>
+
     </div>
 
     {% elif current_user.role == 'admin' %}
@@ -140,7 +146,7 @@
             <p>View rooms and availability</p>
         </a>
 
-        <a href="{{ url_for('main.guest_all') }}" class="nav-card">
+        <a href="#" class="nav-card">
             <div class="nav-card-icon">👥</div>
             <h3>Guest Management</h3>
             <p>View guests and emergency contacts</p>

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}Notifications - LuckyNest{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/notifications.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <div class="dashboard-header">
+        <h2>🔔 Notifications</h2>
+        <p>Your alerts and announcements</p>
+    </div>
+
+    {% if notifications %}
+        <div class="notifications-list">
+            {% for n in notifications %}
+            <div class="notification-item {% if not n.is_read %}unread{% endif %}">
+                <div class="notification-type">
+                    {% if n.alert_type == 'rent_due' %}🏠
+                    {% elif n.alert_type == 'payment_received' %}✅
+                    {% elif n.alert_type == 'booking_confirmed' %}📋
+                    {% elif n.alert_type == 'emergency' %}🚨
+                    {% elif n.alert_type == 'announcement' %}📢
+                    {% else %}🔔
+                    {% endif %}
+                </div>
+                <div class="notification-body">
+                    <p class="notification-message">{{ n.message }}</p>
+                    <p class="notification-meta">
+                        {{ n.alert_type | replace('_', ' ') | capitalize }}
+                        &mdash; {{ n.created_at.strftime('%d %b %Y %H:%M') }}
+                    </p>
+                </div>
+                {% if not n.is_read %}
+                <span class="unread-badge">New</span>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="no-notifications">
+            <p>You have no notifications yet.</p>
+        </div>
+    {% endif %}
+
+    <a href="{{ url_for('pg.dashboard') }}" class="btn-primary" style="display:inline-block; width:auto; margin-top:1.5rem;">
+        ← Back to Dashboard
+    </a>
+
+</div>
+{% endblock %}

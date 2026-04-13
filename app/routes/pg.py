@@ -6,6 +6,7 @@ from app.models.rooms import Room
 from app.models.booking import Booking
 from app.models.payment import Payment
 from datetime import datetime, date
+from ..models.notification import Notification
 
 pg_bp = Blueprint('pg', __name__)
 
@@ -116,6 +117,8 @@ def dashboard():
     total_rooms = Room.query.count()
     occupied_rooms = Room.query.filter_by(is_occupied=True).count()
 
+    occupancy_rate = round((occupied_rooms / total_rooms) * 100) if total_rooms > 0 else 0
+
     booking, payments = build_pg_payment_history(current_user.id)
 
     total_paid = sum(p["amount"] for p in payments if p["status"] == "paid")
@@ -144,10 +147,10 @@ def dashboard():
         'dashboard.html',
         total_rooms=total_rooms,
         occupied_rooms=occupied_rooms,
+        occupancy_rate=occupancy_rate,
         payment_data=payment_data,
         services=services
     )
-
 
 @pg_bp.route('/settings', methods=['GET', 'POST'])
 @login_required
@@ -168,3 +171,24 @@ def settings():
         return redirect(url_for('pg.settings'))
 
     return render_template('settings.html', user=current_user)
+
+@pg_bp.route('/notifications')
+@login_required
+def notifications():
+    # Get all notifications for the logged in user, newest first
+    user_notifications = Notification.query.filter_by(
+        user_id=current_user.id
+    ).order_by(Notification.created_at.desc()).all()
+
+    # Mark all unread ones as read when they visit the page
+    unread = Notification.query.filter_by(
+        user_id=current_user.id,
+        is_read=False
+    ).all()
+
+    for n in unread:
+        n.is_read = True
+    db.session.commit()
+
+    return render_template('pg/notifications.html',
+                           notifications=user_notifications)

@@ -47,12 +47,16 @@ def create_app():
     from .routes.booking import booking_bp
     from .routes.settings import settings_bp   
 
-   
+    from .routes.owner import owner_bp
+
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(main_bp)
     app.register_blueprint(pg_bp, url_prefix='/pg')
     app.register_blueprint(rooms_bp, url_prefix='/rooms')
     app.register_blueprint(booking_bp, url_prefix='/booking')
     app.register_blueprint(settings_bp)        
+
+    app.register_blueprint(owner_bp, url_prefix='/owner')
+
 
     return app
