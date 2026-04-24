@@ -381,3 +381,80 @@ def notifications():
 
     return render_template('pg/notifications.html',
                            notifications=user_notifications)
+
+@pg_bp.route('/book-room')
+@login_required
+def book_room():
+    # If PG already has an active booking, send them to dashboard
+    existing_booking = Booking.query.filter_by(
+        user_id=current_user.id,
+        status='active'
+    ).first()
+    if existing_booking:
+        flash('You already have an active booking.', 'info')
+        return redirect(url_for('pg.dashboard'))
+
+    # Only show vacant rooms
+    vacant_rooms = Room.query.filter_by(is_occupied=False).order_by(Room.floor, Room.number).all()
+    return render_template('pg/book_room.html', rooms=vacant_rooms)
+
+
+@pg_bp.route('/book-room/<int:room_id>', methods=['GET', 'POST'])
+@login_required
+def confirm_booking(room_id):
+    room = Room.query.get_or_404(room_id)
+
+    if room.is_occupied:
+        flash('Sorry, that room is no longer available.', 'error')
+        return redirect(url_for('pg.book_room'))
+
+    existing_booking = Booking.query.filter_by(
+        user_id=current_user.id,
+        status='active'
+    ).first()
+    if existing_booking:
+        flash('You already have an active booking.', 'info')
+        return redirect(url_for('pg.dashboard'))
+
+    if request.method == 'POST':
+        check_in_date = request.form.get('check_in_date')
+        payment_cycle = request.form.get('payment_cycle')
+
+        if payment_cycle == 'weekly':
+            total_amount = room.price_weekly
+            due_date = date.today() + timedelta(days=7)
+        else:
+            total_amount = room.price_monthly
+            due_date = date.today() + timedelta(days=30)
+
+        # Create the booking
+        booking = Booking(
+            user_id=current_user.id,
+            room_id=room.id,
+            check_in_date=datetime.strptime(check_in_date, '%Y-%m-%d').date(),
+            payment_cycle=payment_cycle,
+            status='active',
+            security_deposit=room.security_deposit,
+            total_amount=total_amount
+        )
+        db.session.add(booking)
+        db.session.flush() 
+
+        payment = Payment(
+            booking_id=booking.id,
+            amount=total_amount,
+            status=False,
+            due_date=due_date,
+            invoice_ref=f'INV-{booking.id:04d}',
+            late_fee_applied=0.0
+        )
+        db.session.add(payment)
+
+        room.is_occupied = True
+
+        db.session.commit()
+
+        flash(f'Booking confirmed! Welcome to Room {room.number}.', 'success')
+        return redirect(url_for('pg.dashboard'))
+
+    return render_template('pg/confirm_booking.html', room=room)

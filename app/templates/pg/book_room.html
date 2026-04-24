@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}Select a Room - LuckyNest{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/rooms.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <div class="dashboard-header">
+        <h2>🛏️ Select Your Room</h2>
+        <p>Choose from {{ rooms | length }} available rooms</p>
+    </div>
+
+    {% if rooms %}
+    <div class="room-cards" style="display:flex; flex-wrap:wrap; gap:1.5rem; margin-top:1.5rem;">
+        {% for room in rooms %}
+        <div class="room-card" style="flex: 1; min-width: 250px; max-width: 300px;">
+            <div class="room-image-placeholder">
+                {{ room.type | capitalize }} Room
+            </div>
+            <div class="room-card-body">
+                <h3>Room {{ room.number }}</h3>
+                <p>Floor {{ room.floor if room.floor else 'Ground' }}</p>
+                <p>Type: {{ room.type | capitalize }}</p>
+                <p>£{{ room.price_weekly }}/week or £{{ room.price_monthly }}/month</p>
+                {% if room.amenities %}
+                <p>{{ room.amenities }}</p>
+                {% endif %}
+                <a href="{{ url_for('pg.confirm_booking', room_id=room.id) }}"
+                   class="btn-primary" style="display:block; text-align:center; margin-top:1rem; text-decoration:none;">
+                    Select Room
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div style="background:white; padding:2rem; border-radius:8px; text-align:center; color:#888; margin-top:1.5rem;">
+        <p>No rooms are currently available. Please contact management.</p>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

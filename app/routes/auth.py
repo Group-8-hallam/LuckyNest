@@ -59,8 +59,9 @@ def register():
         db.session.add(new_user)
         db.session.commit()
 
-        flash('Account created successfully. Please login', 'success')
-        return redirect(url_for('auth.login'))
+        login_user(new_user)
+        flash('Account created! Please select a room to complete your booking.', 'success')
+        return redirect(url_for('pg.book_room'))
     
     return render_template('auth/register.html')
 
