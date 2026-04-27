@@ -13,19 +13,19 @@
  <section class="carousel-section">
     <div class="carousel">
 
-        <div class="carousel-slide active">
+        <div class="carousel-slide active" style="background-image: url('{{ url_for('static', filename='images/luckynest-gallery/axel-bimashanda-5Re--kAsKco-unsplash.jpg') }}')">
             <div class="carousel-content">
                 <h1>Comfortable living in the heart of the city</h1>
             </div>
         </div>
 
-        <div class="carousel-slide">
+        <div class="carousel-slide" style="background-image: url('{{ url_for('static', filename='images/luckynest-gallery/louis-hansel-wVoP_Q2Bg_A-unsplash.jpg') }}')">
             <div class="carousel-content">
-                <h1>All you meals taken care of</h1>
+                <h1>All your meals taken care of</h1>
             </div>
         </div>
 
-        <div class="carousel-slide">
+        <div class="carousel-slide" style="background-image: url('{{ url_for('static', filename='images/luckynest-gallery/nereid-ndreu-afEV1IhjkLY-unsplash.jpg') }}')">
             <div class="carousel-content">
                 <h1>WiFi, Laundry, Housekeeping included</h1>
             </div>
@@ -80,7 +80,7 @@
     <h2>Our Rooms</h2>
     <div class="room-cards">
         <div class="room-card">
-            <div class="room-image-placeholder">Single Room Image</div>
+            <img src="{{ url_for('static', filename='images/rooms/SingleRoom.jpg') }}" alt="Single Room" class="room-card-img">
             <div class="room-card-body">
                 <h3>Single</h3>
                 <p>
@@ -94,7 +94,7 @@
             </div>
         </div>
         <div class="room-card">
-            <div class="room-image-placeholder">Double Room Image</div>
+            <img src="{{ url_for('static', filename='images/rooms/DoubleRoom.jpg') }}" alt="Double Room" class="room-card-img">
             <div class="room-card-body">
                 <h3>Double</h3>
                 <p>
@@ -108,7 +108,7 @@
             </div>
         </div>
         <div class="room-card">
-            <div class="room-image-placeholder">Triple Room Image</div>
+            <img src="{{ url_for('static', filename='images/rooms/TrippleRoom.jpg') }}" alt="Triple Room" class="room-card-img">
             <div class="room-card-body">
                 <h3>Triple</h3>
                 <p>

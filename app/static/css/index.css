@@ -26,12 +26,23 @@
     justify-content: center;
     opacity: 0;
     transition: opacity 0.6s ease;
-    background: linear-gradient(135deg, #2c3e50, #1a252f);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.carousel-slide::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.48);
 }
 
 .carousel-slide.active { opacity: 1; }
 
 .carousel-content {
+    position: relative;
+    z-index: 1;
     text-align: center;
     color: white;
     padding: 2rem;
@@ -149,6 +160,13 @@
     justify-content: center;
     color: #888;
     font-size: 0.9rem;
+}
+
+.room-card-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
 }
 
 .room-card-body { padding: 1.2rem; }

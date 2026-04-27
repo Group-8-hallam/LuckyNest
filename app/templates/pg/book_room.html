@@ -17,9 +17,13 @@
     <div class="room-cards" style="display:flex; flex-wrap:wrap; gap:1.5rem; margin-top:1.5rem;">
         {% for room in rooms %}
         <div class="room-card" style="flex: 1; min-width: 250px; max-width: 300px;">
-            <div class="room-image-placeholder">
-                {{ room.type | capitalize }} Room
-            </div>
+            {% if room.type == 'double' %}
+                <img src="{{ url_for('static', filename='images/rooms/DoubleRoom.jpg') }}" alt="Double Room" class="room-card-img">
+            {% elif room.type == 'triple' %}
+                <img src="{{ url_for('static', filename='images/rooms/TrippleRoom.jpg') }}" alt="Triple Room" class="room-card-img">
+            {% else %}
+                <img src="{{ url_for('static', filename='images/rooms/SingleRoom.jpg') }}" alt="Single Room" class="room-card-img">
+            {% endif %}
             <div class="room-card-body">
                 <h3>Room {{ room.number }}</h3>
                 <p>Floor {{ room.floor if room.floor else 'Ground' }}</p>
