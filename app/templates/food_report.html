@@ -1,219 +1,100 @@
 {% extends 'base.html' %}
 
-{% block title %}LuckyNest - Food Consumption Report{% endblock %}
+{% block title %}Food Report{% endblock %}
 
 {% block styles %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/food_report.css') }}">
 {% endblock %}
-ß
+
 {% block content %}
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<!-- PAGE HEADER -->
 <div class="rpt-header">
-    <div>
-        <h1>Food Consumption Report</h1>
-        <p class="rpt-subtitle">LuckyNest &mdash; Food Consumption Analysis &middot; February 2026</p>
-    </div>
-    <a href="{{ url_for('pg.dashboard') }}" class="btn-back">&#8592; Back to Dashboard</a>
+    <h1>Food Consumption Report</h1>
 </div>
+
 <hr class="rpt-divider">
 
-<!-- KPI CARDS -->
+<!-- KPIs -->
 <div class="kpi-row">
+
     <div class="kpi-card">
-        <span class="kpi-label">Food Revenue</span>
-        <span class="kpi-value">&#163;580</span>
-        <span class="kpi-change up">&#9650; 8% vs last month</span>
+        <span class="kpi-label">Revenue</span>
+        <span class="kpi-value">£{{ revenue }}</span>
     </div>
+
     <div class="kpi-card">
-        <span class="kpi-label">Food Cost</span>
-        <span class="kpi-value">&#163;427</span>
-        <span class="kpi-change down">&#9660; 3% vs last month</span>
+        <span class="kpi-label">Cost</span>
+        <span class="kpi-value">£{{ cost }}</span>
     </div>
+
     <div class="kpi-card">
         <span class="kpi-label">Profit</span>
-        <span class="kpi-value">&#163;153</span>
-        <span class="kpi-change up">&#9650; 26% margin</span>
-    </div>
-</div>
-
-<!-- MEAL PLAN DISTRIBUTION -->
-<div class="food-card">
-    <p class="card-title">Meal Plan Distribution</p>
-    <div class="meal-plan-grid">
-
-        <div class="plan-row">
-            <div class="plan-info">
-                <span class="plan-name">Daily Plan</span>
-                <span class="plan-meta">25 guests &mdash; 33%</span>
-            </div>
-            <div class="plan-bar-wrap">
-                <div class="plan-track">
-                    <div class="plan-fill fill-dark" style="width: 33%"></div>
-                </div>
-            </div>
-            <span class="plan-amount">&#163;356</span>
-        </div>
-
-        <div class="plan-row">
-            <div class="plan-info">
-                <span class="plan-name">Weekly Plan</span>
-                <span class="plan-meta">35 guests &mdash; 43%</span>
-            </div>
-            <div class="plan-bar-wrap">
-                <div class="plan-track">
-                    <div class="plan-fill fill-mid" style="width: 43%"></div>
-                </div>
-            </div>
-            <span class="plan-amount">&#163;513</span>
-        </div>
-
-        <div class="plan-row">
-            <div class="plan-info">
-                <span class="plan-name">Monthly Plan</span>
-                <span class="plan-meta">21 guests &mdash; 25%</span>
-            </div>
-            <div class="plan-bar-wrap">
-                <div class="plan-track">
-                    <div class="plan-fill fill-light" style="width: 25%"></div>
-                </div>
-            </div>
-            <span class="plan-amount">&#163;684</span>
-        </div>
-
-    </div>
-</div>
-
-<!-- MEALS BY TYPE + TOP MEALS SIDE BY SIDE -->
-<div class="food-grid-2">
-
-    <div class="food-card">
-        <p class="card-title">Meals Served by Type</p>
-        <div class="bar-chart">
-            <div class="bar-row">
-                <span class="bar-label">Breakfast</span>
-                <div class="bar-track"><div class="bar-fill fill-dark" style="width: 80%"></div></div>
-                <span class="bar-count">496</span>
-            </div>
-            <div class="bar-row">
-                <span class="bar-label">Lunch</span>
-                <div class="bar-track"><div class="bar-fill fill-mid" style="width: 60%"></div></div>
-                <span class="bar-count">372</span>
-            </div>
-            <div class="bar-row">
-                <span class="bar-label">Dinner</span>
-                <div class="bar-track"><div class="bar-fill fill-blue" style="width: 60%"></div></div>
-                <span class="bar-count">372</span>
-            </div>
-            <div class="bar-row">
-                <span class="bar-label">Snacks</span>
-                <div class="bar-track"><div class="bar-fill fill-light" style="width: 30%"></div></div>
-                <span class="bar-count">186</span>
-            </div>
-        </div>
-        <div class="total-meals">Total meals served: <strong>1,426</strong></div>
-    </div>
-
-    <div class="food-card">
-        <p class="card-title">Top 5 Most Popular Meals</p>
-        <div class="bar-chart">
-            <div class="bar-row">
-                <span class="bar-label rank"><span class="rank-num">1.</span> Veg Thali</span>
-                <div class="bar-track"><div class="bar-fill fill-dark" style="width: 85%"></div></div>
-                <span class="bar-count">85</span>
-            </div>
-            <div class="bar-row">
-                <span class="bar-label rank"><span class="rank-num">2.</span> Chicken Biryani</span>
-                <div class="bar-track"><div class="bar-fill fill-dark" style="width: 72%"></div></div>
-                <span class="bar-count">72</span>
-            </div>
-            <div class="bar-row">
-                <span class="bar-label rank"><span class="rank-num">3.</span> Dal Rice</span>
-                <div class="bar-track"><div class="bar-fill fill-mid" style="width: 68%"></div></div>
-                <span class="bar-count">68</span>
-            </div>
-            <div class="bar-row">
-                <span class="bar-label rank"><span class="rank-num">4.</span> Paneer Butter</span>
-                <div class="bar-track"><div class="bar-fill fill-mid" style="width: 54%"></div></div>
-                <span class="bar-count">54</span>
-            </div>
-            <div class="bar-row">
-                <span class="bar-label rank"><span class="rank-num">5.</span> Chapati Curry</span>
-                <div class="bar-track"><div class="bar-fill fill-light" style="width: 45%"></div></div>
-                <span class="bar-count">45</span>
-            </div>
-        </div>
+        <span class="kpi-value">£{{ profit }}</span>
     </div>
 
 </div>
 
-<!-- WASTAGE + DAILY AVERAGE -->
-<div class="food-grid-2">
+<!-- CHARTS -->
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:20px;">
 
-    <div class="food-card">
-        <p class="card-title">Wastage Report</p>
-        <div class="bar-chart">
-            <div class="bar-row">
-                <span class="bar-label">Breakfast</span>
-                <div class="bar-track"><div class="bar-fill fill-red" style="width: 12%"></div></div>
-                <span class="bar-count">12%</span>
-            </div>
-            <div class="bar-row">
-                <span class="bar-label">Lunch</span>
-                <div class="bar-track"><div class="bar-fill fill-red" style="width: 7%"></div></div>
-                <span class="bar-count">7%</span>
-            </div>
-            <div class="bar-row">
-                <span class="bar-label">Dinner</span>
-                <div class="bar-track"><div class="bar-fill fill-red" style="width: 5%"></div></div>
-                <span class="bar-count">5%</span>
-            </div>
-            <div class="bar-row">
-                <span class="bar-label">Snacks</span>
-                <div class="bar-track"><div class="bar-fill fill-red" style="width: 9%"></div></div>
-                <span class="bar-count">9%</span>
-            </div>
-        </div>
-        <div class="total-meals">Avg wastage: <strong>8%</strong> &mdash; Target: <strong>&lt;5%</strong></div>
+    <!-- BAR CHART -->
+    <div class="rpt-card">
+        <h3>Meals Served</h3>
+        <canvas id="barChart"></canvas>
     </div>
 
-    <div class="food-card">
-        <p class="card-title">Daily Averages</p>
-        <div class="stat-list">
-            <div class="stat-item">
-                <span class="stat-name">Meals per guest per day</span>
-                <span class="stat-val">2.4</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-name">Daily food revenue</span>
-                <span class="stat-val">&#163;20.71</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-name">Daily food cost</span>
-                <span class="stat-val">&#163;15.25</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-name">Guests on meal plan</span>
-                <span class="stat-val">81 / 86</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-name">Most popular meal time</span>
-                <span class="stat-val">Breakfast</span>
-            </div>
-        </div>
+    <!-- PIE CHART -->
+    <div class="rpt-card">
+        <h3>Meal Distribution</h3>
+        <canvas id="pieChart"></canvas>
     </div>
 
 </div>
 
-<!-- SUMMARY FOOTER -->
-<div class="summary-footer">
-    <span>Food Revenue: <strong>&#163;580</strong></span>
-    <span>Food Cost: <strong>&#163;427</strong></span>
-    <span>Profit: <strong>&#163;153</strong></span>
-    <span>Margin: <strong>26%</strong></span>
-</div>
+<!-- CHART JS -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<p class="rpt-footnote">Dummy data for development purposes &mdash; LuckyNest Management &mdash; February 2026</p>
+<script>
+const labels = {{ meal_labels | tojson }};
+const values = {{ meal_values | tojson }};
+
+// BAR CHART
+new Chart(document.getElementById("barChart"), {
+    type: "bar",
+    data: {
+        labels: labels,
+        datasets: [{
+            label: "Meals Served",
+            data: values,
+            backgroundColor: "#2c3e50"
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { display: false }
+        }
+    }
+});
+
+// PIE CHART
+new Chart(document.getElementById("pieChart"), {
+    type: "pie",
+    data: {
+        labels: labels,
+        datasets: [{
+            data: values,
+            backgroundColor: [
+                "#2c3e50",
+                "#2471a3",
+                "#27ae60",
+                "#e67e22"
+            ]
+        }]
+    }
+});
+</script>
 
 {% endblock %}

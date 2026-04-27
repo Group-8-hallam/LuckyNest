@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}LuckyNest - Service Usage Report{% endblock %}
+{% block title %}LuckyNest - Visitor Report{% endblock %}
 
 {% block styles %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/visitor_report.css') }}">
@@ -12,29 +12,31 @@
 <div class="rpt-header">
     <div>
         <h1>Visitor Log Report</h1>
-        <p class="rpt-subtitle">LuckyNest &mdash; Visitor Analytics &middot; February 2026</p>
+        <p class="rpt-subtitle">LuckyNest — Visitor Analytics · Live Data</p>
     </div>
-    <a href="{{ url_for('pg.dashboard') }}" class="btn-back">&#8592; Back to Dashboard</a>
+    <a href="{{ url_for('main.index') }}" class="btn-back">← Back to Dashboard</a>
 </div>
+
 <hr class="rpt-divider">
 
 <!-- KPI CARDS -->
 <div class="kpi-row">
+
     <div class="kpi-card">
         <span class="kpi-label">Total Visitors</span>
-        <span class="kpi-value">38</span>
-        <span class="kpi-change up">&#9650; 5 more than last month</span>
+        <span class="kpi-value">{{ total_visitors }}</span>
     </div>
+
     <div class="kpi-card">
         <span class="kpi-label">Avg Daily Visitors</span>
-        <span class="kpi-value">1.4</span>
-        <span class="kpi-change up">&#9650; peak on weekends</span>
+        <span class="kpi-value">{{ avg_daily }}</span>
     </div>
+
     <div class="kpi-card">
         <span class="kpi-label">Avg Visit Duration</span>
-        <span class="kpi-value">2.3<span class="kpi-unit">hrs</span></span>
-        <span class="kpi-change down">&#9660; 0.2hrs vs last month</span>
+        <span class="kpi-value">{{ avg_duration }}<span class="kpi-unit">hrs</span></span>
     </div>
+
 </div>
 
 <!-- VISIT PURPOSE + PEAK HOURS -->
@@ -42,73 +44,59 @@
 
     <div class="rpt-card">
         <p class="card-title">Visit Purpose Breakdown</p>
+
         <div class="bar-chart">
+
+            {% for item in purpose_breakdown %}
             <div class="bar-row">
-                <span class="bar-label">Family</span>
-                <div class="bar-track"><div class="bar-fill fill-dark" style="width: 42%"></div></div>
-                <span class="bar-count">16 visits</span>
+                <span class="bar-label">{{ item.label }}</span>
+
+                <div class="bar-track">
+                    <div class="bar-fill fill-dark" style="width: {{ item.pct }}%"></div>
+                </div>
+
+                <span class="bar-count">{{ item.count }} visits</span>
             </div>
-            <div class="bar-row">
-                <span class="bar-label">Friend</span>
-                <div class="bar-track"><div class="bar-fill fill-mid" style="width: 34%"></div></div>
-                <span class="bar-count">13 visits</span>
-            </div>
-            <div class="bar-row">
-                <span class="bar-label">Service</span>
-                <div class="bar-track"><div class="bar-fill fill-blue" style="width: 18%"></div></div>
-                <span class="bar-count">7 visits</span>
-            </div>
-            <div class="bar-row">
-                <span class="bar-label">Other</span>
-                <div class="bar-track"><div class="bar-fill fill-light" style="width: 5%"></div></div>
-                <span class="bar-count">2 visits</span>
-            </div>
+            {% endfor %}
+
         </div>
-        <div class="card-note">Most common purpose: Family visits (42%)</div>
+
+        <div class="card-note">Most common purpose: {{ top_purpose }}</div>
     </div>
 
     <div class="rpt-card">
         <p class="card-title">Peak Visit Hours</p>
+
         <div class="bar-chart">
+
+            {% for h in hourly_breakdown %}
             <div class="bar-row">
-                <span class="bar-label">08:00 &ndash; 10:00</span>
-                <div class="bar-track"><div class="bar-fill fill-lighter" style="width: 10%"></div></div>
-                <span class="bar-count">4 visits</span>
+                <span class="bar-label">{{ h.label }}</span>
+
+                <div class="bar-track">
+                    <div class="bar-fill fill-mid" style="width: {{ h.pct }}%"></div>
+                </div>
+
+                <span class="bar-count">{{ h.count }} visits</span>
             </div>
-            <div class="bar-row">
-                <span class="bar-label">10:00 &ndash; 12:00</span>
-                <div class="bar-track"><div class="bar-fill fill-light" style="width: 18%"></div></div>
-                <span class="bar-count">7 visits</span>
-            </div>
-            <div class="bar-row">
-                <span class="bar-label">12:00 &ndash; 14:00</span>
-                <div class="bar-track"><div class="bar-fill fill-blue" style="width: 21%"></div></div>
-                <span class="bar-count">8 visits</span>
-            </div>
-            <div class="bar-row">
-                <span class="bar-label">14:00 &ndash; 17:00</span>
-                <div class="bar-track"><div class="bar-fill fill-mid" style="width: 34%"></div></div>
-                <span class="bar-count">13 visits</span>
-            </div>
-            <div class="bar-row">
-                <span class="bar-label">17:00 &ndash; 20:00</span>
-                <div class="bar-track"><div class="bar-fill fill-dark" style="width: 42%"></div></div>
-                <span class="bar-count">16 visits</span>
-            </div>
+            {% endfor %}
+
         </div>
-        <div class="card-note">Peak hours: 17:00 &ndash; 20:00 (evening)</div>
+
+        <div class="card-note">Peak hours: {{ peak_hour }}</div>
     </div>
 
 </div>
 
-<!-- VISITOR LOG TABLE -->
+<!-- VISITOR TABLE -->
 <div class="rpt-card rpt-full">
-    <p class="card-title">Visitor Log Summary &mdash; February 2026</p>
+    <p class="card-title">Visitor Log</p>
+
     <table class="vis-table">
         <thead>
             <tr>
-                <th>Visitor Name</th>
-                <th>Visiting Room</th>
+                <th>Name</th>
+                <th>Room</th>
                 <th>Purpose</th>
                 <th>Check-in</th>
                 <th>Check-out</th>
@@ -116,75 +104,31 @@
                 <th>Status</th>
             </tr>
         </thead>
+
         <tbody>
+            {% for v in visitors %}
             <tr>
-                <td>Sarah Johnson</td>
-                <td>101</td>
-                <td>Family</td>
-                <td>10:30</td>
-                <td>13:00</td>
-                <td>2.5 hrs</td>
-                <td><span class="badge badge-done">Completed</span></td>
+                <td>{{ v.name }}</td>
+                <td>{{ v.room }}</td>
+                <td>{{ v.purpose }}</td>
+                <td>{{ v.check_in }}</td>
+                <td>{{ v.check_out or '--' }}</td>
+                <td>{{ v.duration or '--' }}</td>
+
+                <td>
+                    {% if v.status == 'active' %}
+                        <span class="badge badge-active">Active</span>
+                    {% else %}
+                        <span class="badge badge-done">Completed</span>
+                    {% endif %}
+                </td>
             </tr>
-            <tr>
-                <td>Mark Williams</td>
-                <td>204</td>
-                <td>Friend</td>
-                <td>14:00</td>
-                <td>16:30</td>
-                <td>2.5 hrs</td>
-                <td><span class="badge badge-done">Completed</span></td>
-            </tr>
-            <tr>
-                <td>Plumber Co.</td>
-                <td>305</td>
-                <td>Service</td>
-                <td>09:00</td>
-                <td>10:30</td>
-                <td>1.5 hrs</td>
-                <td><span class="badge badge-done">Completed</span></td>
-            </tr>
-            <tr>
-                <td>Priya Patel</td>
-                <td>102</td>
-                <td>Family</td>
-                <td>17:00</td>
-                <td>19:30</td>
-                <td>2.5 hrs</td>
-                <td><span class="badge badge-done">Completed</span></td>
-            </tr>
-            <tr>
-                <td>James Brown</td>
-                <td>407</td>
-                <td>Friend</td>
-                <td>18:00</td>
-                <td>--</td>
-                <td>--</td>
-                <td><span class="badge badge-active">Active</span></td>
-            </tr>
-            <tr>
-                <td>Delivery Co.</td>
-                <td>203</td>
-                <td>Service</td>
-                <td>11:00</td>
-                <td>11:30</td>
-                <td>0.5 hrs</td>
-                <td><span class="badge badge-done">Completed</span></td>
-            </tr>
-            <tr>
-                <td>Anna Chen</td>
-                <td>310</td>
-                <td>Family</td>
-                <td>15:00</td>
-                <td>18:00</td>
-                <td>3.0 hrs</td>
-                <td><span class="badge badge-done">Completed</span></td>
-            </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>
 
-<!-- WEEKLY TREND + STATS -->
+<!-- STATS -->
 <div class="rpt-grid-2">
 
     <div class="rpt-card">
@@ -194,48 +138,48 @@
 
     <div class="rpt-card">
         <p class="card-title">Visitor Stats</p>
+
         <div class="stat-list">
             <div class="stat-item">
-                <span class="stat-name">Total Unique Visitors</span>
-                <span class="stat-val">38</span>
+                <span class="stat-name">Total Visitors</span>
+                <span class="stat-val">{{ total_visitors }}</span>
             </div>
+
             <div class="stat-item">
                 <span class="stat-name">Currently On-site</span>
-                <span class="stat-val warn">1</span>
+                <span class="stat-val warn">{{ active_visitors }}</span>
             </div>
-            <div class="stat-item">
-                <span class="stat-name">Guest Approved Visits</span>
-                <span class="stat-val">38</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-name">Visits with Vehicle</span>
-                <span class="stat-val">12</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-name">Busiest Day</span>
-                <span class="stat-val">Saturday</span>
-            </div>
+
             <div class="stat-item">
                 <span class="stat-name">Most Visited Room</span>
-                <span class="stat-val">Room 101</span>
+                <span class="stat-val">{{ top_room }}</span>
+            </div>
+
+            <div class="stat-item">
+                <span class="stat-name">Busiest Day</span>
+                <span class="stat-val">{{ busiest_day }}</span>
             </div>
         </div>
     </div>
 
 </div>
 
-<p class="rpt-footnote">Dummy data for development purposes &mdash; LuckyNest Management &mdash; February 2026</p>
+<p class="rpt-footnote">
+    Live visitor data — LuckyNest System
+</p>
 
 <script>
-    const weeks  = ['Wk 1', 'Wk 2', 'Wk 3', 'Wk 4'];
-    const values = [8, 11, 10, 9];
+    const weeks  = {{ week_labels|tojson }};
+    const values = {{ week_values|tojson }};
     const maxVal = Math.max(...values);
     const chart  = document.getElementById('trend-chart');
 
     weeks.forEach((w, i) => {
         const h = Math.round((values[i] / maxVal) * 120);
+
         const col = document.createElement('div');
         col.className = 'trend-col';
+
         col.innerHTML = `
             <span class="trend-val">${values[i]}</span>
             <div class="trend-bar-track">
@@ -243,6 +187,7 @@
             </div>
             <span class="trend-month">${w}</span>
         `;
+
         chart.appendChild(col);
     });
 </script>

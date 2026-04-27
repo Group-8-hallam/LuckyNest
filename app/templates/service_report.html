@@ -8,203 +8,170 @@
 
 {% block content %}
 
-<!-- PAGE HEADER -->
 <div class="rpt-header">
     <div>
         <h1>Service Usage Report</h1>
-        <p class="rpt-subtitle">LuckyNest &mdash; Service Analytics &middot; February 2026</p>
+        <p class="rpt-subtitle">LuckyNest — Service Analytics</p>
     </div>
-    <a href="{{ url_for('pg.dashboard') }}" class="btn-back">&#8592; Back to Dashboard</a>
+    <a href="{{ url_for('pg.dashboard') }}" class="btn-back">← Back to Dashboard</a>
 </div>
+
 <hr class="rpt-divider">
 
-<!-- KPI CARDS -->
+<!-- KPI -->
 <div class="kpi-row">
     <div class="kpi-card">
-        <span class="kpi-label">Total Service Requests</span>
-        <span class="kpi-value">184</span>
-        <span class="kpi-change up">&#9650; 11% vs last month</span>
+        <span class="kpi-label">Total Requests</span>
+        <span class="kpi-value">{{ total_requests }}</span>
     </div>
+
     <div class="kpi-card">
         <span class="kpi-label">Service Revenue</span>
-        <span class="kpi-value">&#163;267</span>
-        <span class="kpi-change up">&#9650; 6% vs last month</span>
+        <span class="kpi-value">£{{ total_revenue }}</span>
     </div>
+
     <div class="kpi-card">
-        <span class="kpi-label">Avg Resolution Time</span>
-        <span class="kpi-value">3.2<span class="kpi-unit">hrs</span></span>
-        <span class="kpi-change down">&#9660; 0.4hrs slower</span>
+        <span class="kpi-label">Avg Cost</span>
+        <span class="kpi-value">£{{ avg_cost }}</span>
     </div>
 </div>
 
-<!-- SERVICE REQUESTS BREAKDOWN + REVENUE BY SERVICE -->
+<!-- REQUESTS + REVENUE -->
 <div class="rpt-grid-2">
 
+    <!-- REQUEST COUNT -->
     <div class="rpt-card">
-        <p class="card-title">Requests by Service Type</p>
+        <p class="card-title">Requests by Service</p>
+
         <div class="bar-chart">
+            {% for name, count in service_counts.items() %}
             <div class="bar-row">
-                <span class="bar-label">Laundry</span>
-                <div class="bar-track"><div class="bar-fill fill-dark" style="width: 74%"></div></div>
-                <span class="bar-count">74 reqs</span>
+                <span class="bar-label">{{ name }}</span>
+
+                <div class="bar-track">
+                    <div class="bar-fill"
+                         style="width: {{ (count / total_requests * 100) if total_requests else 0 }}%">
+                    </div>
+                </div>
+
+                <span class="bar-count">{{ count }}</span>
             </div>
-            <div class="bar-row">
-                <span class="bar-label">Housekeeping</span>
-                <div class="bar-track"><div class="bar-fill fill-mid" style="width: 52%"></div></div>
-                <span class="bar-count">52 reqs</span>
-            </div>
-            <div class="bar-row">
-                <span class="bar-label">Maintenance</span>
-                <div class="bar-track"><div class="bar-fill fill-blue" style="width: 31%"></div></div>
-                <span class="bar-count">31 reqs</span>
-            </div>
-            <div class="bar-row">
-                <span class="bar-label">Room Service</span>
-                <div class="bar-track"><div class="bar-fill fill-light" style="width: 18%"></div></div>
-                <span class="bar-count">18 reqs</span>
-            </div>
-            <div class="bar-row">
-                <span class="bar-label">Other</span>
-                <div class="bar-track"><div class="bar-fill fill-lighter" style="width: 9%"></div></div>
-                <span class="bar-count">9 reqs</span>
-            </div>
+            {% endfor %}
         </div>
-        <div class="card-note">Most requested: Laundry (40% of all requests)</div>
     </div>
 
+    <!-- REVENUE -->
     <div class="rpt-card">
         <p class="card-title">Revenue by Service</p>
+
         <div class="bar-chart">
+            {% for name, value in service_revenue.items() %}
             <div class="bar-row">
-                <span class="bar-label">Laundry</span>
-                <div class="bar-track"><div class="bar-fill fill-dark" style="width: 61%"></div></div>
-                <span class="bar-count">&#163;162</span>
+                <span class="bar-label">{{ name }}</span>
+
+                <div class="bar-track">
+                    <div class="bar-fill"
+                         style="width: {{ (value / total_revenue * 100) if total_revenue else 0 }}%">
+                    </div>
+                </div>
+
+                <span class="bar-count">£{{ value }}</span>
             </div>
-            <div class="bar-row">
-                <span class="bar-label">Housekeeping</span>
-                <div class="bar-track"><div class="bar-fill fill-mid" style="width: 36%"></div></div>
-                <span class="bar-count">&#163;95</span>
-            </div>
-            <div class="bar-row">
-                <span class="bar-label">Maintenance</span>
-                <div class="bar-track"><div class="bar-fill fill-blue" style="width: 15%"></div></div>
-                <span class="bar-count">&#163;10</span>
-            </div>
-            <div class="bar-row">
-                <span class="bar-label">Room Service</span>
-                <div class="bar-track"><div class="bar-fill fill-light" style="width: 0%"></div></div>
-                <span class="bar-count">&#163;0</span>
-            </div>
+            {% endfor %}
         </div>
-        <div class="card-note">Total service revenue: &#163;267</div>
     </div>
 
 </div>
 
-<!-- UTILISATION RATES -->
-<div class="rpt-card rpt-full">
-    <p class="card-title">Service Utilisation Rates &mdash; % of Guests Using Each Service</p>
+<!-- UTILISATION -->
+<div class="rpt-card">
+    <p class="card-title">Service Utilisation</p>
+
     <div class="util-grid">
-
+        {% for name, pct in utilisation.items() %}
         <div class="util-item">
             <div class="util-top">
-                <span class="util-name">Laundry</span>
-                <span class="util-pct">86%</span>
+                <span class="util-name">{{ name }}</span>
+                <span class="util-pct">{{ pct }}%</span>
             </div>
-            <div class="util-track">
-                <div class="util-fill fill-dark" style="width: 86%"></div>
-            </div>
-            <span class="util-sub">74 of 86 guests</span>
-        </div>
 
-        <div class="util-item">
-            <div class="util-top">
-                <span class="util-name">Housekeeping</span>
-                <span class="util-pct">60%</span>
-            </div>
             <div class="util-track">
-                <div class="util-fill fill-mid" style="width: 60%"></div>
+                <div class="util-fill"
+                     style="width: {{ pct }}%"></div>
             </div>
-            <span class="util-sub">52 of 86 guests</span>
-        </div>
 
-        <div class="util-item">
-            <div class="util-top">
-                <span class="util-name">Maintenance</span>
-                <span class="util-pct">36%</span>
-            </div>
-            <div class="util-track">
-                <div class="util-fill fill-blue" style="width: 36%"></div>
-            </div>
-            <span class="util-sub">31 of 86 guests</span>
+            <span class="util-sub">
+                {{ service_counts[name] }} of {{ total_guests }} guests
+            </span>
         </div>
-
-        <div class="util-item">
-            <div class="util-top">
-                <span class="util-name">Room Service</span>
-                <span class="util-pct">21%</span>
-            </div>
-            <div class="util-track">
-                <div class="util-fill fill-light" style="width: 21%"></div>
-            </div>
-            <span class="util-sub">18 of 86 guests</span>
-        </div>
-
+        {% endfor %}
     </div>
 </div>
 
-<!-- REQUEST STATUS + WEEKLY TREND -->
+<!-- STATUS + TREND -->
 <div class="rpt-grid-2">
 
     <div class="rpt-card">
-        <p class="card-title">Request Status Overview</p>
+        <p class="card-title">Request Status</p>
+
         <div class="stat-list">
             <div class="stat-item">
                 <span class="stat-name">Completed</span>
-                <span class="stat-val">162</span>
+                <span class="stat-val">{{ completed }}</span>
             </div>
+
             <div class="stat-item">
                 <span class="stat-name">In Progress</span>
-                <span class="stat-val">14</span>
+                <span class="stat-val">{{ in_progress }}</span>
             </div>
+
             <div class="stat-item">
                 <span class="stat-name">Pending</span>
-                <span class="stat-val warn">8</span>
+                <span class="stat-val warn">{{ pending }}</span>
             </div>
+
             <div class="stat-item">
                 <span class="stat-name">Cancelled</span>
-                <span class="stat-val">0</span>
+                <span class="stat-val">{{ cancelled }}</span>
             </div>
+
             <div class="stat-item">
                 <span class="stat-name">Completion Rate</span>
-                <span class="stat-val">88%</span>
+                <span class="stat-val">{{ completion_rate }}%</span>
             </div>
+
             <div class="stat-item">
-                <span class="stat-name">Avg Cost per Request</span>
-                <span class="stat-val">&#163;1.45</span>
+                <span class="stat-name">Avg Cost</span>
+                <span class="stat-val">£{{ avg_cost }}</span>
             </div>
         </div>
     </div>
 
+    <!-- WEEKLY TREND -->
     <div class="rpt-card">
-        <p class="card-title">Weekly Request Volume</p>
+        <p class="card-title">Weekly Requests</p>
         <div class="trend-chart" id="trend-chart"></div>
     </div>
 
 </div>
 
-<p class="rpt-footnote">Dummy data for development purposes &mdash; LuckyNest Management &mdash; February 2026</p>
+<p class="rpt-footnote">
+    Live data from ServiceRequest database — LuckyNest System
+</p>
 
 <script>
-    const weeks  = ['Wk 1', 'Wk 2', 'Wk 3', 'Wk 4'];
-    const values = [42, 48, 51, 43];
-    const maxVal = Math.max(...values);
+    const values = {{ weekly | tojson }};
+    const weeks  = ['W1','W2','W3','W4'];
+
+    const maxVal = Math.max(...values, 1);
     const chart  = document.getElementById('trend-chart');
 
     weeks.forEach((w, i) => {
         const h = Math.round((values[i] / maxVal) * 120);
+
         const col = document.createElement('div');
         col.className = 'trend-col';
+
         col.innerHTML = `
             <span class="trend-val">${values[i]}</span>
             <div class="trend-bar-track">
@@ -212,6 +179,7 @@
             </div>
             <span class="trend-month">${w}</span>
         `;
+
         chart.appendChild(col);
     });
 </script>

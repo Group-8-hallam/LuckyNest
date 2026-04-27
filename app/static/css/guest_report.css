@@ -1,66 +1,273 @@
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.45);
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+/* =========================
+   REPORT BASE LAYOUT
+========================= */
+
+body {
+    background: #f5f6f8;
 }
 
-.modal-content {
-    background: #fff;
-    width: 100%;
-    max-width: 500px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 1.4rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-}
-
-.modal-content h3 {
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: #2c3e50;
+.rpt-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
     margin-bottom: 1rem;
 }
 
-.modal-content form {
-    display: grid;
-    gap: 0.8rem;
+.rpt-header h1 {
+    font-size: 1.6rem;
+    color: #2c3e50;
+    font-weight: bold;
 }
 
-.modal-content input {
-    width: 100%;
-    padding: 0.7rem 0.8rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+.rpt-subtitle {
     font-size: 0.9rem;
+    color: #777;
 }
 
-.modal-content button {
-    padding: 0.7rem 1rem;
-    border: none;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    cursor: pointer;
-}
-
-.modal-content button[type="submit"] {
+.btn-back {
     background: #2c3e50;
     color: white;
+    padding: 0.6rem 1rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.85rem;
 }
 
-.modal-content button[type="submit"]:hover {
+.btn-back:hover {
     background: #3d5166;
 }
 
-.modal-content button[type="button"] {
+.rpt-divider {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 1rem 0 1.5rem;
+}
+
+/* =========================
+   KPI CARDS
+========================= */
+
+.kpi-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.kpi-card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 1rem;
+}
+
+.kpi-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: bold;
+}
+
+.kpi-value {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-top: 0.3rem;
+}
+
+.kpi-change {
+    font-size: 0.8rem;
+    margin-top: 0.3rem;
+    color: #666;
+}
+
+.kpi-change.up {
+    color: #27ae60;
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.rpt-card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.card-title {
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #2c3e50;
+}
+
+/* =========================
+   GRID
+========================= */
+
+.rpt-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+
+
+.bar-chart {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.bar-row {
+    display: grid;
+    grid-template-columns: 70px 1fr 40px;
+    align-items: center;
+    gap: 10px;
+}
+
+.bar-label {
+    font-size: 0.85rem;
+    color: #444;
+}
+
+.bar-track {
     background: #eee;
+    height: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.bar-fill {
+    height: 100%;
+    background: #2c3e50;
+    border-radius: 5px;
+}
+
+.bar-count {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+
+.stat-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 0.4rem;
+}
+
+.stat-val.warn {
+    color: #c0392b;
+    font-weight: bold;
+}
+
+
+.rpt-footnote {
+    text-align: center;
+    font-size: 0.75rem;
+    color: #aaa;
+    margin-top: 1rem;
+}
+
+
+
+@media (max-width: 768px) {
+    .kpi-row {
+        grid-template-columns: 1fr;
+    }
+
+    .rpt-grid-2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+.bar-chart {
+    margin-top: 10px;
+}
+
+.bar-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.bar-label {
+    width: 60px;
+    font-size: 0.85rem;
     color: #333;
 }
 
-.modal-content button[type="button"]:hover {
-    background: #ddd;
+.bar-track {
+    flex: 1;
+    height: 10px;
+    background: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
 }
+
+.bar-fill {
+    height: 100%;
+    background: #2c3e50; 
+    border-radius: 5px;
+}
+
+.bar-count {
+    width: 30px;
+    text-align: right;
+    font-size: 0.85rem;
+}
+
+/* =========================
+   BAR COLOURS (FIX)
+========================= */
+
+.fill-dark {
+    background: #1f2937; /* dark navy/charcoal */
+}
+
+.fill-mid {
+    background: #3b82f6; /* blue */
+}
+
+.fill-blue {
+    background: #60a5fa; /* lighter blue */
+}
+
+.fill-light {
+    background: #93c5fd; /* pale blue */
+}
+
+.fill-lighter {
+    background: #c7ddff; /* very light */
+}
+
+.bar-fill {
+    height: 100%;
+    border-radius: 6px;
+    transition: width 0.5s ease;
+}
+
+.bar-track {
+    background: #e5e7eb;
+    border-radius: 6px;
+    height: 10px;
+    overflow: hidden;
+}
+
+.fill-dark { background: #1f2937 !important; }
+.fill-mid { background: #3b82f6 !important; }
+.fill-blue { background: #60a5fa !important; }
+.fill-light { background: #93c5fd !important; }
+.fill-lighter { background: #c7ddff !important; }
