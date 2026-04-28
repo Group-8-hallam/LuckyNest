@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block title %}Admin Accounts - LuckyNest{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/rooms.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <div class="dashboard-header">
+        <h2>👤 Admin Accounts</h2>
+        <p>Create and manage staff accounts</p>
+    </div>
+
+    <!-- Create button -->
+    <form method="POST" action="{{ url_for('owner.create_admin') }}" style="margin-bottom:2rem;">
+        <button type="submit" class="btn-primary" style="width:auto; padding:0.6rem 1.5rem;">
+            + Create New Admin Account
+        </button>
+    </form>
+
+    <!-- Existing admins -->
+    {% if admins %}
+    <table class="rooms-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Default Password</th>
+                <th>Created</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for admin in admins %}
+            <tr>
+                <td>{{ admin.full_name }}</td>
+                <td>{{ admin.email }}</td>
+                <td>{{ admin.email.split('@')[0] }}</td>
+                <td>{{ admin.created_at.strftime('%d %b %Y') }}</td>
+                <td>
+                    <form method="POST" action="{{ url_for('owner.delete_admin', user_id=admin.id) }}"
+                        onsubmit="return confirm('Delete {{ admin.email }}? This cannot be undone.')">
+                        <button type="submit" class="btn-delete">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div style="background:white; padding:2rem; border-radius:8px; text-align:center; color:#888;">
+        <p>No admin accounts created yet.</p>
+    </div>
+    {% endif %}
+
+    <a href="{{ url_for('pg.dashboard') }}" class="btn-primary"
+       style="display:inline-block; width:auto; margin-top:1.5rem;">
+        ← Back to Dashboard
+    </a>
+
+</div>
+{% endblock %}
